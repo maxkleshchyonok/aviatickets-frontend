@@ -1,25 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { SnackbarProvider } from "notistack";
+import { Provider } from "react-redux";
+import { BrowserRouter as Router } from "react-router-dom";
+import AppRoutes from './app.routes';
+import ErrorBoundaryComp from './components/error-boundary.comp';
+import store from "./store";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ErrorBoundaryComp>
+      <SnackbarProvider maxSnack={5} autoHideDuration={5000} style={{ fontSize: '16px' }}>
+        <Provider store={store}>
+          <Router>
+            <AppRoutes />
+          </Router>
+        </Provider>
+      </SnackbarProvider>
+    </ErrorBoundaryComp >
   );
 }
 
