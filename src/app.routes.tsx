@@ -1,8 +1,8 @@
 import React, { FC, Suspense } from "react";
 import { Navigate, Routes, Route } from "react-router-dom";
-import { Main } from "./app/main/Main";
-import AuthRoutes from "./app/auth/auth.routes";
-import { Account } from "./app/account/Account";
+import { Main } from "app/main/Main";
+import AuthRoutes from "app/auth/auth.routes";
+import { Account } from "app/account/Account";
 
 
 

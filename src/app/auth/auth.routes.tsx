@@ -1,7 +1,7 @@
 import React, { FC, Suspense } from "react";
 import { Navigate, Routes, Route } from "react-router-dom";
-import { SignUpPage } from "./sign-up.page";
-import { SignInPage } from "./sign-in.page";
+import { SignUpPage } from "app/auth/sign-up.page";
+import { SignInPage } from "app/auth/sign-in.page";
 
 
 // ======= public route ======= //

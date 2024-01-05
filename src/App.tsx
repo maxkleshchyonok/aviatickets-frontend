@@ -1,9 +1,9 @@
 import { SnackbarProvider } from "notistack";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
-import AppRoutes from './app.routes';
-import ErrorBoundaryComp from './components/error-boundary.comp';
-import store from "./store";
+import AppRoutes from 'app.routes';
+import ErrorBoundaryComp from 'components/error-boundary.comp';
+import store from "store";
 
 function App() {
   return (
