@@ -1,7 +1,7 @@
 import React, { FC, Suspense } from "react";
 import { Navigate, Routes, Route } from "react-router-dom";
-import { Register } from "../register/Register";
-import { Login } from "../login/Login";
+import { SignUpPage } from "./sign-up.page";
+import { SignInPage } from "./sign-in.page";
 
 
 // ======= public route ======= //
@@ -15,16 +15,13 @@ const AuthRoutes = () => {
   return (
     <Routes>
       {/*PUBLIC*/}
-      < Route path={"/login"} element={< PublicRoute element={Login} />} />
+      < Route path={"/signin"} element={< PublicRoute element={SignInPage} />} />
 
       {/*PUBLIC*/}
-      <Route path={"/register"} element={< PublicRoute element={Register} />} />
-
-      {/*DEFAULT*/}
-      <Route path={"/login"} element={< PublicRoute element={Login} />} />
+      <Route path={"/signup"} element={< PublicRoute element={SignUpPage} />} />
 
       {/* DEFAULT */}
-      <Route path='*' element={< Navigate to="/store" />} />
+      <Route path='*' element={< Navigate to="/auth/signin" />} />
     </Routes>
   );
 };

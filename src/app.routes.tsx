@@ -37,7 +37,7 @@ export const AppRoutes = () => {
             <Route path={"/auth/*"} element={<PublicRoute element={AuthRoutes} />} />
 
             {/* PRIVATE */}
-            <Route path={"/cart"} element={<PrivateRoute element={Account} />} />
+            <Route path={"/account"} element={<PrivateRoute element={Account} />} />
  
             {/* DEFAULT */}
             <Route path='*' element={<Navigate to="/flight-search" />} />
