@@ -31,7 +31,7 @@ export const AppRoutes = () => {
     return (
         <Routes>
             {/* PUBLIC */}
-            <Route path={"/fligt-search/*"} element={<PublicRoute element={Main} />} />
+            <Route path={"/flight-search/*"} element={<PublicRoute element={Main} />} />
 
             {/* PUBLIC */}
             <Route path={"/auth/*"} element={<PublicRoute element={AuthRoutes} />} />

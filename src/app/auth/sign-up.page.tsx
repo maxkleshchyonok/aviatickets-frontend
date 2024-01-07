@@ -1,6 +1,5 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,31 +13,22 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { RootState } from 'store';
 import { RegisterUserDto } from 'app/auth/types/types';
 import { registerUser } from 'app/auth/store/auth.actions';
+import { SignUpValidationSchema } from 'app/auth/functions';
 
 const defaultTheme = createTheme();
-
-const validationSchema = Yup.object().shape({
-  username: Yup.string().required('Username is required'),
-  email: Yup.string().email('Invalid email').required('Email is required'),
-  password: Yup.string().required('Password is required'),
-});
 
 export function SignUpPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const { user, isAuthenticated, loading, error } = useSelector(
-    (state: RootState) => state.auth
-  );
 
   const handleSubmit = async (values: RegisterUserDto) => {
     const registerData: RegisterUserDto = {
       name: values.name,
       email: values.email,
       password: values.password,
+      confirm_password: values.confirm_password
     };
 
     await dispatch<any>(registerUser(registerData)).then(() => {
@@ -69,8 +59,9 @@ export function SignUpPage() {
               name: '',
               email: '',
               password: '',
+              confirm_password: '',
             }}
-            validationSchema={validationSchema}
+            validationSchema={SignUpValidationSchema}
             onSubmit={handleSubmit}
           >
             {(formik) => (
@@ -112,6 +103,19 @@ export function SignUpPage() {
                   autoComplete="current-password"
                   error={formik.touched.password && formik.errors.password}
                   helperText={formik.touched.password && formik.errors.password}
+                />
+                <Field
+                  as={TextField}
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="confirm_password"
+                  label="Confirm Password"
+                  type="password"
+                  id="confirm_password"
+                  autoComplete="current-password"
+                  error={formik.touched.confirm_password && formik.errors.confirm_password}
+                  helperText={formik.touched.confirm_password && formik.errors.confirm_password}
                 />
                 <Button
                   type="submit"
