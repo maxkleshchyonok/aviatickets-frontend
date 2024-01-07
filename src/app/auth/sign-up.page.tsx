@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RegisterUserDto } from 'app/auth/types/types';
 import { registerUser } from 'app/auth/store/auth.actions';
-import { SignUpValidationSchema } from 'app/auth/functions';
+import { signUpValidationSchema } from 'app/auth/functions';
 
 const defaultTheme = createTheme();
 
@@ -61,7 +61,7 @@ export function SignUpPage() {
               password: '',
               confirm_password: '',
             }}
-            validationSchema={SignUpValidationSchema}
+            validationSchema={signUpValidationSchema}
             onSubmit={handleSubmit}
           >
             {(formik) => (
