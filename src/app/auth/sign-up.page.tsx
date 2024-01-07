@@ -11,7 +11,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RegisterUserDto } from 'app/auth/types/types';
 import { registerUser } from 'app/auth/store/auth.actions';
@@ -48,7 +48,7 @@ export function SignUpPage() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
@@ -127,7 +127,7 @@ export function SignUpPage() {
                 </Button>
                 <Grid container>
                   <Grid item>
-                    <Link href="/auth/login" variant="body2">
+                    <Link href="/auth/signin" variant="body2">
                       {"Already have an account? Sign in"}
                     </Link>
                   </Grid>

@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { CreateUserDto, RegisterUserDto } from "app/auth/types/types";
+import { CreateUserDto, ForgotPasswordDto, RegisterUserDto } from "app/auth/types/types";
 import repository from "repository";
 
 type User = {
@@ -28,5 +28,14 @@ export const registerUser = createAsyncThunk<User, RegisterUserDto>('registerUse
         return response.data;
     } catch(error) {
         return rejectWithValue('SignUp failed');
+    }
+})
+
+export const forgotPassword = createAsyncThunk<User, ForgotPasswordDto>('forgotPassword', async (data, {rejectWithValue}) => {
+    try {
+        const response = await repository.post('/auth/forgot', data);
+        return response.data;
+    } catch (error) {
+        return rejectWithValue('Operation with forgotten password failed');
     }
 })

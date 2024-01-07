@@ -21,3 +21,7 @@ export type RegisterUserDto = {
     password: string;
     confirm_password: string;
 }
+
+export type ForgotPasswordDto = {
+    email: string;
+}

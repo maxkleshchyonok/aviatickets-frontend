@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AuthState, User } from 'app/auth/types/types';
-import { loginUser, registerUser } from 'app/auth/store/auth.actions';
+import { forgotPassword, loginUser, registerUser } from 'app/auth/store/auth.actions';
 
 const initialState: AuthState = {
   user: null,
@@ -56,6 +56,19 @@ export const authSlice = createSlice({
         state.loading = false;
       })
       .addCase(registerUser.rejected, (state, action) => {
+        state.user = null;
+        state.loading = false;
+        state.error = action.error.message || null;
+      })
+      .addCase(forgotPassword.pending, (state, action) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(forgotPassword.fulfilled, (state, action ) => {
+        state.user = action.payload
+        state.loading = false;
+      })
+      .addCase(forgotPassword.rejected, (state, action) => {
         state.user = null;
         state.loading = false;
         state.error = action.error.message || null;
