@@ -25,10 +25,10 @@ export function SignUpPage() {
 
   const handleSubmit = async (values: RegisterUserDto) => {
     const registerData: RegisterUserDto = {
-      name: values.name,
+      firstName: values.firstName,
+      lastName: values.lastName,
       email: values.email,
       password: values.password,
-      confirm_password: values.confirm_password
     };
 
     await dispatch<any>(registerUser(registerData)).then(() => {
@@ -56,7 +56,8 @@ export function SignUpPage() {
           </Typography>
           <Formik
             initialValues={{
-              name: '',
+              firstName: '',
+              lastName: '',
               email: '',
               password: '',
               confirm_password: '',
@@ -71,13 +72,26 @@ export function SignUpPage() {
                   margin="normal"
                   required
                   fullWidth
-                  id="name"
-                  label="Name"
-                  name="name"
-                  autoComplete="name"
+                  id="firstName"
+                  label="First Name"
+                  name="firstName"
+                  autoComplete="First Name"
                   autoFocus
-                  error={formik.touched.name && formik.errors.name}
-                  helperText={formik.touched.name && formik.errors.name}
+                  error={formik.touched.firstName && formik.errors.firstName}
+                  helperText={formik.touched.firstName && formik.errors.firstName}
+                />
+                <Field
+                  as={TextField}
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="lastName"
+                  label="Last Name"
+                  name="lastName"
+                  autoComplete="Last Name"
+                  autoFocus
+                  error={formik.touched.lastName && formik.errors.lastName}
+                  helperText={formik.touched.lastName && formik.errors.lastName}
                 />
                 <Field
                   as={TextField}

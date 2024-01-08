@@ -16,10 +16,10 @@ export type CreateUserDto = {
 };
 
 export type RegisterUserDto = {
-    name: string;
+    firstName: string;
+    lastName: string;
     email: string;
     password: string;
-    confirm_password: string;
 }
 
 export type ForgotPasswordDto = {
