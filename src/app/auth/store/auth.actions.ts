@@ -12,7 +12,7 @@ type User = {
 
 export const loginUser = createAsyncThunk<User, CreateUserDto>('loginUser', async (data, { rejectWithValue }) => {
     try {
-        const response = await repository.post('/auth/login', data);
+        const response = await repository.post('/auth/signin', data);
         sessionStorage.setItem('access_token', response.data.accessToken);
         sessionStorage.setItem('userId', response.data.id);
         localStorage.setItem('refresh_token', response.data.refreshToken);
@@ -24,7 +24,7 @@ export const loginUser = createAsyncThunk<User, CreateUserDto>('loginUser', asyn
 
 export const registerUser = createAsyncThunk<User, RegisterUserDto>('registerUser', async (data, {rejectWithValue}) => {
     try {
-        const response = await repository.post('/auth/register', data);
+        const response = await repository.post('/auth/signup', data);
         return response.data;
     } catch(error) {
         return rejectWithValue('SignUp failed');
