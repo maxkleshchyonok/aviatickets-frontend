@@ -75,7 +75,7 @@ export function SignUpPage() {
                   id="firstName"
                   label="First Name"
                   name="firstName"
-                  autoComplete="First Name"
+                  autoComplete="firstName"
                   autoFocus
                   error={formik.touched.firstName && formik.errors.firstName}
                   helperText={formik.touched.firstName && formik.errors.firstName}
@@ -88,7 +88,7 @@ export function SignUpPage() {
                   id="lastName"
                   label="Last Name"
                   name="lastName"
-                  autoComplete="Last Name"
+                  autoComplete="lastName"
                   autoFocus
                   error={formik.touched.lastName && formik.errors.lastName}
                   helperText={formik.touched.lastName && formik.errors.lastName}

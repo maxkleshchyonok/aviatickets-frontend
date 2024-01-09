@@ -22,16 +22,16 @@ export const loginUser = createAsyncThunk<User, CreateUserDto>('loginUser', asyn
     }
 });
 
-export const registerUser = createAsyncThunk<User, RegisterUserDto>('registerUser', async (data, {rejectWithValue}) => {
+export const registerUser = createAsyncThunk<User, RegisterUserDto>('registerUser', async (data, { rejectWithValue }) => {
     try {
         const response = await repository.post('/auth/signup', data);
         return response.data;
-    } catch(error) {
+    } catch (error) {
         return rejectWithValue('SignUp failed');
     }
 })
 
-export const forgotPassword = createAsyncThunk<User, ForgotPasswordDto>('forgotPassword', async (data, {rejectWithValue}) => {
+export const forgotPassword = createAsyncThunk<User, ForgotPasswordDto>('forgotPassword', async (data, { rejectWithValue }) => {
     try {
         const response = await repository.post('/auth/forgot', data);
         return response.data;

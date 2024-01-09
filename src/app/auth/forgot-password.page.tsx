@@ -76,11 +76,10 @@ export function ForgotPasswordPage() {
                                 />
                                 <Button
                                     type="submit"
-                                    fullWidth
                                     variant="contained"
                                     sx={{ mt: 3, mb: 2 }}
                                 >
-                                    Get recovery email
+                                    Next
                                 </Button>
                                 <Grid container>
                                     <Grid item>
