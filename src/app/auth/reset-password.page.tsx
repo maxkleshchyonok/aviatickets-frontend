@@ -11,6 +11,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { ResetPasswordDto } from 'app/auth/types/types';
@@ -23,8 +24,9 @@ export function ResetPasswordPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleSubmit = async (values: ResetPasswordDto) => {
+  const handleSubmit = async (values: Pick<ResetPasswordDto, 'password'>) => {
     const resetData: ResetPasswordDto = {
+      email: sessionStorage.getItem('email'),
       password: values.password,
     };
 
@@ -46,7 +48,7 @@ export function ResetPasswordPage() {
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
-            <LockOutlinedIcon />
+            <AssignmentIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Reset Password
@@ -67,7 +69,7 @@ export function ResetPasswordPage() {
                   required
                   fullWidth
                   name="password"
-                  label="Password"
+                  label="New Password"
                   type="password"
                   id="password"
                   autoComplete="current-password"
@@ -93,12 +95,12 @@ export function ResetPasswordPage() {
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
                 >
-                  Sign Up
+                  Change password
                 </Button>
                 <Grid container>
                   <Grid item>
                     <Link href="/auth/signin" variant="body2">
-                      {"Already have an account? Sign in"}
+                      {"Back to login"}
                     </Link>
                   </Grid>
                 </Grid>
