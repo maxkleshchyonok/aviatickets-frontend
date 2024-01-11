@@ -23,13 +23,14 @@ export function ForgotPasswordPage() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const handleSubmit = async (values: { email: string, password: string }) => {
+    const handleSubmit = async (values: { email: string}) => {
         const forgotData: ForgotPasswordDto = {
             email: values.email,
         };
 
         await dispatch<any>(forgotPassword(forgotData)).then(() => {
-            navigate('/cart');
+            sessionStorage.setItem('email', values.email);
+            navigate('/auth/verify/');
         });
     };
 

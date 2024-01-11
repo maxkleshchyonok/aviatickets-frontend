@@ -25,3 +25,12 @@ export type RegisterUserDto = {
 export type ForgotPasswordDto = {
     email: string;
 }
+
+export type ResetPasswordDto = {
+    password: string;
+}
+
+export type VerifyCodeDto = {
+    code: number;
+    email: string | null;
+}

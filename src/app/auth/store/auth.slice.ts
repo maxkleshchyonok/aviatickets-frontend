@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AuthState, User } from 'app/auth/types/types';
-import { forgotPassword, loginUser, registerUser } from 'app/auth/store/auth.actions';
+import { forgotPassword, loginUser, registerUser, resetPassword, verifyResetCode } from 'app/auth/store/auth.actions';
 
 const initialState: AuthState = {
   user: null,
@@ -65,11 +65,31 @@ export const authSlice = createSlice({
         state.error = null;
       })
       .addCase(forgotPassword.fulfilled, (state, action ) => {
-        state.user = action.payload
         state.loading = false;
       })
       .addCase(forgotPassword.rejected, (state, action) => {
-        state.user = null;
+        state.loading = false;
+        state.error = action.error.message || null;
+      })
+      .addCase(resetPassword.pending, (state, action) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(resetPassword.fulfilled, (state, action ) => {
+        state.loading = false;
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || null;
+      })
+      .addCase(verifyResetCode.pending, (state, action) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(verifyResetCode.fulfilled, (state, action ) => {
+        state.loading = false;
+      })
+      .addCase(verifyResetCode.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || null;
       });

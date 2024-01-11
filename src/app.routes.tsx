@@ -5,7 +5,6 @@ import AuthRoutes from "app/auth/auth.routes";
 import { Account } from "app/account/Account";
 
 
-
 // ======= private route ======= //
 const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
     return sessionStorage.getItem('access_token') ? (

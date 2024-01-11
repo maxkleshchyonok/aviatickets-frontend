@@ -1,5 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { CreateUserDto, ForgotPasswordDto, RegisterUserDto } from "app/auth/types/types";
+import {
+    CreateUserDto,
+    ForgotPasswordDto,
+    RegisterUserDto,
+    ResetPasswordDto,
+    VerifyCodeDto
+} from "app/auth/types/types";
 import repository from "repository";
 
 type User = {
@@ -33,9 +39,28 @@ export const registerUser = createAsyncThunk<User, RegisterUserDto>('registerUse
 
 export const forgotPassword = createAsyncThunk<User, ForgotPasswordDto>('forgotPassword', async (data, { rejectWithValue }) => {
     try {
-        const response = await repository.post('/auth/forgot', data);
+        const response = await repository.post('/auth/forgot-password', data);
+        sessionStorage.setItem('reset_token', response.data.resetToken);
         return response.data;
     } catch (error) {
         return rejectWithValue('Operation with forgotten password failed');
     }
 })
+
+export const resetPassword = createAsyncThunk<User, ResetPasswordDto>('resetPassword', async (data, { rejectWithValue }) => {
+    try {
+        const response = await repository.post('/auth/reset-password', data);
+        return response.data;
+    } catch (error) {
+        return rejectWithValue('Operation with password reset was failed');
+    }
+});
+
+export const verifyResetCode = createAsyncThunk<boolean, VerifyCodeDto>('verifyCode', async (data, { rejectWithValue }) => {
+    try {
+        const response = await repository.post('/auth/verify', data);
+        return response.data;
+    } catch (error) {
+        return rejectWithValue('Verification failed');
+    }
+});
