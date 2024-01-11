@@ -27,6 +27,7 @@ export type ForgotPasswordDto = {
 }
 
 export type ResetPasswordDto = {
+    email: string | null;
     password: string;
 }
 
