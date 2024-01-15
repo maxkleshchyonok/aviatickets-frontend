@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material"
-import { TicketData } from "app/ticket/components/TicketData"
+import { TicketData } from "app/ticket/components/ticket-data.comp"
 
 export const BookingTicket = () => {
   return (

@@ -3,7 +3,7 @@ import { Navigate, Routes, Route } from "react-router-dom";
 import { Main } from "./app/main/Main";
 import AuthRoutes from "./app/auth/auth.routes";
 import { Account } from "./app/account/Account";
-import { BookingPage } from "./app/booking";
+import { CreateBookingPage } from "./app/booking/create-booking.page";
 
 
 // ======= private route ======= //
@@ -26,7 +26,6 @@ const PublicRoute: FC<{ element: any }> = ({ element: Element }) => (
 
 // ======= pages ======= //
 // const MainPage = React.lazy(() => import("./app/main/Main"));
-// const BookingPage = React.lazy(() => import('./app/booking'));
 
 export const AppRoutes = () => {
     return (
@@ -40,7 +39,7 @@ export const AppRoutes = () => {
             {/* PRIVATE */}
             <Route path={"/account"} element={<PrivateRoute element={Account} />} />
  
-            <Route path={"/booking"} element={<PublicRoute element={BookingPage} />}/>
+            <Route path={"/booking"} element={<PublicRoute element={CreateBookingPage} />}/>
 
             {/* DEFAULT */}
             <Route path='*' element={<Navigate to="/flight-search" />} />

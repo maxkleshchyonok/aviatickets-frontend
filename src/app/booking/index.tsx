@@ -1,22 +1,12 @@
-import { Container, Grid } from "@mui/material"
-import { BookingTicket } from "./components/BookingTicket"
-import { Summary } from "./components/Summary"
-import { BookingForm } from "./components/BookingForm"
+import { PublicRoute } from "app/utils/routing";
+import { FC } from "react";
+import { Route, Routes } from "react-router-dom";
+import { CreateBookingPage } from "./create-booking.page";
 
-export const BookingPage = () => {
-  return (
-    <Container>
-      <Grid container spacing={2}>
-        <Grid item xs={8}>
-          <BookingTicket />
-        </Grid>
-        <Grid item xs={4}>
-          <Summary />
-        </Grid>
-        <Grid item xs={8}>
-          <BookingForm />
-        </Grid>
-      </Grid>
-    </Container>
+export const BookingPage: FC = () => {
+  return(
+    <Routes>
+      <Route path='/create-booking' element={<PublicRoute element={CreateBookingPage} />} />
+    </Routes>
   )
 }
