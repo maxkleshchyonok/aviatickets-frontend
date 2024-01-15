@@ -139,7 +139,6 @@ const VerificationPage: FC<Props> = ({ title, email, length = 6 }) => {
       const combinedNumber = parseInt(data.join(''));
       const dataObject: VerifyCodeDto = {
         code: combinedNumber,
-        email: sessionStorage.getItem('email'),
       }
       await dispatch<any>(verifyResetCode(dataObject)).then((response: any) => {
         if (response.payload) {
@@ -218,7 +217,7 @@ const VerificationPage: FC<Props> = ({ title, email, length = 6 }) => {
               Didn't receive the code?
             </Box>
             &nbsp;
-            <Link href="/auth/register">Resend</Link>
+            {/* <Link>Resend</Link> */}
           </Typography>
         </Box>
       </Box>

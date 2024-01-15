@@ -13,6 +13,7 @@ export interface AuthState {
 export type CreateUserDto = {
     email: string,
     password: string,
+    deviceId: string,
 };
 
 export type RegisterUserDto = {
@@ -20,18 +21,22 @@ export type RegisterUserDto = {
     lastName: string;
     email: string;
     password: string;
+    deviceId: string;
 }
 
 export type ForgotPasswordDto = {
+    deviceId: string;
     email: string;
 }
 
 export type ResetPasswordDto = {
-    email: string | null;
     password: string;
 }
 
 export type VerifyCodeDto = {
     code: number;
-    email: string | null;
+}
+
+export type ForgotPasswordResponse = {
+    resetToken: string;
 }

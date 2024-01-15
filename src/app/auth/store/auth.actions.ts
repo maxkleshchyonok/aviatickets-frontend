@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
     CreateUserDto,
     ForgotPasswordDto,
+    ForgotPasswordResponse,
     RegisterUserDto,
     ResetPasswordDto,
     VerifyCodeDto
@@ -37,29 +38,39 @@ export const registerUser = createAsyncThunk<User, RegisterUserDto>('registerUse
     }
 })
 
-export const forgotPassword = createAsyncThunk<User, ForgotPasswordDto>('forgotPassword', async (data, { rejectWithValue }) => {
+export const forgotPassword = createAsyncThunk<ForgotPasswordResponse, ForgotPasswordDto>('forgotPassword', async (data, { rejectWithValue }) => {
     try {
         const response = await repository.post('/auth/forgot-password', data);
-        sessionStorage.setItem('reset_token', response.data.resetToken);
+        localStorage.setItem('reset_token', response.data);
         return response.data;
     } catch (error) {
         return rejectWithValue('Operation with forgotten password failed');
     }
 })
 
-export const resetPassword = createAsyncThunk<User, ResetPasswordDto>('resetPassword', async (data, { rejectWithValue }) => {
+export const resetPassword = createAsyncThunk<boolean, ResetPasswordDto>('resetPassword', async (data, { rejectWithValue }) => {
     try {
         const response = await repository.post('/auth/reset-password', data);
-        return response.data;
+        if (response.status !== 200) {
+            alert('Operation failed');
+            return false;
+        }
+        return true;
     } catch (error) {
         return rejectWithValue('Operation with password reset was failed');
     }
 });
 
-export const verifyResetCode = createAsyncThunk<boolean, VerifyCodeDto>('verifyCode', async (data, { rejectWithValue }) => {
+export const verifyResetCode = createAsyncThunk<string | boolean, VerifyCodeDto>('verifyCode', async (data, { rejectWithValue }) => {
     try {
         const response = await repository.post('/auth/verify', data);
-        return response.data;
+        if (response.data) {
+            localStorage.setItem('reset_token', response.data);
+            return response.data;
+        } 
+        if (!response.data) {
+            return false;
+        }
     } catch (error) {
         return rejectWithValue('Verification failed');
     }

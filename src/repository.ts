@@ -9,9 +9,14 @@ const repository = axios.create({
 
 repository.interceptors.request.use((config) => {
 
-    const access_token = sessionStorage.getItem("access_token");
+    const access_token = sessionStorage.getItem('access_token');
+    const reset_token = localStorage.getItem('reset_token');
+
     if (access_token) {
         config.headers.Authorization = `Bearer ${access_token}`;
+    }
+    if (reset_token) {
+        config.headers.Authorization = `Bearer ${reset_token}`;
     }
 
     return config;
@@ -31,16 +36,16 @@ repository.interceptors.response.use(
                 );
 
                 if (!token) {
-                    localStorage.removeItem('refresh-token');
+                    localStorage.removeItem('refresh_token');
                     return;
                 }
 
-                sessionStorage.setItem('access-token', token.data.accessToken);
+                sessionStorage.setItem('access_token', token.data.accessToken);
 
                 return repository(originalRequest);
             } catch (error) {
-                sessionStorage.removeItem('access-token');
-                localStorage.removeItem('refresh-token');
+                sessionStorage.removeItem('access_token');
+                localStorage.removeItem('refresh_token');
                 return Promise.reject(error);
             }
         }

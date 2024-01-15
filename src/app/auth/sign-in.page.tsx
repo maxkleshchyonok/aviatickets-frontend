@@ -17,6 +17,7 @@ import { CreateUserDto } from 'app/auth/types/types';
 import { useNavigate } from 'react-router-dom';
 import { signInValidationSchema } from 'app/auth/functions';
 import Paper from '@mui/material/Paper';
+import { v4 as uuidv4 } from 'uuid';
 
 const defaultTheme = createTheme();
 
@@ -25,9 +26,17 @@ export function SignInPage() {
   const dispatch = useDispatch();
 
   const handleSubmit = async (values: { email: string, password: string }) => {
+    let device = localStorage.getItem('device_id');
+
+    if (!device) {
+      device = uuidv4();
+      localStorage.setItem('device_id', device);
+    }
+
     const loginData: CreateUserDto = {
       email: values.email,
       password: values.password,
+      deviceId: device,
     };
 
     await dispatch<any>(loginUser(loginData)).then(() => {
@@ -55,9 +64,9 @@ export function SignInPage() {
             justifyContent: 'center'
           }}
         >
-          <Typography component="h1" variant="h1" sx={{paddingTop: '15vh', color: 'white', fontWeight: '200'}}>
-              Avia Finder
-            </Typography>
+          <Typography component="h1" variant="h1" sx={{ paddingTop: '15vh', color: 'white', fontWeight: '200' }}>
+            Avia Finder
+          </Typography>
         </Grid>
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box

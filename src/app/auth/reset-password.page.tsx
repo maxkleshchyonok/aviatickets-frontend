@@ -26,7 +26,6 @@ export function ResetPasswordPage() {
 
   const handleSubmit = async (values: Pick<ResetPasswordDto, 'password'>) => {
     const resetData: ResetPasswordDto = {
-      email: sessionStorage.getItem('email'),
       password: values.password,
     };
 

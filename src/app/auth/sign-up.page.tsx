@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import { RegisterUserDto } from 'app/auth/types/types';
 import { registerUser } from 'app/auth/store/auth.actions';
 import { signUpValidationSchema } from 'app/auth/functions';
+import { v4 as uuidv4 } from 'uuid';
 
 const defaultTheme = createTheme();
 
@@ -23,12 +24,20 @@ export function SignUpPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleSubmit = async (values: RegisterUserDto) => {
+  const handleSubmit = async (values: Pick<RegisterUserDto, 'email' | 'firstName' | 'lastName' | 'password'> ) => {
+    let device = localStorage.getItem('device_id');
+
+    if (!device) {
+      device = uuidv4();
+      localStorage.setItem('device_id', device);
+    }
+
     const registerData: RegisterUserDto = {
       firstName: values.firstName,
       lastName: values.lastName,
       email: values.email,
       password: values.password,
+      deviceId: device,
     };
 
     await dispatch<any>(registerUser(registerData)).then(() => {
@@ -60,7 +69,7 @@ export function SignUpPage() {
               lastName: '',
               email: '',
               password: '',
-              confirm_password: '',
+              confirm_password: ''
             }}
             validationSchema={signUpValidationSchema}
             onSubmit={handleSubmit}

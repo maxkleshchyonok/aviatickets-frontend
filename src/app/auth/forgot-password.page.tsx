@@ -16,6 +16,7 @@ import { forgotPassword } from 'app/auth/store/auth.actions';
 import { ForgotPasswordDto } from 'app/auth/types/types';
 import { useNavigate } from 'react-router-dom';
 import { forgotValidationSchema } from 'app/auth/functions';
+import { v4 as uuidv4 } from 'uuid';
 
 const defaultTheme = createTheme();
 
@@ -24,12 +25,22 @@ export function ForgotPasswordPage() {
     const dispatch = useDispatch();
 
     const handleSubmit = async (values: { email: string}) => {
+
+        let device = localStorage.getItem('device_id');
+
+        if (!device) {
+            device = uuidv4();
+            localStorage.setItem('device_id', device);
+        }
+        
+
         const forgotData: ForgotPasswordDto = {
+            deviceId: device,
             email: values.email,
         };
 
+
         await dispatch<any>(forgotPassword(forgotData)).then(() => {
-            sessionStorage.setItem('email', values.email);
             navigate('/auth/verify/');
         });
     };
