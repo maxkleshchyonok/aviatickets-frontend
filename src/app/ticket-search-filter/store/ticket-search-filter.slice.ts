@@ -9,8 +9,8 @@ import {
 } from "./ticket-search-filter.actions";
 
 const initialState: TicketSearchFilterState = {
-  originCity: null,
-  destinationCity: null,
+  originCity: "",
+  destinationCity: "",
   departureTime: null,
   arrivalTime: null,
   passengerAmount: 1,
