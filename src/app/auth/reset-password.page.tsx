@@ -16,7 +16,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { ResetPasswordDto } from 'app/auth/types/types';
 import { resetPassword } from 'app/auth/store/auth.actions';
-import { resetValidationSchema } from 'app/auth/functions';
+import { resetValidationSchema } from 'app/auth/validation-schemas/functions';
 
 const defaultTheme = createTheme();
 

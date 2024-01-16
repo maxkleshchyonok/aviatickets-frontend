@@ -15,7 +15,7 @@ import { useDispatch } from 'react-redux';
 import { forgotPassword } from 'app/auth/store/auth.actions';
 import { ForgotPasswordDto } from 'app/auth/types/types';
 import { useNavigate } from 'react-router-dom';
-import { forgotValidationSchema } from 'app/auth/functions';
+import { forgotValidationSchema } from 'app/auth/validation-schemas/functions';
 import { v4 as uuidv4 } from 'uuid';
 
 const defaultTheme = createTheme();

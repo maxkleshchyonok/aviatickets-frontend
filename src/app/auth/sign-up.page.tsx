@@ -15,7 +15,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RegisterUserDto } from 'app/auth/types/types';
 import { registerUser } from 'app/auth/store/auth.actions';
-import { signUpValidationSchema } from 'app/auth/functions';
+import { signUpValidationSchema } from 'app/auth/validation-schemas/functions';
 import { v4 as uuidv4 } from 'uuid';
 
 const defaultTheme = createTheme();

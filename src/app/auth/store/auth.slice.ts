@@ -3,7 +3,6 @@ import { AuthState, User } from 'app/auth/types/types';
 import { forgotPassword, loginUser, registerUser, resetPassword, verifyResetCode } from 'app/auth/store/auth.actions';
 
 const initialState: AuthState = {
-  user: null,
   isAuthenticated: !!sessionStorage.getItem('access_token'),
   loading: false,
   error: null,

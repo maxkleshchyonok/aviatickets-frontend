@@ -15,7 +15,7 @@ import { useDispatch } from 'react-redux';
 import { loginUser } from 'app/auth/store/auth.actions';
 import { CreateUserDto } from 'app/auth/types/types';
 import { useNavigate } from 'react-router-dom';
-import { signInValidationSchema } from 'app/auth/functions';
+import { signInValidationSchema } from 'app/auth/validation-schemas/functions';
 import Paper from '@mui/material/Paper';
 import { v4 as uuidv4 } from 'uuid';
 
