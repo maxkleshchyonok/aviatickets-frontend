@@ -1,6 +1,6 @@
 import React, { FC, Suspense } from "react";
 import { Navigate, Routes, Route } from "react-router-dom";
-import { Main } from "./app/main/Main";
+import { Main } from "./app/main/main.page";
 import AuthRoutes from "./app/auth/auth.routes";
 import { Account } from "./app/account/Account";
 import { BookingPage } from "./app/booking";
