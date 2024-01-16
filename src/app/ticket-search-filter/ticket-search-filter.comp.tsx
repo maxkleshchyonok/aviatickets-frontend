@@ -8,6 +8,7 @@ import { tickerSearchFilterSelector } from "./store/ticket-search-filter.selecto
 import { DatePicker } from "@mui/x-date-pickers";
 import PassengerAmountCounter from "./components/passenger-amount-counter.comp";
 import { PassengerAmount } from "./constants/passenger-amount.constants";
+import dayjs from 'dayjs';
 
 interface TickerSearchFilterProps {
   onSearchButtonClick: () => void;
@@ -24,14 +25,14 @@ const TickerSearchFilter: FC<TickerSearchFilterProps> = ({ onSearchButtonClick, 
     dispatch(specifyDestinationCity(event.target.value));
   };
 
-  const handleDepartureDateChange = (value: Date | null) => {
-    const date = value ? new Date(value).valueOf() : null;
-    dispatch(specifyDepartureTime(date));
+  const handleDepartureDateChange = (value: dayjs.Dayjs | null) => {
+    const dateString = value ? value.toDate().toDateString() : "";
+    dispatch(specifyDepartureTime(dateString));
   }
 
-  const handleArrivalDateChange = (value: Date | null) => {
-    const date = value ? new Date(value).valueOf() : null;
-    dispatch(specifyArrivalTime(date));
+  const handleArrivalDateChange = (value: dayjs.Dayjs | null) => {
+    const dateString = value ? value.toDate().toDateString() : "";
+    dispatch(specifyArrivalTime(dateString));
   }
 
   const handleReducePassengerAmount = () => {
@@ -51,8 +52,8 @@ const TickerSearchFilter: FC<TickerSearchFilterProps> = ({ onSearchButtonClick, 
   const { originCity, destinationCity, departureTime, arrivalTime, passengerAmount } = useAppSelector(tickerSearchFilterSelector);
   const cities = Object.values(Cities);
 
-  const departureDate = departureTime ? new Date(departureTime) : null;
-  const arrivalDate = arrivalTime ? new Date(arrivalTime) : null;
+  const departureDate = departureTime ? dayjs(departureTime) : null;
+  const arrivalDate = arrivalTime ? dayjs(arrivalTime) : null;
 
   return (
     <div className="ticket-search-filter">

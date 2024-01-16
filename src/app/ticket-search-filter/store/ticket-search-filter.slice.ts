@@ -11,8 +11,8 @@ import {
 const initialState: TicketSearchFilterState = {
   originCity: "",
   destinationCity: "",
-  departureTime: null,
-  arrivalTime: null,
+  departureTime: "",
+  arrivalTime: "",
   passengerAmount: 1,
 };
 

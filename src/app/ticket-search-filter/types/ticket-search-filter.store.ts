@@ -1,7 +1,7 @@
 export interface TicketSearchFilterState {
   originCity: string;
   destinationCity: string;
-  departureTime: number | null;
-  arrivalTime: number | null;
+  departureTime: string;
+  arrivalTime: string;
   passengerAmount: number;
 }
