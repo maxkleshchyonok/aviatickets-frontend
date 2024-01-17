@@ -38,9 +38,8 @@ export function ChangePasswordPage() {
 
 		console.log(changeData);
 
-		await dispatch<any>(changePassword(changeData)).then(() => {
-			navigate('');
-		});
+		await dispatch<any>(changePassword(changeData));
+		
 	};
 
 	const handleToggleOldPasswordVisibility = () => {

@@ -38,9 +38,10 @@ export function SignInPage() {
       password: values.password,
     };
 
-    await dispatch<any>(loginUser(loginData)).then(() => {
-      navigate('/cart');
-    });
+    const response = await dispatch<any>(loginUser(loginData));
+    if (response.meta.requestStatus == 'fulfilled') {
+			navigate('/fleght-search');
+		}
   };
 
   return (

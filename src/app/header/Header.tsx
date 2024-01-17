@@ -48,7 +48,8 @@ export default function Header() {
     };
 
     const handleLogout = () => {
-        
+        handleMenuClose();
+        //await dispatch
     }
 
     const menuId = 'primary-search-account-menu';
@@ -70,7 +71,7 @@ export default function Header() {
         >
             <MenuItem onClick={handleMenuClose}>My account</MenuItem>
             <MenuItem onClick={handleMenuClose}>Change password</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+            <MenuItem onClick={handleLogout}>Logout</MenuItem>
         </Menu>
     );
 

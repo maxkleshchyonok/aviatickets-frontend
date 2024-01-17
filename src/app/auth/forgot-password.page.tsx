@@ -40,9 +40,10 @@ export function ForgotPasswordPage() {
         };
 
 
-        await dispatch<any>(forgotPassword(forgotData)).then(() => {
-            navigate('/auth/verify/');
-        });
+        const response = await dispatch<any>(forgotPassword(forgotData));
+        if (response.meta.requestStatus == 'fulfilled') {
+			navigate('/verify');
+		}
     };
 
     return (

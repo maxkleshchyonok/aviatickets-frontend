@@ -40,9 +40,10 @@ export function SignUpPage() {
       confirmPassword: values.confirmPassword
     };
 
-    await dispatch<any>(registerUser(registerData)).then(() => {
-      navigate('/auth/login');
-    });
+    const response = await dispatch<any>(registerUser(registerData));
+    if (response.meta.requestStatus == 'fulfilled') {
+      navigate('/flight-search');
+    }
   };
 
   return (
