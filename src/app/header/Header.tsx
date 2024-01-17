@@ -18,10 +18,12 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import AirplaneTicketIcon from '@mui/icons-material/AirplaneTicket';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { logout } from 'app/auth/store/auth.actions';
+import { useAppDispatch } from 'hooks/redux.hooks';
 
 export default function Header() {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
@@ -47,9 +49,12 @@ export default function Header() {
         setMobileMoreAnchorEl(event.currentTarget);
     };
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
         handleMenuClose();
-        //await dispatch
+        const response = await dispatch(logout());
+        if (response.meta.requestStatus == 'fulfilled') {
+            navigate('/auth/login');
+          }
     }
 
     const menuId = 'primary-search-account-menu';
