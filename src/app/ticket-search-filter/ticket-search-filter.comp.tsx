@@ -58,13 +58,13 @@ const TickerSearchFilter: FC<TickerSearchFilterProps> = ({ onSearchButtonClick, 
   return (
     <div className="ticket-search-filter">
       <form className="ticket-search-filter__form form">
-        <Stack flexDirection={"row"} sx={{ flexWrap: 'wrap', rowGap: 1 }}>
+        <Stack flexDirection={"row"} sx={{ flexWrap: 'wrap', rowGap: 1, justifyContent: 'end' }}>
           <Select labelId="origin-city-label" id="origin-city-select" label="Origin city" onSelectChange={handleOriginCityChange} selectValues={cities} currentValue={originCity} />
           <Select labelId="destination-city-label" id="destination-city-select" label="Destination city" onSelectChange={handleDestinationCityChange} selectValues={cities} currentValue={destinationCity} />
           <DatePicker sx={{ minWidth: 170, flexGrow: 1 }} label="Departure date" value={departureDate} disablePast={true} onChange={handleDepartureDateChange} />
           <DatePicker sx={{ minWidth: 170, flexGrow: 1 }} label="Arrival date" value={arrivalDate} disablePast={true} onChange={handleArrivalDateChange} />
           <PassengerAmountCounter passengerAmount={passengerAmount} onReducePassengerAmountClick={handleReducePassengerAmount} onIncreasePassengerAmountClick={handleIncreasePassengerAmount} />
-          <Button variant="contained" sx={{ flexGrow: 1, borderRadius: 0, minWidth: 200, fontSize: '1.1rem' }} onClick={onSearchButtonClick}>Search</Button>
+          <Button variant="contained" sx={{ flexGrow: 1, borderRadius: 0, minWidth: 150, maxWidth: 300, fontSize: '1.1rem' }} onClick={onSearchButtonClick}>Search</Button>
         </Stack >
       </form>
     </div >
