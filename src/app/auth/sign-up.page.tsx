@@ -24,7 +24,7 @@ export function SignUpPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleSubmit = async (values: Pick<RegisterUserDto, 'email' | 'firstName' | 'lastName' | 'password'> ) => {
+  const handleSubmit = async (values: Pick<RegisterUserDto, 'email' | 'firstName' | 'lastName' | 'password' | 'confirmPassword'>) => {
     let device = localStorage.getItem('device_id');
 
     if (!device) {
@@ -37,6 +37,7 @@ export function SignUpPage() {
       lastName: values.lastName,
       email: values.email,
       password: values.password,
+      confirmPassword: values.confirmPassword
     };
 
     await dispatch<any>(registerUser(registerData)).then(() => {
@@ -68,7 +69,7 @@ export function SignUpPage() {
               lastName: '',
               email: '',
               password: '',
-              confirm_password: ''
+              confirmPassword: ''
             }}
             validationSchema={signUpValidationSchema}
             onSubmit={handleSubmit}
@@ -131,13 +132,13 @@ export function SignUpPage() {
                   margin="normal"
                   required
                   fullWidth
-                  name="confirm_password"
+                  name="confirmPassword"
                   label="Confirm Password"
                   type="password"
-                  id="confirm_password"
-                  autoComplete="current-password"
-                  error={formik.touched.confirm_password && formik.errors.confirm_password}
-                  helperText={formik.touched.confirm_password && formik.errors.confirm_password}
+                  id="confirmPassword"
+                  autoComplete="confirm-password"
+                  error={formik.touched.confirmPassword && formik.errors.confirmPassword}
+                  helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
                 />
                 <Button
                   type="submit"

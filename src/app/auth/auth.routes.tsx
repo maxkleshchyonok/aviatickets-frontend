@@ -6,6 +6,7 @@ import { ForgotPasswordPage } from "app/auth/forgot-password.page";
 import VerificationPage from "app/auth/verify.page";
 import { ResetPasswordPage } from "app/auth/reset-password.page";
 import NotFoundPage from "./404.page";
+import { ChangePasswordPage } from "app/auth/change-password.page";
 
 // ======= public route ======= //
 const PublicRoute: FC<{ element: any }> = ({ element: Element }) => (
@@ -31,6 +32,9 @@ const AuthRoutes = () => {
 
       {/*PUBLIC*/}
       <Route path={"/reset"} element={< PublicRoute element={ResetPasswordPage} />} />
+
+      {/*PUBLIC*/}
+      <Route path={"/change"} element={< PublicRoute element={ChangePasswordPage} />} />
 
       {/*PUBLIC*/}
       <Route path={"/404"} element={< PublicRoute element={NotFoundPage} />} />

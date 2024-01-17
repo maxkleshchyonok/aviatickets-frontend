@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
+    ChangePasswordDto,
     CreateUserDto,
     ForgotPasswordDto,
     ForgotPasswordResponse,
@@ -73,6 +74,14 @@ export const verifyResetCode = createAsyncThunk<string | boolean, VerifyCodeDto>
         }
     } catch (error) {
         return rejectWithValue('Verification failed');
+    }
+});
+
+export const changePassword = createAsyncThunk<void, ChangePasswordDto>('changePassword', async (data, {rejectWithValue}) => {
+    try {
+        await repository.post('/auth/change-password', data);
+    } catch (error) {
+        return rejectWithValue('Change password failed')
     }
 });
 

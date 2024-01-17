@@ -24,9 +24,10 @@ export function ResetPasswordPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleSubmit = async (values: Pick<ResetPasswordDto, 'password'>) => {
+  const handleSubmit = async (values: Pick<ResetPasswordDto, 'password' | 'confirmPassword'>) => {
     const resetData: ResetPasswordDto = {
       password: values.password,
+      confirmPassword: values.confirmPassword
     };
 
     await dispatch<any>(resetPassword(resetData)).then(() => {
@@ -55,7 +56,7 @@ export function ResetPasswordPage() {
           <Formik
             initialValues={{
               password: '',
-              confirm_password: '',
+              confirmPassword: '',
             }}
             validationSchema={resetValidationSchema}
             onSubmit={handleSubmit}
@@ -80,13 +81,13 @@ export function ResetPasswordPage() {
                   margin="normal"
                   required
                   fullWidth
-                  name="confirm_password"
+                  name="confirmPassword"
                   label="Confirm Password"
                   type="password"
-                  id="confirm_password"
-                  autoComplete="current-password"
-                  error={formik.touched.confirm_password && formik.errors.confirm_password}
-                  helperText={formik.touched.confirm_password && formik.errors.confirm_password}
+                  id="confirmPassword"
+                  autoComplete="confirm-password"
+                  error={formik.touched.confirmPassword && formik.errors.confirmPassword}
+                  helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
                 />
                 <Button
                   type="submit"

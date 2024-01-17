@@ -25,6 +25,7 @@ export type RegisterUserDto = {
     lastName: string;
     email: string;
     password: string;
+    confirmPassword: string;
 }
 
 export type ForgotPasswordDto = {
@@ -34,6 +35,13 @@ export type ForgotPasswordDto = {
 
 export type ResetPasswordDto = {
     password: string;
+    confirmPassword: string;
+}
+
+export type ChangePasswordDto = {
+    oldPassword: string;
+    newPassword: string;
+    confirmNewPassword: string;
 }
 
 export type VerifyCodeDto = {
