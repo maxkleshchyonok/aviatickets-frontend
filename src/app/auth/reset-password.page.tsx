@@ -11,36 +11,26 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { RegisterUserDto } from 'app/auth/types/types';
-import { registerUser } from 'app/auth/store/auth.actions';
-import { signUpValidationSchema } from 'app/auth/validation-schemas/functions';
-import { v4 as uuidv4 } from 'uuid';
+import { ResetPasswordDto } from 'app/auth/types/types';
+import { resetPassword } from 'app/auth/store/auth.actions';
+import { resetValidationSchema } from 'app/auth/validation-schemas/functions';
 
 const defaultTheme = createTheme();
 
-export function SignUpPage() {
+export function ResetPasswordPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleSubmit = async (values: Pick<RegisterUserDto, 'email' | 'firstName' | 'lastName' | 'password' | 'confirmPassword'>) => {
-    let device = localStorage.getItem('device_id');
-
-    if (!device) {
-      device = uuidv4();
-      localStorage.setItem('device_id', device);
-    }
-
-    const registerData: RegisterUserDto = {
-      firstName: values.firstName,
-      lastName: values.lastName,
-      email: values.email,
+  const handleSubmit = async (values: Pick<ResetPasswordDto, 'password' | 'confirmPassword'>) => {
+    const resetData: ResetPasswordDto = {
       password: values.password,
       confirmPassword: values.confirmPassword
     };
 
-    await dispatch<any>(registerUser(registerData)).then(() => {
+    await dispatch<any>(resetPassword(resetData)).then(() => {
       navigate('/auth/login');
     });
   };
@@ -58,20 +48,17 @@ export function SignUpPage() {
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
-            <LockOutlinedIcon />
+            <AssignmentIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Reset Password
           </Typography>
           <Formik
             initialValues={{
-              firstName: '',
-              lastName: '',
-              email: '',
               password: '',
-              confirmPassword: ''
+              confirmPassword: '',
             }}
-            validationSchema={signUpValidationSchema}
+            validationSchema={resetValidationSchema}
             onSubmit={handleSubmit}
           >
             {(formik) => (
@@ -81,46 +68,8 @@ export function SignUpPage() {
                   margin="normal"
                   required
                   fullWidth
-                  id="firstName"
-                  label="First Name"
-                  name="firstName"
-                  autoComplete="firstName"
-                  autoFocus
-                  error={formik.touched.firstName && formik.errors.firstName}
-                  helperText={formik.touched.firstName && formik.errors.firstName}
-                />
-                <Field
-                  as={TextField}
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="lastName"
-                  autoFocus
-                  error={formik.touched.lastName && formik.errors.lastName}
-                  helperText={formik.touched.lastName && formik.errors.lastName}
-                />
-                <Field
-                  as={TextField}
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email"
-                  name="email"
-                  autoComplete="email"
-                  error={formik.touched.email && formik.errors.email}
-                  helperText={formik.touched.email && formik.errors.email}
-                />
-                <Field
-                  as={TextField}
-                  margin="normal"
-                  required
-                  fullWidth
                   name="password"
-                  label="Password"
+                  label="New Password"
                   type="password"
                   id="password"
                   autoComplete="current-password"
@@ -146,12 +95,12 @@ export function SignUpPage() {
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
                 >
-                  Sign Up
+                  Change password
                 </Button>
                 <Grid container>
                   <Grid item>
                     <Link href="/auth/signin" variant="body2">
-                      {"Already have an account? Sign in"}
+                      {"Back to login"}
                     </Link>
                   </Grid>
                 </Grid>
