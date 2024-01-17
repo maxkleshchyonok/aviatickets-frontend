@@ -1,4 +1,4 @@
-import { Chip, Divider, styled, Typography } from "@mui/material";
+import { Chip, Divider, Typography, styled, DividerProps, ChipProps, TypographyProps } from "@mui/material";
 import { FC } from "react";
 
 interface TravelDurationProps {
@@ -16,16 +16,28 @@ const StyledTravelDuration = styled('div')((props) => ({
   width: '100%'
 }));
 
+const StyledDivider = styled(Divider)<DividerProps>((props) => ({
+  width: '100%',
+}));
+
+const StyledChip = styled(Chip)<ChipProps>((props) => ({
+  fontSize: '1.1rem',
+}));
+
+const StyledStopNumber = styled(Typography)<TypographyProps>((props) => ({
+  fontSize: '0.9rem',
+}));
+
 const TravelDuration: FC<TravelDurationProps> = ({ stopNumber, travelTime }) => {
   const travelDate = new Date(travelTime);
   const stopNumberText = stopNumber ? `stop amount ${stopNumber}` : "without stops";
 
   return (
     <StyledTravelDuration>
-      <Divider variant='fullWidth' sx={{ width: '100%' }}>
-        <Chip label={travelDate.getHours() + ':' + travelDate.getMinutes()} />
-      </Divider>
-      <Typography variant='caption' color='grey'>{stopNumberText}</Typography>
+      <StyledDivider variant='fullWidth'>
+        <StyledChip label={travelDate.getHours() + ':' + travelDate.getMinutes()} />
+      </StyledDivider>
+      <StyledStopNumber variant='caption' color='grey'>{stopNumberText}</StyledStopNumber>
     </StyledTravelDuration>
   );
 }
