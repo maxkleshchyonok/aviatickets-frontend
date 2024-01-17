@@ -5,12 +5,6 @@ import { BookingForm } from "./components/booking-form.comp"
 import { useState } from "react"
 
 export const CreateBookingPage = () => {
-  const [passengers, setPassengers] = useState([1])
-
-  const handleAddPassenger = () => {
-    setPassengers(passengers => [...passengers, passengers.length+1])
-  }
-
   return (
     <Container>
       <Grid container spacing={2}>
@@ -21,8 +15,7 @@ export const CreateBookingPage = () => {
           <Summary />
         </Grid>
         <Grid item xs={8}>
-          {passengers.map((passenger) => <BookingForm key={passenger} />)}
-          <Button variant='contained' onClick={handleAddPassenger}>Add a passenger</Button>
+          <BookingForm />
         </Grid>
       </Grid>
     </Container>

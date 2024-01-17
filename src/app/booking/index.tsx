@@ -3,7 +3,7 @@ import { FC } from "react";
 import { Route, Routes } from "react-router-dom";
 import { CreateBookingPage } from "./create-booking.page";
 
-export const BookingPage: FC = () => {
+export const BookingRoutes: FC = () => {
   return(
     <Routes>
       <Route path='/create-booking' element={<PublicRoute element={CreateBookingPage} />} />

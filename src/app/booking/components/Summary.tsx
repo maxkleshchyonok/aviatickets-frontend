@@ -1,6 +1,7 @@
-import { Box, Divider, Grid, Typography } from "@mui/material"
+import { Box, Divider, Typography } from "@mui/material"
 
 export const Summary = () => {
+  //get passenger amount from the store to get total price
   return (
     <Box>
       <Typography variant='h6' sx={{
