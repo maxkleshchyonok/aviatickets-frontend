@@ -37,7 +37,6 @@ export function SignUpPage() {
       lastName: values.lastName,
       email: values.email,
       password: values.password,
-      deviceId: device,
     };
 
     await dispatch<any>(registerUser(registerData)).then(() => {

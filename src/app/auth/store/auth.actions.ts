@@ -75,3 +75,11 @@ export const verifyResetCode = createAsyncThunk<string | boolean, VerifyCodeDto>
         return rejectWithValue('Verification failed');
     }
 });
+
+export const logout = createAsyncThunk('logout', async(_, {rejectWithValue}) => {
+    try {
+        await repository.post('/auth/signout');
+    } catch (error) {
+        return rejectWithValue('Logout failed')
+    }
+});

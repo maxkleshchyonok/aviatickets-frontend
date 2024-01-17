@@ -36,7 +36,6 @@ export function SignInPage() {
     const loginData: CreateUserDto = {
       email: values.email,
       password: values.password,
-      deviceId: device,
     };
 
     await dispatch<any>(loginUser(loginData)).then(() => {

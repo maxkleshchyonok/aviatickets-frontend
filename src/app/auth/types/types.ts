@@ -1,18 +1,23 @@
+import { BaseState } from "types/base-state.type";
+
 export type User = {
     id: string;
     name: string;
 }
 
-export interface AuthState {
-    isAuthenticated: boolean;
-    loading: boolean;
-    error: string | null;
+export interface AuthState extends BaseState {
+  isAuth: boolean;
+  isPending: {
+    isAuth: boolean;
+  };
+  errors: {
+    isAuth: string | null;
+  };
 }
 
 export type CreateUserDto = {
     email: string,
     password: string,
-    deviceId: string,
 };
 
 export type RegisterUserDto = {
@@ -20,7 +25,6 @@ export type RegisterUserDto = {
     lastName: string;
     email: string;
     password: string;
-    deviceId: string;
 }
 
 export type ForgotPasswordDto = {
