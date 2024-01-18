@@ -24,7 +24,7 @@ const StyledContainer = styled(Stack)<StackProps>((props) => ({
 
 const StyledContentContainer = styled(Stack)<StackProps>((props) => ({
   rowGap: '12px',
-  maxWidth: '600px',
+  maxWidth: '700px',
   alignItems: 'center'
 }));
 

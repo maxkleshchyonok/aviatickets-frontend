@@ -24,7 +24,8 @@ const SearchTicketsPage: FC = () => {
     dispatch(getAllTickets({
       query: {
         originCity,
-        destinationCity, departureTime: new Date(departureTime),
+        destinationCity,
+        departureTime: new Date(departureTime),
         passengerAmount,
         pageNumber: currentPage,
         pageSize: PAGE_SIZE,
