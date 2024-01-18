@@ -6,6 +6,7 @@ import { ChangeEvent, FC, useEffect, useState } from "react";
 import { calculatePageCount } from "utils/calculate-page-count.utils";
 import { getAllTickets } from "../store/tickets.actions";
 import { ticketsSelector } from "../store/tickets.selectors";
+import NoTickets from "./no-tickets.comp";
 import TicketCards from "./ticket-cards.comp";
 import TicketListError from "./ticket-list-error.comp";
 
@@ -61,11 +62,11 @@ const TicketList: FC<TicketListProps> = ({ pageSize, currentPage, setCurrentPage
   }
 
   if (count === null) {
-    return <div>Let's look for tickets</div>;
+    return <NoTickets title="There is nothing here yet. Let's look for tickets" />;
   }
 
   if (count === 0) {
-    return <div>No tickets</div>;
+    return <NoTickets title="No tickets were found" />;
   }
 
   const pageCount = calculatePageCount(count, pageSize);
