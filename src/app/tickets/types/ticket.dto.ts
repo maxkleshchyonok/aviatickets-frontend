@@ -19,7 +19,7 @@ export interface RouteDto {
   flights: FlightDto[];
 }
 
-export interface FlightDto {
+export interface FlightDto extends UUIDDto {
   originCity: Cities;
   destinationCity: Cities;
   departureTime: number;
