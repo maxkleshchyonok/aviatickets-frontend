@@ -3,7 +3,7 @@ import { BookingTicket } from "./components/BookingTicket"
 import { Summary } from "./components/Summary"
 import { BookingForm } from "./components/BookingForm"
 
-export const BookingPage = () => {
+const CreateBookingPage = () => {
   return (
     <Container>
       <Grid container spacing={2}>
@@ -20,3 +20,5 @@ export const BookingPage = () => {
     </Container>
   )
 }
+
+export default CreateBookingPage;

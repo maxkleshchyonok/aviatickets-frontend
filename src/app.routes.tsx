@@ -3,10 +3,7 @@ import { Navigate, Routes, Route } from "react-router-dom";
 import { Main } from "./app/main/Main";
 import AuthRoutes from "./app/auth/auth.routes";
 import { Account } from "./app/account/Account";
-import { BookingPage } from "./app/booking";
 
-
-// ======= private route ======= //
 const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
     return sessionStorage.getItem('access_token') ? (
         <Suspense fallback={<div />}>
@@ -17,16 +14,13 @@ const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
     );
 };
 
-// ======= public route ======= //
 const PublicRoute: FC<{ element: any }> = ({ element: Element }) => (
     <Suspense fallback={<div />}>
         <Element />
     </Suspense>
 );
 
-// ======= pages ======= //
-// const MainPage = React.lazy(() => import("./app/main/Main"));
-// const BookingPage = React.lazy(() => import('./app/booking'));
+const BookingRoutes = React.lazy(() => import('app/bookings'));
 
 export const AppRoutes = () => {
     return (
@@ -40,7 +34,7 @@ export const AppRoutes = () => {
             {/* PRIVATE */}
             <Route path={"/account"} element={<PrivateRoute element={Account} />} />
  
-            <Route path={"/booking"} element={<PublicRoute element={BookingPage} />}/>
+            <Route path={"/bookings"} element={<PublicRoute element={BookingRoutes} />}/>
 
             {/* DEFAULT */}
             <Route path='*' element={<Navigate to="/flight-search" />} />
