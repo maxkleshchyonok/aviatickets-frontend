@@ -7,6 +7,7 @@ import { calculatePageCount } from "utils/calculate-page-count.utils";
 import { getAllTickets } from "../store/tickets.actions";
 import { ticketsSelector } from "../store/tickets.selectors";
 import TicketCards from "./ticket-cards.comp";
+import TicketListError from "./ticket-list-error.comp";
 
 const StyledTicketList = styled('section')((props) => ({}));
 
@@ -56,7 +57,7 @@ const TicketList: FC<TicketListProps> = ({ pageSize, currentPage, setCurrentPage
   }
 
   if (errors.tickets) {
-    return <div>Error</div>;
+    return <TicketListError />;
   }
 
   if (count === null) {
