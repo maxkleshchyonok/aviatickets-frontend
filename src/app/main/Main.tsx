@@ -1,7 +1,11 @@
+import Header from 'app/header/Header'
 import React from 'react'
 
 export const Main = () => {
   return (
-    <div>Main</div>
+    <>
+      <Header />
+      <div>Main</div>
+    </>
   )
 }

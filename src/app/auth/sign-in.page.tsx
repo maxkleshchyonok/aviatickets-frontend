@@ -1,5 +1,5 @@
-import React from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import React, { useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -7,6 +7,9 @@ import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
@@ -18,14 +21,25 @@ import { useNavigate } from 'react-router-dom';
 import { signInValidationSchema } from 'app/auth/validation-schemas/functions';
 import Paper from '@mui/material/Paper';
 import { v4 as uuidv4 } from 'uuid';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 const defaultTheme = createTheme();
 
 export function SignInPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = async (values: { email: string, password: string }) => {
+  const { register, handleSubmit, formState: { errors } } = useForm<CreateUserDto>({
+    resolver: yupResolver(signInValidationSchema),
+    mode: 'onBlur'
+  });
+
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const onSubmit = async (data: CreateUserDto) => {
     let device = localStorage.getItem('device_id');
 
     if (!device) {
@@ -34,13 +48,14 @@ export function SignInPage() {
     }
 
     const loginData: CreateUserDto = {
-      email: values.email,
-      password: values.password,
+      email: data.email,
+      password: data.password,
     };
 
-    await dispatch<any>(loginUser(loginData)).then(() => {
-      navigate('/cart');
-    });
+    const response = await dispatch<any>(loginUser(loginData));
+    if (response.meta.requestStatus === 'fulfilled') {
+      navigate('/flight-search');
+    }
   };
 
   return (
@@ -60,7 +75,7 @@ export function SignInPage() {
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             display: 'flex',
-            justifyContent: 'center'
+            justifyContent: 'center',
           }}
         >
           <Typography component="h1" variant="h1" sx={{ paddingTop: '15vh', color: 'white', fontWeight: '200' }}>
@@ -83,65 +98,57 @@ export function SignInPage() {
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
-            <Formik
-              initialValues={{
-                email: '',
-                password: '',
-              }}
-              validationSchema={signInValidationSchema}
-              onSubmit={handleSubmit}
-            >
-              {(formik) => (
-                <Form noValidate onSubmit={formik.handleSubmit}>
-                  <Field
-                    as={TextField}
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="email"
-                    label="Email"
-                    name="email"
-                    autoComplete="email"
-                    autoFocus
-                    error={formik.touched.email && formik.errors.email}
-                    helperText={formik.touched.email && formik.errors.email}
-                  />
-                  <Field
-                    as={TextField}
-                    margin="normal"
-                    required
-                    fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    id="password"
-                    autoComplete="current-password"
-                    error={formik.touched.password && formik.errors.password}
-                    helperText={formik.touched.password && formik.errors.password}
-                  />
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
-                  >
-                    Sign In
-                  </Button>
-                  <Grid container>
-                    <Grid item xs>
-                      <Link href="/auth/signup" variant="body2">
-                        Don't have an account? Sign Up
-                      </Link>
-                    </Grid>
-                    <Grid item>
-                      <Link href="/auth/forgot" variant="body2">
-                        Forgot password?
-                      </Link>
-                    </Grid>
-                  </Grid>
-                </Form>
-              )}
-            </Formik>
+            <form noValidate onSubmit={handleSubmit(onSubmit)}>
+              <TextField
+                margin="normal"
+                fullWidth
+                id="email"
+                label="Email"
+                {...register('email')}
+                autoComplete="email"
+                autoFocus
+                error={!!errors.email}
+                helperText={errors.email && errors.email.message}
+              />
+              <TextField
+                margin="normal"
+                fullWidth
+                label="Password"
+                type={showPassword ? 'text' : 'password'}
+                id="password"
+                autoComplete="current-password"
+                {...register('password')}
+                error={!!errors.password}
+                helperText={errors.password && errors.password.message}
+                InputProps={{
+                  endAdornment: (
+                    <div onClick={handleTogglePasswordVisibility} style={{ cursor: 'pointer' }}>
+                      {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                    </div>
+                  ),
+                }}
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Sign In
+              </Button>
+              <Grid container>
+                <Grid item xs>
+                  <Link href="/auth/signup" variant="body2">
+                    Don't have an account? Sign Up
+                  </Link>
+                </Grid>
+                <Grid item>
+                  <Link href="/auth/forgot" variant="body2">
+                    Forgot password?
+                  </Link>
+                </Grid>
+              </Grid>
+            </form>
           </Box>
         </Grid>
       </Grid>

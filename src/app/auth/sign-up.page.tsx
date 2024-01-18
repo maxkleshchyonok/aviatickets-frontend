@@ -1,5 +1,5 @@
-import React from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import React, { useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -8,6 +8,8 @@ import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -17,14 +19,34 @@ import { RegisterUserDto } from 'app/auth/types/types';
 import { registerUser } from 'app/auth/store/auth.actions';
 import { signUpValidationSchema } from 'app/auth/validation-schemas/functions';
 import { v4 as uuidv4 } from 'uuid';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 const defaultTheme = createTheme();
 
 export function SignUpPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const handleSubmit = async (values: Pick<RegisterUserDto, 'email' | 'firstName' | 'lastName' | 'password' | 'confirmPassword'>) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RegisterUserDto>({
+    resolver: yupResolver(signUpValidationSchema),
+    mode: 'onBlur'
+  });
+
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleToggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
+
+  const onSubmit: SubmitHandler<RegisterUserDto> = async (values) => {
     let device = localStorage.getItem('device_id');
 
     if (!device) {
@@ -37,12 +59,13 @@ export function SignUpPage() {
       lastName: values.lastName,
       email: values.email,
       password: values.password,
-      confirmPassword: values.confirmPassword
+      confirmPassword: values.confirmPassword,
     };
 
-    await dispatch<any>(registerUser(registerData)).then(() => {
-      navigate('/auth/login');
-    });
+    const response = await dispatch<any>(registerUser(registerData));
+    if (response.meta.requestStatus === 'fulfilled') {
+      navigate('/flight-search');
+    }
   };
 
   return (
@@ -63,101 +86,101 @@ export function SignUpPage() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Formik
-            initialValues={{
-              firstName: '',
-              lastName: '',
-              email: '',
-              password: '',
-              confirmPassword: ''
-            }}
-            validationSchema={signUpValidationSchema}
-            onSubmit={handleSubmit}
-          >
-            {(formik) => (
-              <Form noValidate>
-                <Field
-                  as={TextField}
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  name="firstName"
-                  autoComplete="firstName"
-                  autoFocus
-                  error={formik.touched.firstName && formik.errors.firstName}
-                  helperText={formik.touched.firstName && formik.errors.firstName}
-                />
-                <Field
-                  as={TextField}
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="lastName"
-                  autoFocus
-                  error={formik.touched.lastName && formik.errors.lastName}
-                  helperText={formik.touched.lastName && formik.errors.lastName}
-                />
-                <Field
-                  as={TextField}
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email"
-                  name="email"
-                  autoComplete="email"
-                  error={formik.touched.email && formik.errors.email}
-                  helperText={formik.touched.email && formik.errors.email}
-                />
-                <Field
-                  as={TextField}
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                  error={formik.touched.password && formik.errors.password}
-                  helperText={formik.touched.password && formik.errors.password}
-                />
-                <Field
-                  as={TextField}
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="confirmPassword"
-                  label="Confirm Password"
-                  type="password"
-                  id="confirmPassword"
-                  autoComplete="confirm-password"
-                  error={formik.touched.confirmPassword && formik.errors.confirmPassword}
-                  helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
-                />
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
-                >
-                  Sign Up
-                </Button>
-                <Grid container>
-                  <Grid item>
-                    <Link href="/auth/signin" variant="body2">
-                      {"Already have an account? Sign in"}
-                    </Link>
-                  </Grid>
-                </Grid>
-              </Form>
-            )}
-          </Formik>
+          <form noValidate onSubmit={handleSubmit(onSubmit)}>
+            <TextField
+              {...register('firstName')}
+              margin="normal"
+              required
+              fullWidth
+              id="firstName"
+              label="First Name"
+              name="firstName"
+              autoComplete="firstName"
+              autoFocus
+              error={!!errors.firstName}
+              helperText={errors.firstName?.message}
+            />
+            <TextField
+              {...register('lastName')}
+              margin="normal"
+              required
+              fullWidth
+              id="lastName"
+              label="Last Name"
+              name="lastName"
+              autoComplete="lastName"
+              autoFocus
+              error={!!errors.lastName}
+              helperText={errors.lastName?.message}
+            />
+            <TextField
+              {...register('email')}
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email"
+              name="email"
+              autoComplete="email"
+              error={!!errors.email}
+              helperText={errors.email?.message}
+            />
+            <TextField
+              {...register('password')}
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type={showPassword ? 'text' : 'password'}
+              id="password"
+              autoComplete="current-password"
+              error={!!errors.password}
+              helperText={errors.password?.message}
+              InputProps={{
+                endAdornment: (
+                  <div onClick={handleTogglePasswordVisibility} style={{ cursor: 'pointer' }}>
+                    {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                  </div>
+                ),
+              }}
+            />
+            <TextField
+              {...register('confirmPassword')}
+              margin="normal"
+              required
+              fullWidth
+              name="confirmPassword"
+              label="Confirm Password"
+              type={showConfirmPassword ? 'text' : 'password'}
+              id="confirmPassword"
+              autoComplete="current-password"
+              error={!!errors.confirmPassword}
+              helperText={errors.confirmPassword?.message}
+              InputProps={{
+                endAdornment: (
+                  <div onClick={handleToggleConfirmPasswordVisibility} style={{ cursor: 'pointer' }}>
+                    {showConfirmPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                  </div>
+                ),
+              }}
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Sign Up
+            </Button>
+            <Grid container justifyContent="flex-end">
+              <Grid item>
+                <Link href="/login" variant="body2">
+                  Already have an account? Sign in
+                </Link>
+              </Grid>
+            </Grid>
+          </form>
         </Box>
       </Container>
     </ThemeProvider>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { useForm } from 'react-hook-form';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -17,22 +17,30 @@ import { useNavigate } from 'react-router-dom';
 import { ResetPasswordDto } from 'app/auth/types/types';
 import { resetPassword } from 'app/auth/store/auth.actions';
 import { resetValidationSchema } from 'app/auth/validation-schemas/functions';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 const defaultTheme = createTheme();
 
 export function ResetPasswordPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { handleSubmit, register, formState: { errors } } = useForm<ResetPasswordDto>({
+    resolver: yupResolver(resetValidationSchema),
+    mode: 'onBlur'
+  });
 
-  const handleSubmit = async (values: Pick<ResetPasswordDto, 'password' | 'confirmPassword'>) => {
+  const onSubmit = async (data: ResetPasswordDto) => {
     const resetData: ResetPasswordDto = {
-      password: values.password,
-      confirmPassword: values.confirmPassword
+      password: data.password,
+      confirmPassword: data.confirmPassword
     };
 
-    await dispatch<any>(resetPassword(resetData)).then(() => {
+    const response = await dispatch<any>(resetPassword(resetData));
+
+    if (response.meta.requestStatus === 'fulfilled') {
       navigate('/auth/login');
-    });
+    }
+
   };
 
   return (
@@ -53,60 +61,47 @@ export function ResetPasswordPage() {
           <Typography component="h1" variant="h5">
             Reset Password
           </Typography>
-          <Formik
-            initialValues={{
-              password: '',
-              confirmPassword: '',
-            }}
-            validationSchema={resetValidationSchema}
-            onSubmit={handleSubmit}
-          >
-            {(formik) => (
-              <Form noValidate>
-                <Field
-                  as={TextField}
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="password"
-                  label="New Password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                  error={formik.touched.password && formik.errors.password}
-                  helperText={formik.touched.password && formik.errors.password}
-                />
-                <Field
-                  as={TextField}
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="confirmPassword"
-                  label="Confirm Password"
-                  type="password"
-                  id="confirmPassword"
-                  autoComplete="confirm-password"
-                  error={formik.touched.confirmPassword && formik.errors.confirmPassword}
-                  helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
-                />
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
-                >
-                  Change password
-                </Button>
-                <Grid container>
-                  <Grid item>
-                    <Link href="/auth/signin" variant="body2">
-                      {"Back to login"}
-                    </Link>
-                  </Grid>
-                </Grid>
-              </Form>
-            )}
-          </Formik>
+          <form noValidate onSubmit={handleSubmit(onSubmit)}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              label="New Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              {...register('password')}
+              error={!!errors.password}
+              helperText={errors.password?.message}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              label="Confirm Password"
+              type="password"
+              id="confirmPassword"
+              autoComplete="confirm-password"
+              {...register('confirmPassword')}
+              error={!!errors.confirmPassword}
+              helperText={errors.confirmPassword?.message}
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Change password
+            </Button>
+            <Grid container>
+              <Grid item>
+                <Link href="/auth/signin" variant="body2">
+                  {"Back to login"}
+                </Link>
+              </Grid>
+            </Grid>
+          </form>
         </Box>
       </Container>
     </ThemeProvider>
