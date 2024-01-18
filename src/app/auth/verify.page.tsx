@@ -40,15 +40,6 @@ interface Props {
   length?: number;
 }
 
-// const schema = yup
-//   .array()
-//   .required()
-//   .of(yup.number().required())
-//   .when("$length", (len, schema) => {
-//     if (len) return schema.length(len);
-//     else return schema;
-//   });
-
 const schema = yup
   .array()
   .required()
