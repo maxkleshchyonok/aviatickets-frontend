@@ -8,16 +8,17 @@ import { getAllTickets } from "../store/tickets.actions";
 import { ticketsSelector } from "../store/tickets.selectors";
 import TicketCards from "./ticket-cards.comp";
 
-const PAGE_SIZE = 20;
+interface TicketListProps {
+  pageSize: number;
+  currentPage: number;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+}
 
-const TicketList: FC = () => {
-  const [currentPage, setCurrentPage] = useState<number>(1);
+const TicketList: FC<TicketListProps> = ({ pageSize, currentPage, setCurrentPage }) => {
   const [isRenderBeforeFirstRequest, setIsRenderBeforeFirstRequest] = useState<boolean>(true);
   const dispatch = useAppDispatch();
   const { isPending, tickets, count, errors } = useAppSelector(ticketsSelector);
-  const { originCity, destinationCity, departureTime, arrivalTime, passengerAmount } = useAppSelector(tickerSearchFilterSelector);
-
-  console.log(originCity, destinationCity, departureTime, arrivalTime, passengerAmount)
+  const { originCity, destinationCity, departureTime, passengerAmount } = useAppSelector(tickerSearchFilterSelector);
 
   const handleCurrentPageChange = (event: ChangeEvent<unknown>, page: number): void => {
     setCurrentPage(page);
@@ -25,35 +26,41 @@ const TicketList: FC = () => {
   };
 
   useEffect(() => {
-    if (!isRenderBeforeFirstRequest) {
-      dispatch(getAllTickets({
-        query: {
-          originCity, destinationCity, departureTime: new Date(departureTime), passengerAmount,
-          pageNumber: currentPage,
-          pageSize: PAGE_SIZE,
-        }
-      }))
+    if (isRenderBeforeFirstRequest) {
+      return;
     }
+
+    dispatch(getAllTickets({
+      query: {
+        originCity,
+        destinationCity,
+        departureTime: new Date(departureTime),
+        passengerAmount,
+        pageNumber: currentPage,
+        pageSize,
+      }
+    }));
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, currentPage])
 
   if (isPending.tickets) {
-    return <CenteredLoader />
+    return <CenteredLoader />;
   }
 
   if (errors.tickets) {
-    return <div>Error</div>
+    return <div>Error</div>;
   }
 
   if (count === null) {
-    return <div>Let's look for tickets</div>
+    return <div>Let's look for tickets</div>;
   }
 
   if (count === 0) {
-    return <div>No tickets</div>
+    return <div>No tickets</div>;
   }
 
-  const pageCount = calculatePageCount(count, PAGE_SIZE);
+  const pageCount = calculatePageCount(count, pageSize);
 
   return (
     <section className="ticket-list">
