@@ -1,4 +1,4 @@
-import { Pagination, Stack } from "@mui/material";
+import { Pagination, Stack, StackProps, styled } from "@mui/material";
 import { tickerSearchFilterSelector } from "app/ticket-search-filter/store/ticket-search-filter.selectors";
 import CenteredLoader from "components/centered-loader.comp";
 import { useAppDispatch, useAppSelector } from "hooks/redux.hooks";
@@ -7,6 +7,13 @@ import { calculatePageCount } from "utils/calculate-page-count.utils";
 import { getAllTickets } from "../store/tickets.actions";
 import { ticketsSelector } from "../store/tickets.selectors";
 import TicketCards from "./ticket-cards.comp";
+
+const StyledTicketList = styled('section')((props) => ({}));
+
+const StyledStack = styled(Stack)<StackProps>((props) => ({
+  rowGap: '50px',
+  alignItems: "center"
+}));
 
 interface TicketListProps {
   pageSize: number;
@@ -63,12 +70,12 @@ const TicketList: FC<TicketListProps> = ({ pageSize, currentPage, setCurrentPage
   const pageCount = calculatePageCount(count, pageSize);
 
   return (
-    <section className="ticket-list">
-      <Stack alignItems="center" spacing="50px">
+    <StyledTicketList>
+      <StyledStack>
         <TicketCards tickets={tickets} />
         {pageCount > 1 && <Pagination onChange={handleCurrentPageChange} page={currentPage} count={pageCount} size="large" />}
-      </Stack>
-    </section>
+      </StyledStack>
+    </StyledTicketList>
   );
 }
 

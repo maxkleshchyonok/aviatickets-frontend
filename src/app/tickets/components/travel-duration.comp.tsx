@@ -30,7 +30,7 @@ const StyledStopNumber = styled(Typography)<TypographyProps>((props) => ({
 
 const TravelDuration: FC<TravelDurationProps> = ({ stopNumber, travelTime }) => {
   const travelDate = new Date(travelTime);
-  const stopNumberText = stopNumber ? `stop amount ${stopNumber}` : "without stops";
+  const stopNumberText = stopNumber ? `stop amount:${stopNumber}` : "without stops";
 
   return (
     <StyledTravelDuration>
