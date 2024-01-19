@@ -1,8 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { bookingSlice } from 'app/booking/store/booking.slice';
 
 const store = configureStore({
   reducer: {
-   
+    booking: bookingSlice.reducer
   },
 });
 

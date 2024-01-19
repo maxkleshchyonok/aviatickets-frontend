@@ -1,10 +1,15 @@
-import { Button, Container, Grid } from "@mui/material"
+import { Container, Grid } from "@mui/material"
 import { BookingTicket } from "./components/booking-ticket.comp"
-import { Summary } from "./components/Summary"
 import { BookingForm } from "./components/booking-form.comp"
-import { useState } from "react"
+import { Summary } from "./components/summary.comp"
+import { BookingTabs } from "./components/booking-tabs.comp"
+import { useSelector } from "react-redux"
+import { activeTabSelector } from "./store/booking.selectors"
+import { BookingPaymentForm } from "./components/booking-payment.form"
 
 export const CreateBookingPage = () => {
+  const activeTab = useSelector(activeTabSelector);
+
   return (
     <Container>
       <Grid container spacing={2}>
@@ -15,7 +20,10 @@ export const CreateBookingPage = () => {
           <Summary />
         </Grid>
         <Grid item xs={8}>
-          <BookingForm />
+          <>
+            <BookingTabs />
+            {activeTab === 0 ? <BookingForm /> : <BookingPaymentForm />}
+          </>
         </Grid>
       </Grid>
     </Container>
