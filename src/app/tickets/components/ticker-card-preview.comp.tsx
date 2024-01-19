@@ -31,12 +31,14 @@ const StyledDivider = styled('div')((props) => ({
 }));
 
 const TicketCardPreview: FC<TicketCardPreviewProps> = ({ ticket }) => {
+  const { toDestinationRoute, toOriginRoute } = ticket;
+
   return (
     <StyledTicketCard>
       <StyledTicketJourneys>
-        <TicketJourneyPreview route={ticket.toDestinationRoute} destinationCity={ticket.destinationCity} originCity={ticket.originCity} />
-        {ticket.toOriginRoute ?
-          <TicketJourneyPreview route={ticket.toOriginRoute} destinationCity={ticket.originCity} originCity={ticket.destinationCity} /> : null
+        <TicketJourneyPreview route={toDestinationRoute} destinationCity={toDestinationRoute.destinationCity} originCity={toDestinationRoute.originCity} />
+        {toOriginRoute &&
+          <TicketJourneyPreview route={toOriginRoute} destinationCity={toOriginRoute.originCity} originCity={toOriginRoute.destinationCity} />
         }
       </StyledTicketJourneys>
       <StyledDivider />

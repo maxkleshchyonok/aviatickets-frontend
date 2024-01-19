@@ -17,13 +17,13 @@ const StyledStack = styled(Stack)<StackProps>((props) => ({
 }));
 
 const TicketDetails: FC<TicketDetailsProps> = ({ ticket }) => {
-  const { toDestinationRoute, toOriginRoute, originCity, destinationCity } = ticket;
+  const { toDestinationRoute, toOriginRoute } = ticket;
 
   return (
     <StyledTicketDetails>
       <StyledStack>
-        <RouteDetails route={toDestinationRoute} originCity={originCity} destinationCity={destinationCity} />
-        {toOriginRoute && <RouteDetails route={toOriginRoute} originCity={destinationCity} destinationCity={originCity} />}
+        <RouteDetails route={toDestinationRoute} originCity={toDestinationRoute.originCity} destinationCity={toDestinationRoute.destinationCity} />
+        {toOriginRoute && <RouteDetails route={toOriginRoute} originCity={toOriginRoute.destinationCity} destinationCity={toOriginRoute.originCity} />}
       </StyledStack>
     </StyledTicketDetails>
   );

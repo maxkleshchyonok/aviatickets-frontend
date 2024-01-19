@@ -2,15 +2,15 @@ import { Cities } from "enums/cities.enum";
 import { UUIDDto } from "types/uuid-dto.type";
 
 export interface TicketDto extends UUIDDto {
+  id: string;
   price: number;
-  originCity: Cities;
-  destinationCity: Cities;
   toDestinationRoute: RouteDto;
   toOriginRoute: RouteDto | null;
 }
 
 export interface RouteDto {
-  id: string;
+  originCity: Cities;
+  destinationCity: Cities;
   travelTime: number;
   price: number;
   stops: number;
