@@ -27,13 +27,12 @@ const StyledKeyRouteSpots = styled(Typography)<TypographyProps>((props) => ({
 
 const StyledFlightStack = styled(Stack)<StackProps>((props) => ({
   rowGap: '20px',
-  width: '100%',
-  maxWidth: '1000px'
+  width: '100%'
 }));
 
 const RouteDetails: FC<RouteDetailsProps> = ({ route, originCity, destinationCity }) => {
   const totalFlightTime = dayjs(route.arrivalTime).format('LT');
-  
+
   return (
     <StyledRouteDetails>
       <StyledStack>

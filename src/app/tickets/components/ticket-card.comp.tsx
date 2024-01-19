@@ -1,48 +1,45 @@
+import { Accordion, AccordionDetails, AccordionDetailsProps, AccordionSummary, AccordionSummaryProps } from "@mui/material";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { styled } from "@mui/system";
 import { FC } from "react";
 import { TicketDto } from "../types/ticket.dto";
-import TicketJourneyPreview from "./ticket-journey-preview.comp";
+import TicketDetails from "./ticket-details.comp";
+import { AccordionProps } from "@mui/material/Accordion";
+import TicketCardPreview from "./ticker-card-preview.comp";
 
 interface TicketCardProps {
   ticket: TicketDto;
 }
 
-const StyledTicketCard = styled('div')((props) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  rowGap: '20px',
+const StyledAccordion = styled(Accordion)<AccordionProps>((props) => ({
   border: '1px solid lightgray',
-  borderRadius: '10px',
-  padding: '20px'
+  boxShadow: 'none',
+  borderRadius: '16px'
 }));
 
-const StyledTicketJourneys = styled('div')((props) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  rowGap: '30px',
+const StyledAccordionSummary = styled(AccordionSummary)<AccordionSummaryProps>((props) => ({
+  borderBottom: '1px solid lightgray',
+  borderRadius: '16px'
 }));
 
-const StyledTicketPrice = styled('div')((props) => ({
-  fontSize: '24px',
-  alignSelf: 'center'
-}));
-
-const StyledDivider = styled('div')((props) => ({
-  borderBottom: '1px solid lightgray'
+const StyledAccordionDetails = styled(AccordionDetails)<AccordionDetailsProps>((props) => ({
+  paddingBottom: '40px',
+  paddingTop: '40px'
 }));
 
 const TicketCard: FC<TicketCardProps> = ({ ticket }) => {
   return (
-    <StyledTicketCard>
-      <StyledTicketJourneys>
-        <TicketJourneyPreview route={ticket.toDestinationRoute} destinationCity={ticket.destinationCity} originCity={ticket.originCity} />
-        {ticket.toOriginRoute ?
-          <TicketJourneyPreview route={ticket.toOriginRoute} destinationCity={ticket.originCity} originCity={ticket.destinationCity} /> : null
-        }
-      </StyledTicketJourneys>
-      <StyledDivider />
-      <StyledTicketPrice>${ticket.price}</StyledTicketPrice>
-    </StyledTicketCard >
+    <StyledAccordion>
+      <StyledAccordionSummary
+        expandIcon={<ExpandMoreIcon />}
+        id={ticket.id}
+      >
+        <TicketCardPreview ticket={ticket} />
+      </StyledAccordionSummary>
+      <StyledAccordionDetails>
+        <TicketDetails ticket={ticket} />
+      </StyledAccordionDetails>
+    </StyledAccordion >
   );
 }
 

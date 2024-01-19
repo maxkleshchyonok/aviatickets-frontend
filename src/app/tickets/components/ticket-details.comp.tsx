@@ -13,7 +13,7 @@ const StyledStack = styled(Stack)<StackProps>((props) => ({
   flexDirection: 'column',
   alignItems: 'center',
   columnGap: '30px',
-  rowGap: '50px'
+  rowGap: '40px'
 }));
 
 const TicketDetails: FC<TicketDetailsProps> = ({ ticket }) => {
