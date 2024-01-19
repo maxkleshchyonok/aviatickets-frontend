@@ -27,7 +27,15 @@ const StyledKeyRouteSpots = styled(Typography)<TypographyProps>((props) => ({
 
 const StyledFlightStack = styled(Stack)<StackProps>((props) => ({
   rowGap: '20px',
-  width: '100%'
+  width: '100%',
+
+  '@media(max-width: 1000px)': {
+    rowGap: '40px',
+  },
+
+  '@media(max-width: 500px)': {
+    rowGap: '50px',
+  }
 }));
 
 const RouteDetails: FC<RouteDetailsProps> = ({ route, originCity, destinationCity }) => {

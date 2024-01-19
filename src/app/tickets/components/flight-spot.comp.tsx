@@ -7,15 +7,30 @@ interface FlightSpotProps {
   city: string;
 }
 
-const StyledFlightSpot = styled('div')((props) => ({}));
+const StyledFlightSpot = styled('div')((props) => ({
+  '@media(max-width: 500px)': {
+    width: '100%'
+  }
+}));
+
 const StyledStackContainer = styled(Stack)<StackProps>((props) => ({
   flexDirection: 'row',
   rowGap: '50px',
-  columnGap: '70px'
+  columnGap: '70px',
+
+  '@media(max-width: 500px)': {
+    width: '100%'
+  }
 }));
+
 const StyledStack = styled(Stack)<StackProps>((props) => ({
   flexDirection: 'row',
-  columnGap: '20px'
+  columnGap: '20px',
+  '@media(max-width: 500px)': {
+    flexDirection: "column",
+    width: '100%',
+    alignItems: 'center'
+  }
 }));
 const StyledTime = styled('div')((props) => ({}));
 const StyledDate = styled('div')((props) => ({}));

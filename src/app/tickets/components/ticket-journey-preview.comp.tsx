@@ -14,8 +14,12 @@ const StyledTicketJourneyPreview = styled('div')((props) => ({
   display: 'grid',
   gridTemplateColumns: "repeat(3, 33.3%)",
   justifyItems: 'center',
-  rowGap: '20px',
-  justifyContent: 'center'
+  gap: '20px',
+  justifyContent: 'center',
+
+  '@media(max-width: 800px)': {
+    gridTemplateColumns: '1fr',
+  }
 }));
 
 const TicketJourneyPreview: FC<TicketJourneyPreviewProps> = ({ route, originCity, destinationCity }) => {

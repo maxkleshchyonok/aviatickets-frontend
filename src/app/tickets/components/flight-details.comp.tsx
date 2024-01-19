@@ -10,10 +10,19 @@ interface FlightDetailsProps {
 
 const StyledFlightDetails = styled('div')((props) => ({
   display: 'grid',
-  gridTemplateColumns: 'repeat(3, 1fr)',
+  gridTemplateColumns: '3fr 1fr 3fr',
   gridAutoRows: 'min-content',
   justifyItems: 'center',
-  columnGap: '30px'
+  columnGap: '30px',
+
+  '@media(max-width: 1000px)': {
+    gridTemplateColumns: '1fr',
+  },
+
+  '@media(max-width: 500px)': {
+    width: '100%',
+    rowGap: '16px'
+  }
 }));
 const StyledFlightTime = styled('div')((props) => ({}));
 
