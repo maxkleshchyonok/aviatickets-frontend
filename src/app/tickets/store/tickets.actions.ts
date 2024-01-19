@@ -12,7 +12,7 @@ export const getAllTickets = createAsyncThunk<TicketsDto, { query: Partial<GetAl
   "GET/all-tickets",
   async ({ query = {} }, { rejectWithValue }) => {
     try {
-      const response = await axiosClient.get(`${REACT_APP_API_URL}/routes`, {
+      const response = await axiosClient.get(`${REACT_APP_API_URL}/tickets`, {
         params: {
           ...query,
         },
