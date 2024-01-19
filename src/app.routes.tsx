@@ -34,7 +34,7 @@ export const AppRoutes = () => {
             {/* PRIVATE */}
             <Route path={"/account"} element={<PrivateRoute element={Account} />} />
  
-            <Route path={"/bookings"} element={<PublicRoute element={BookingRoutes} />}/>
+            <Route path={"/bookings/*"} element={<PublicRoute element={BookingRoutes} />}/>
 
             {/* DEFAULT */}
             <Route path='*' element={<Navigate to="/flight-search" />} />
