@@ -1,3 +1,9 @@
+export enum BookingStatuses {
+  Payed = 'Payed',
+  Booked = 'Booked',
+  Cancelled = 'Cancelled',
+}
+
 export type BookingDto = {
   id: string;
   status: string;

@@ -217,7 +217,7 @@ const StyledAccordion = styled(Accordion)`
   width: 85%;
   margin-top: 2%;
   cursor: pointer;
-  background-color: #f5f5f5;
+  background-color: white;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
@@ -274,6 +274,11 @@ const StyledStack = styled(Stack)`
   align-items: center;
 `;
 
+const StatusTypography = styled(Typography)<{ status: string }>`
+  color: ${({ status }) =>
+    status === 'Booked' ? 'purple' : status === 'Cancelled' ? 'red' : status === 'Payed' ? 'green' : 'inherit'};
+`;
+
 const BookingsPage: React.FC = () => {
   const [bookings, setBookings] = useState(arr);
 
@@ -302,9 +307,9 @@ const BookingsPage: React.FC = () => {
               <Typography variant="h5" component="h2" color="#1a237e">
                 {booking.price} BYN
               </Typography>
-              <Typography variant="h5" component="h5" color="secondary">
+              <StatusTypography variant="h6" status={booking.status}>
                 {booking.status}
-              </Typography>
+              </StatusTypography>
             </TicketHeader>
             <AccordionDetails>
               {booking.routeForward.map(flight => (
@@ -342,12 +347,16 @@ const BookingsPage: React.FC = () => {
                   </FlightInfoContainer>
                 </div>
               ))}
-              <Typography variant="body2" color="textSecondary">
-                Passengers:
-                {booking.passengers.map((passenger) => (
-                  <span key={passenger.id}> {passenger.firstName} {passenger.lastName}  </span>
-                ))}
-              </Typography>
+              <Stack>
+                <Typography variant="h6" color="textSecondary" gutterBottom>
+                  Passengers:
+                </Typography>
+                <Typography variant="body2" color="textSecondary">
+                  {booking.passengers.map((passenger) => (
+                    <span key={passenger.id}> {passenger.firstName} {passenger.lastName}  </span>
+                  ))}
+                </Typography>
+              </Stack>
             </AccordionDetails>
           </StyledAccordion>
         </React.Fragment>
