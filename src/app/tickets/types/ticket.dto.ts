@@ -24,6 +24,7 @@ export interface FlightDto extends UUIDDto {
   destinationCity: Cities;
   departureTime: number;
   arrivalTime: number;
+  flightTime: number;
   status: FlightStatuses;
   price: number;
   seatAmount: number;

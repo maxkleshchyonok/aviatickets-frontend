@@ -1,5 +1,6 @@
 import { Chip, Divider, Typography, styled, DividerProps, ChipProps, TypographyProps } from "@mui/material";
 import { FC } from "react";
+import { parseTimeToString } from "utils/parse-time-to-string.utils";
 
 interface TravelDurationProps {
   stopNumber: number;
@@ -29,13 +30,12 @@ const StyledStopNumber = styled(Typography)<TypographyProps>((props) => ({
 }));
 
 const TravelDuration: FC<TravelDurationProps> = ({ stopNumber, travelTime }) => {
-  const travelDate = new Date(travelTime);
   const stopNumberText = stopNumber ? `stop amount:${stopNumber}` : "without stops";
 
   return (
     <StyledTravelDuration>
       <StyledDivider variant='fullWidth'>
-        <StyledChip label={travelDate.getHours() + ':' + travelDate.getMinutes()} />
+        <StyledChip label={parseTimeToString(travelTime)} />
       </StyledDivider>
       <StyledStopNumber variant='caption' color='grey'>{stopNumberText}</StyledStopNumber>
     </StyledTravelDuration>

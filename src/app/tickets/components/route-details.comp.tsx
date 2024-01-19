@@ -1,6 +1,6 @@
 import { StackProps, styled, Stack, Typography, TypographyProps } from "@mui/material";
-import dayjs from "dayjs";
 import { FC } from "react";
+import { parseTimeToString } from "utils/parse-time-to-string.utils";
 import { RouteDto } from "../types/ticket.dto";
 import FlightDetails from "./flight-details.comp";
 
@@ -39,7 +39,7 @@ const StyledFlightStack = styled(Stack)<StackProps>((props) => ({
 }));
 
 const RouteDetails: FC<RouteDetailsProps> = ({ route, originCity, destinationCity }) => {
-  const totalFlightTime = dayjs(route.arrivalTime).format('LT');
+  const totalFlightTime = parseTimeToString(route.travelTime);
 
   return (
     <StyledRouteDetails>

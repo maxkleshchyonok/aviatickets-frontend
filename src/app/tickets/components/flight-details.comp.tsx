@@ -1,6 +1,6 @@
 import { styled } from "@mui/material";
-import dayjs from "dayjs";
 import { FC } from "react";
+import { parseTimeToString } from "utils/parse-time-to-string.utils";
 import { FlightDto } from "../types/ticket.dto";
 import FlightSpot from "./flight-spot.comp";
 
@@ -27,12 +27,12 @@ const StyledFlightDetails = styled('div')((props) => ({
 const StyledFlightTime = styled('div')((props) => ({}));
 
 const FlightDetails: FC<FlightDetailsProps> = ({ flight }) => {
-  const { arrivalTime, departureTime, originCity, destinationCity } = flight;
+  const { arrivalTime, departureTime, originCity, destinationCity, flightTime } = flight;
 
   return (
     <StyledFlightDetails>
       <FlightSpot time={departureTime} city={originCity} />
-      <StyledFlightTime>{dayjs(arrivalTime).format('LT')}</StyledFlightTime>
+      <StyledFlightTime>{parseTimeToString(flightTime)}</StyledFlightTime>
       <FlightSpot time={arrivalTime} city={destinationCity} />
     </StyledFlightDetails>
   );
