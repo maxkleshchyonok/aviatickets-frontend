@@ -1,25 +1,38 @@
-import { FormControl, InputLabel, MenuItem, Select as MuiSelect, SelectChangeEvent, SelectProps as MuiSelectProps } from "@mui/material";
+import { FormControl, InputLabel, MenuItem, Select as MuiSelect, SelectProps as MuiSelectProps } from "@mui/material";
+import FormHelperText from "@mui/material/FormHelperText";
 import { FC } from "react";
+import { Control, Controller } from "react-hook-form";
+import { v4 } from 'uuid';
+import { TicketSearchFilterYup } from "../validation-schemas/ticket-search-filter.schema";
+
+type KeysWithValuesOfType<T, V> = keyof { [P in keyof T as T[P] extends V ? P : never]: P };
 
 interface SelectProps extends MuiSelectProps<string> {
   id: string;
-  labelId: string
-  selectValues: string[];
-  currentValue: string;
+  labelId: string;
   label: string;
-  onSelectChange: (event: SelectChangeEvent) => void;
+  selectValues: string[];
+  selectItemIds?: string[] | number[];
+  name: KeysWithValuesOfType<TicketSearchFilterYup, string>;
+  control: Control<TicketSearchFilterYup, any>;
+  helperText: string;
 }
 
-const Select: FC<SelectProps> = ({ currentValue, selectValues, onSelectChange, label, labelId, ...props }) => {
+const Select: FC<SelectProps> = ({ selectValues, selectItemIds = [], label, labelId, helperText, ...props }) => {
+  const menuItemIds = selectItemIds.length ? selectItemIds : Array.from({ length: selectValues.length }, () => v4());
+
   return (
     <FormControl sx={{ minWidth: 170, flex: '1 1 20%' }}>
       <InputLabel id={labelId}>{label}</InputLabel>
-      <MuiSelect {...props} value={currentValue} onChange={onSelectChange} variant={'outlined'}>
-        {
-          selectValues.map((value) => <MenuItem value={value}>{value}</MenuItem>)
-        }
-      </MuiSelect>
-    </FormControl>
+      <Controller control={props.control} name={props.name} render={({ field }) => (
+        <MuiSelect {...props} variant={'outlined'} {...field} >
+          {
+            selectValues.map((value, ind) => <MenuItem value={value} key={menuItemIds[ind]}>{value}</MenuItem>)
+          }
+        </MuiSelect>
+      )} />
+      <FormHelperText error={props.error}>{helperText}</FormHelperText>
+    </FormControl >
   )
 }
 
