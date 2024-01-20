@@ -6,39 +6,33 @@ import { BookingPage } from "./app/booking";
 import { TicketsModulePagePaths } from "enums/page-paths.enum";
 
 const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
-    return sessionStorage.getItem('access_token') ? (
-        <Suspense fallback={<div />}>
-            <div><Element /></div>
-        </Suspense>
-    ) : (
-        <Navigate to={"/auth/login"} />
-    );
+  return sessionStorage.getItem('access_token') ? (
+    <Suspense fallback={<div />}>
+      <div><Element /></div>
+    </Suspense>
+  ) : (
+    <Navigate to={"/auth/login"} />
+  );
 };
 
 const PublicRoute: FC<{ element: any }> = ({ element: Element }) => (
-    <Suspense fallback={<div />}>
-        <Element />
-    </Suspense>
+  <Suspense fallback={<div />}>
+    <Element />
+  </Suspense>
 );
 
 const TicketsRoutes = React.lazy(() => import('app/tickets'));
 
 export const AppRoutes = () => {
-    return (
-        <Routes>
-
-            {/* PUBLIC */}
-            <Route path={"/auth/*"} element={<PublicRoute element={AuthRoutes} />} />
-
-            {/* PRIVATE */}
-            <Route path={"/account"} element={<PrivateRoute element={Account} />} />
-
-            <Route path={"/booking"} element={<PublicRoute element={BookingPage} />} />
-            <Route path={"/tickets/*"} element={<PublicRoute element={TicketsRoutes} />} />
-
-            <Route path='*' element={<Navigate to={TicketsModulePagePaths.SearchTickets} />} />
-        </Routes>
-    );
+  return (
+    <Routes>
+      <Route path={"/auth/*"} element={<PublicRoute element={AuthRoutes} />} />
+      <Route path={"/account"} element={<PrivateRoute element={Account} />} />
+      <Route path={"/booking"} element={<PublicRoute element={BookingPage} />} />
+      <Route path={"/tickets/*"} element={<PublicRoute element={TicketsRoutes} />} />
+      <Route path='*' element={<Navigate to={TicketsModulePagePaths.SearchTickets} />} />
+    </Routes>
+  );
 };
 
 export default AppRoutes;
