@@ -1,5 +1,5 @@
 import { Stack, StackProps, styled } from "@mui/material";
-import { BookingPagePaths } from "enums/page-paths.enum";
+import { BookingModulePagePaths } from "enums/page-paths.enum";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { TicketDtoIdentifier } from "types/dto-identifiers.type";
@@ -19,7 +19,7 @@ const TicketCards: FC<TicketCardsProps> = ({ tickets }) => {
   const navigate = useNavigate();
 
   const handleSelectTicketBtnClick = (ticketId: TicketDtoIdentifier) => () => {
-    navigate(BookingPagePaths.CreateBooking + ticketId);
+    navigate(BookingModulePagePaths.CreateBooking + ticketId);
   }
 
   return (

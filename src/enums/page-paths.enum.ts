@@ -1,3 +1,3 @@
-export enum BookingPagePaths {
+export enum BookingModulePagePaths {
   CreateBooking = "/bookings/create/",
 }
