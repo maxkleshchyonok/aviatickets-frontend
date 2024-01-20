@@ -4,6 +4,7 @@ import { Main } from "./app/main/main.page";
 import AuthRoutes from "./app/auth/auth.routes";
 import { Account } from "./app/account/Account";
 import { BookingPage } from "./app/booking";
+import { TicketsModulePagePaths } from "enums/page-paths.enum";
 
 const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
     return sessionStorage.getItem('access_token') ? (
@@ -38,7 +39,7 @@ export const AppRoutes = () => {
             <Route path={"/booking"} element={<PublicRoute element={BookingPage} />} />
             <Route path={"/tickets/*"} element={<PublicRoute element={TicketsRoutes} />} />
 
-            <Route path='*' element={<Navigate to="/flight-search" />} />
+            <Route path='*' element={<Navigate to={TicketsModulePagePaths.SearchTickets} />} />
         </Routes>
     );
 };
