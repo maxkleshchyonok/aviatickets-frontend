@@ -1,9 +1,9 @@
 import { Button, Stack } from "@mui/material";
 import { FC } from "react";
 import Select from "./components/select.comp";
-import { CitiesDto } from "./types/cities.dto";
 import { TicketSearchFilterYup } from "./validation-schemas/ticket-search-filter.schema";
 import { Control, FieldErrors } from "react-hook-form";
+import { CitiesDto } from "app/cities/types/cities.dto";
 
 interface TickerSearchFilterProps {
   cities: CitiesDto;
