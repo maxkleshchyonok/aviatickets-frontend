@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails, Divider, Stack } from '@mui/material';
+import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails, Divider, Stack, Pagination, makeStyles, Theme } from '@mui/material';
 import styled from '@emotion/styled';
 import { BookingDto } from './types/types';
 import FlightIcon from '@mui/icons-material/Flight';
@@ -213,6 +213,11 @@ const arr: BookingDto[] = [
   },
 ]
 
+const bookingObject = {
+  count: 90,
+  bookings: arr
+}
+
 const StyledAccordion = styled(Accordion)`
   width: 85%;
   margin-top: 2%;
@@ -274,17 +279,40 @@ const StyledStack = styled(Stack)`
   align-items: center;
 `;
 
-const StatusTypography = styled(Typography)<{ status: string }>`
+const StatusTypography = styled(Typography) <{ status: string }>`
   color: ${({ status }) =>
     status === 'Booked' ? 'purple' : status === 'Cancelled' ? 'red' : status === 'Payed' ? 'green' : 'inherit'};
+  background: #ebebeb;
+  padding: 1%;
+  border-radius: 20px;  
+`;
+
+const StyledPagination = styled('div')`
+  padding-top: 4%;
 `;
 
 const BookingsPage: React.FC = () => {
   const [bookings, setBookings] = useState(arr);
 
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(6);
+
+  const handleChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
+    setPage(page);
+  };
+
+  const handleChangePerPage = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setPerPage(parseInt(event.target.value, 10));
+    setPage(1);
+  };
+
+  const startIndex = (page - 1) * perPage;
+  const endIndex = page * perPage;
+  const paginatedBookings = bookings.slice(startIndex, endIndex);
+
   return (
     <StyledStack>
-      {bookings.map((booking) => (
+      {paginatedBookings.map((booking) => (
         <React.Fragment key={booking.id}>
           <StyledAccordion>
             <TicketHeader>
@@ -304,7 +332,7 @@ const BookingsPage: React.FC = () => {
                   <span>Round Trip</span>
                 </StyledTypography>
               )}
-              <Typography variant="h5" component="h2" color="#1a237e">
+              <Typography variant="h5" component="h2" color="#575757">
                 {booking.price} BYN
               </Typography>
               <StatusTypography variant="h6" status={booking.status}>
@@ -361,6 +389,13 @@ const BookingsPage: React.FC = () => {
           </StyledAccordion>
         </React.Fragment>
       ))}
+      <StyledPagination>
+        <Pagination
+          count={Math.ceil(bookingObject.count / perPage)}
+          page={page}
+          onChange={handleChangePage}
+        />
+      </StyledPagination>
     </StyledStack>
   );
 };
