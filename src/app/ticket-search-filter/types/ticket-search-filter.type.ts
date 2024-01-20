@@ -1,4 +1,4 @@
-export interface TicketSearchFilterState {
+export interface TicketSearchFilter {
   originCity: string;
   destinationCity: string;
   departureTime: string;
