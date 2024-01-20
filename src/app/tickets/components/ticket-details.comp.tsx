@@ -1,11 +1,14 @@
 import { StackProps, styled } from "@mui/material";
+import Button, { ButtonProps } from "@mui/material/Button";
 import { Stack } from "@mui/system";
-import { FC } from "react";
+import { FC, MouseEventHandler } from "react";
+import { TicketDtoIdentifier } from "types/dto-identifiers.type";
 import { TicketDto } from "../types/ticket.dto";
 import RouteDetails from "./route-details.comp";
 
 interface TicketDetailsProps {
   ticket: TicketDto;
+  onSelectTicketBtnClick?: (ticketId: TicketDtoIdentifier) => MouseEventHandler<HTMLButtonElement> | undefined;
 }
 
 const StyledTicketDetails = styled('div')((props) => ({}));
@@ -16,7 +19,13 @@ const StyledStack = styled(Stack)<StackProps>((props) => ({
   rowGap: '40px'
 }));
 
-const TicketDetails: FC<TicketDetailsProps> = ({ ticket }) => {
+const StyledSelectTicketButton = styled(Button)<ButtonProps>((props) => ({
+  fontSize: '1rem',
+  maxWidth: '100px',
+  width: '100%'
+}));
+
+const TicketDetails: FC<TicketDetailsProps> = ({ ticket, onSelectTicketBtnClick }) => {
   const { toDestinationRoute, toOriginRoute } = ticket;
 
   return (
@@ -24,8 +33,12 @@ const TicketDetails: FC<TicketDetailsProps> = ({ ticket }) => {
       <StyledStack>
         <RouteDetails route={toDestinationRoute} originCity={toDestinationRoute.originCity} destinationCity={toDestinationRoute.destinationCity} />
         {toOriginRoute && <RouteDetails route={toOriginRoute} originCity={toOriginRoute.destinationCity} destinationCity={toOriginRoute.originCity} />}
+        {onSelectTicketBtnClick &&
+          <StyledSelectTicketButton onClick={onSelectTicketBtnClick(ticket.id)} variant="contained">
+            Select
+          </StyledSelectTicketButton>}
       </StyledStack>
-    </StyledTicketDetails>
+    </StyledTicketDetails >
   );
 }
 

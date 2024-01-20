@@ -1,14 +1,16 @@
 import { Accordion, AccordionDetails, AccordionDetailsProps, AccordionSummary, AccordionSummaryProps } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { styled } from "@mui/system";
-import { FC } from "react";
+import { FC, MouseEventHandler } from "react";
 import { TicketDto } from "../types/ticket.dto";
 import TicketDetails from "./ticket-details.comp";
 import { AccordionProps } from "@mui/material/Accordion";
 import TicketCardPreview from "./ticker-card-preview.comp";
+import { TicketDtoIdentifier } from "types/dto-identifiers.type";
 
 interface TicketCardProps {
   ticket: TicketDto;
+  onSelectTicketBtnClick?: (ticketId: TicketDtoIdentifier) => MouseEventHandler<HTMLButtonElement> | undefined;
 }
 
 const StyledAccordion = styled(Accordion)<AccordionProps>((props) => ({
@@ -27,7 +29,7 @@ const StyledAccordionDetails = styled(AccordionDetails)<AccordionDetailsProps>((
   paddingTop: '40px'
 }));
 
-const TicketCard: FC<TicketCardProps> = ({ ticket }) => {
+const TicketCard: FC<TicketCardProps> = ({ ticket, onSelectTicketBtnClick }) => {
   return (
     <StyledAccordion>
       <StyledAccordionSummary
@@ -37,7 +39,7 @@ const TicketCard: FC<TicketCardProps> = ({ ticket }) => {
         <TicketCardPreview ticket={ticket} />
       </StyledAccordionSummary>
       <StyledAccordionDetails>
-        <TicketDetails ticket={ticket} />
+        <TicketDetails ticket={ticket} onSelectTicketBtnClick={onSelectTicketBtnClick} />
       </StyledAccordionDetails>
     </StyledAccordion >
   );

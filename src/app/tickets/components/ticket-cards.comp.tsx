@@ -1,5 +1,8 @@
 import { Stack, StackProps, styled } from "@mui/material";
+import { BookingPagePaths } from "enums/page-paths.enum";
 import { FC } from "react";
+import { useNavigate } from "react-router-dom";
+import { TicketDtoIdentifier } from "types/dto-identifiers.type";
 import { TicketDto } from "../types/ticket.dto";
 import TicketCard from "./ticket-card.comp";
 
@@ -13,11 +16,16 @@ const StyledTicketCards = styled(Stack)<StackProps>((props) => ({
 }));
 
 const TicketCards: FC<TicketCardsProps> = ({ tickets }) => {
+  const navigate = useNavigate();
+
+  const handleSelectTicketBtnClick = (ticketId: TicketDtoIdentifier) => () => {
+    navigate(BookingPagePaths.CreateBooking + ticketId);
+  }
+
   return (
     <StyledTicketCards>
       {tickets.map(ticket => {
-        const ticketId = ticket.id;
-        return <TicketCard ticket={ticket} key={ticketId} />
+        return <TicketCard ticket={ticket} key={ticket.id} onSelectTicketBtnClick={handleSelectTicketBtnClick} />
       })}
     </StyledTicketCards>
   );
