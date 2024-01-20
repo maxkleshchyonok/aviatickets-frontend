@@ -3,7 +3,7 @@ import { CitiesState } from "../types/cities.state";
 import { getAllCities } from "./cities.actions";
 
 const initialState: CitiesState = {
-  cities: [],
+  cities: null,
   isPending: {
     cities: false,
   },
