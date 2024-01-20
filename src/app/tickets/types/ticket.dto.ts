@@ -1,4 +1,3 @@
-import { Cities } from "enums/cities.enum";
 import { UUIDDto } from "types/uuid-dto.type";
 
 export interface TicketDto extends UUIDDto {
@@ -9,8 +8,8 @@ export interface TicketDto extends UUIDDto {
 }
 
 export interface RouteDto {
-  originCity: Cities;
-  destinationCity: Cities;
+  originCity: string;
+  destinationCity: string;
   travelTime: number;
   price: number;
   stops: number;
@@ -20,8 +19,8 @@ export interface RouteDto {
 }
 
 export interface FlightDto extends UUIDDto {
-  originCity: Cities;
-  destinationCity: Cities;
+  originCity: string;
+  destinationCity: string;
   departureTime: number;
   arrivalTime: number;
   flightTime: number;
