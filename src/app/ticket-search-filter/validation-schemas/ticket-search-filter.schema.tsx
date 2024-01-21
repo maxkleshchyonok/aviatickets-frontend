@@ -1,4 +1,5 @@
 import { object, string, ref, number, date, InferType } from "yup";
+import { PassengerAmount } from "../constants/passenger-amount.constants";
 
 export const ticketSearchFilterSchema = object({
   originCity: string().required(),
@@ -6,8 +7,8 @@ export const ticketSearchFilterSchema = object({
     .required()
     .notOneOf([ref("originCity")], "Destination city must be different from originCity"),
   departureTime: date().required(),
-  arrivalTime: date().required(),
-  passengerAmount: number().required().min(1).max(10)
+  arrivalTime: date().optional(),
+  passengerAmount: number().required().min(PassengerAmount.Min).max(PassengerAmount.Max)
 });
 
 
