@@ -9,10 +9,11 @@ import { FC, useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import SearchTicketsErrorPage from "./components/search-tickets-page-error.comp";
 import TicketList from "./components/ticket-list.comp";
-import { ticketSearchFilterSchema } from "app/ticket-search-filter/validation-schemas/ticket-search-filter.schema";
-import { useForm } from "react-hook-form";
+import { ticketSearchFilterSchema, TicketSearchFilterYup } from "app/ticket-search-filter/validation-schemas/ticket-search-filter.schema";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { citiesSelector } from "app/cities/store/cities.selectors";
 import { getAllCities } from "app/cities/store/cities.actions";
+import { getAllTickets } from "./store/tickets.actions";
 
 const PAGE_SIZE = 20;
 
@@ -27,16 +28,34 @@ const SearchTicketsPage: FC = () => {
   const { filter } = useAppSelector(tickerSearchFilterSelector);
   const { cities, isPending, errors } = useAppSelector(citiesSelector);
 
-  const { control, formState: { errors: validationErrors }, trigger } = useForm({
+  const { control, formState: { errors: validationErrors, }, trigger, getValues } = useForm<TicketSearchFilterYup>({
     mode: "all",
     resolver: yupResolver(ticketSearchFilterSchema),
-    defaultValues: { ...filter, arrivalTime: undefined, departureTime: undefined, }
+    defaultValues: { ...filter, arrivalTime: undefined, departureTime: undefined }
   });
 
-  const handleSearchButtonClick = () => {
-    trigger("originCity")
-    trigger("destinationCity")
+  const handleSearchButtonClick: SubmitHandler<FieldValues> = async () => {
+    const areFilterValuesValid = await trigger(["arrivalTime", "departureTime", "destinationCity", "originCity", "passengerAmount"]);
+    if (!areFilterValuesValid) {
+      return;
+    }
+
+    const stateValues = getValues();
+
+    dispatch(getAllTickets({
+      query: {
+        ...stateValues,
+        departureTime: new Date(stateValues.departureTime),
+        pageNumber: currentPage,
+        pageSize: PAGE_SIZE
+      }
+    }))
   }
+
+  useEffect(() => {
+    handleSearchButtonClick(getValues());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, currentPage])
 
   useEffect(() => {
     if (cities === null) {
@@ -67,7 +86,12 @@ const SearchTicketsPage: FC = () => {
   return (
     <Layout>
       <StyledStack>
-        <TickerSearchFilter onSearchButtonClick={handleSearchButtonClick} cities={cities} control={control} validationErrors={validationErrors} />
+        <TickerSearchFilter
+          onSearchButtonClick={handleSearchButtonClick}
+          cities={cities}
+          control={control}
+          validationErrors={validationErrors}
+        />
         <TicketList pageSize={PAGE_SIZE} currentPage={currentPage} setCurrentPage={setCurrentPage} />
       </StyledStack>
     </Layout>
