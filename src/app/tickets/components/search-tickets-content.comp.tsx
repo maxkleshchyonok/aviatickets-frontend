@@ -22,6 +22,7 @@ const StyledStack = styled(Stack)<StackProps>((props) => ({
 
 const SearchTicketsContent = () => {
   const dispatch = useAppDispatch();
+  const [hasSearchButtonBeenClicked, setHasSearchButtonBeenClicked] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const { filter } = useAppSelector(tickerSearchFilterSelector);
@@ -34,6 +35,27 @@ const SearchTicketsContent = () => {
   });
 
   const handleSearchButtonClick: SubmitHandler<FieldValues> = async () => {
+    const areFilterValuesValid = await trigger(["arrivalTime", "departureTime", "destinationCity", "originCity", "passengerAmount"]);
+    if (!areFilterValuesValid) {
+      return;
+    }
+
+    setCurrentPage(1);
+    setHasSearchButtonBeenClicked(true);
+
+    const stateValues = getValues();
+
+    dispatch(getAllTickets({
+      query: {
+        ...stateValues,
+        departureTime: new Date(stateValues.departureTime),
+        pageNumber: currentPage,
+        pageSize: PAGE_SIZE
+      }
+    }))
+  }
+
+  const handleCurrentPageClick = async () => {
     const areFilterValuesValid = await trigger(["arrivalTime", "departureTime", "destinationCity", "originCity", "passengerAmount"]);
     if (!areFilterValuesValid) {
       return;
@@ -52,7 +74,11 @@ const SearchTicketsContent = () => {
   }
 
   useEffect(() => {
-    handleSearchButtonClick(getValues());
+    if (!hasSearchButtonBeenClicked) {
+      return;
+    }
+
+    handleCurrentPageClick();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, currentPage])
 
