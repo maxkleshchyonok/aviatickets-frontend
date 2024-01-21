@@ -11,7 +11,7 @@ export const ticketSearchFilterSchema = object({
     ref('departureTime'),
     "arrivalDate must be later than departureDate"
   ),
-  passengerAmount: number().required().min(PassengerAmount.Min).max(PassengerAmount.Max)
+  passengerAmount: number().typeError('passengerAmount must be a number').required().min(PassengerAmount.Min).max(PassengerAmount.Max)
 });
 
 export type TicketSearchFilterYup = InferType<typeof ticketSearchFilterSchema>;

@@ -5,6 +5,7 @@ import { TicketSearchFilterYup } from "./validation-schemas/ticket-search-filter
 import { Control, FieldErrors, FieldValues, } from "react-hook-form";
 import { CitiesDto } from "app/cities/types/cities.dto";
 import DatePicker from "./components/date-picker.comp";
+import PassengerAmountInput from "./components/passenger-amount-input.comp";
 
 interface TickerSearchFilterProps {
   cities: CitiesDto;
@@ -33,6 +34,7 @@ const TickerSearchFilter: FC<TickerSearchFilterProps> = ({ onSearchButtonClick, 
   const destinationCityHelperText = validationErrors.destinationCity ? `${validationErrors.destinationCity.message}` : '';
   const departureTimeHelperText = validationErrors.departureTime ? `${validationErrors.departureTime.message}` : '';
   const arrivalTimeHelperText = validationErrors.arrivalTime ? `${validationErrors.arrivalTime.message}` : '';
+  const passengerAmountHelperText = validationErrors.passengerAmount ? `${validationErrors.passengerAmount.message}` : '';
 
   return (
     <div className="ticket-search-filter">
@@ -71,6 +73,13 @@ const TickerSearchFilter: FC<TickerSearchFilterProps> = ({ onSearchButtonClick, 
             label="Arrival date"
             error={Boolean(validationErrors.arrivalTime)}
             helperText={arrivalTimeHelperText}
+          />
+          <PassengerAmountInput
+            label="Passenger amount"
+            control={control}
+            name="passengerAmount"
+            error={Boolean(validationErrors.passengerAmount)}
+            helperText={passengerAmountHelperText}
           />
           <StyledSearchButton variant="contained" onClick={onSearchButtonClick}>Search</StyledSearchButton>
         </StyledStack >
