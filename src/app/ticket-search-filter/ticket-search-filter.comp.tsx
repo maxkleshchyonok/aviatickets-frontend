@@ -4,17 +4,20 @@ import Select from "./components/select.comp";
 import { TicketSearchFilterYup } from "./validation-schemas/ticket-search-filter.schema";
 import { Control, FieldErrors } from "react-hook-form";
 import { CitiesDto } from "app/cities/types/cities.dto";
+import DatePicker from "./components/date-picker.comp";
 
 interface TickerSearchFilterProps {
   cities: CitiesDto;
   onSearchButtonClick: () => void;
-  control: Control<TicketSearchFilterYup, any>,
-  validationErrors: FieldErrors<TicketSearchFilterYup>,
+  control: Control<TicketSearchFilterYup, any>;
+  validationErrors: FieldErrors<TicketSearchFilterYup>;
 }
 
 const TickerSearchFilter: FC<TickerSearchFilterProps> = ({ onSearchButtonClick, cities, control, validationErrors, ...props }) => {
   const originCityHelperText = validationErrors.originCity ? `${validationErrors.originCity.message}` : '';
   const destinationCityHelperText = validationErrors.destinationCity ? `${validationErrors.destinationCity.message}` : '';
+  const departureTimeHelperText = validationErrors.departureTime ? `${validationErrors.departureTime.message}` : '';
+  const arrivalTimeHelperText = validationErrors.arrivalTime ? `${validationErrors.arrivalTime.message}` : '';
 
   return (
     <div className="ticket-search-filter">
@@ -39,6 +42,20 @@ const TickerSearchFilter: FC<TickerSearchFilterProps> = ({ onSearchButtonClick, 
             label="Destination city"
             selectValues={cities}
             helperText={destinationCityHelperText}
+          />
+          <DatePicker
+            name="departureTime"
+            control={control}
+            label="Departure date"
+            error={Boolean(validationErrors.departureTime)}
+            helperText={departureTimeHelperText}
+          />
+          <DatePicker
+            name="arrivalTime"
+            control={control}
+            label="Arrival date"
+            error={Boolean(validationErrors.arrivalTime)}
+            helperText={arrivalTimeHelperText}
           />
           <Button variant="contained" sx={{ flexGrow: 1, borderRadius: 0, minWidth: 150, maxWidth: 300, fontSize: '1.1rem' }} onClick={onSearchButtonClick}>Search</Button>
         </Stack >
