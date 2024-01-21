@@ -3,9 +3,8 @@ import FormHelperText from "@mui/material/FormHelperText";
 import { FC } from "react";
 import { Control, Controller } from "react-hook-form";
 import { v4 } from 'uuid';
+import { KeysWithValuesOfType } from "../types/keys-with-values-of-type.type";
 import { TicketSearchFilterYup } from "../validation-schemas/ticket-search-filter.schema";
-
-type KeysWithValuesOfType<T, V> = keyof { [P in keyof T as T[P] extends V ? P : never]: P };
 
 interface SelectProps extends MuiSelectProps<string> {
   id: string;
