@@ -1,4 +1,4 @@
-import { FormControl, InputLabel, MenuItem, Select as MuiSelect, SelectProps as MuiSelectProps } from "@mui/material";
+import { FormControl, FormControlProps, InputLabel, MenuItem, Select as MuiSelect, SelectProps as MuiSelectProps, styled } from "@mui/material";
 import FormHelperText from "@mui/material/FormHelperText";
 import { FC } from "react";
 import { Control, Controller } from "react-hook-form";
@@ -18,11 +18,16 @@ interface SelectProps extends MuiSelectProps<string> {
   helperText: string;
 }
 
+const StyledFormControl = styled(FormControl)<FormControlProps>(() => ({
+  minWidth: 170,
+  flex: '1 1 20%'
+}));
+
 const Select: FC<SelectProps> = ({ selectValues, selectItemIds = [], label, labelId, helperText, ...props }) => {
   const menuItemIds = selectItemIds.length ? selectItemIds : Array.from({ length: selectValues.length }, () => v4());
 
   return (
-    <FormControl sx={{ minWidth: 170, flex: '1 1 20%' }}>
+    <StyledFormControl>
       <InputLabel id={labelId}>{label}</InputLabel>
       <Controller control={props.control} name={props.name} render={({ field }) => (
         <MuiSelect {...props} variant={'outlined'} {...field} >
@@ -32,7 +37,7 @@ const Select: FC<SelectProps> = ({ selectValues, selectItemIds = [], label, labe
         </MuiSelect>
       )} />
       <FormHelperText error={props.error}>{helperText}</FormHelperText>
-    </FormControl >
+    </StyledFormControl >
   )
 }
 

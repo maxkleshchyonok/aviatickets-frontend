@@ -1,4 +1,4 @@
-import { Button, Stack } from "@mui/material";
+import { Button, ButtonProps, Stack, StackProps, styled } from "@mui/material";
 import { BaseSyntheticEvent, FC } from "react";
 import Select from "./components/select.comp";
 import { TicketSearchFilterYup } from "./validation-schemas/ticket-search-filter.schema";
@@ -13,6 +13,21 @@ interface TickerSearchFilterProps {
   validationErrors: FieldErrors<TicketSearchFilterYup>;
 }
 
+const StyledStack = styled(Stack)<StackProps>(() => ({
+  flexDirection: "row",
+  flexWrap: 'wrap',
+  rowGap: 1,
+  justifyContent: 'end'
+}));
+
+const StyledSearchButton = styled(Button)<ButtonProps>(() => ({
+  flexGrow: 1,
+  borderRadius: 0,
+  minWidth: 150,
+  maxWidth: 300,
+  fontSize: '1.1rem'
+}));
+
 const TickerSearchFilter: FC<TickerSearchFilterProps> = ({ onSearchButtonClick, cities, control, validationErrors, ...props }) => {
   const originCityHelperText = validationErrors.originCity ? `${validationErrors.originCity.message}` : '';
   const destinationCityHelperText = validationErrors.destinationCity ? `${validationErrors.destinationCity.message}` : '';
@@ -22,7 +37,7 @@ const TickerSearchFilter: FC<TickerSearchFilterProps> = ({ onSearchButtonClick, 
   return (
     <div className="ticket-search-filter">
       <form className="ticket-search-filter__form form" onSubmit={onSearchButtonClick}>
-        <Stack flexDirection={"row"} sx={{ flexWrap: 'wrap', rowGap: 1, justifyContent: 'end' }}>
+        <StyledStack>
           <Select
             name="originCity"
             error={Boolean(validationErrors.originCity)}
@@ -57,8 +72,8 @@ const TickerSearchFilter: FC<TickerSearchFilterProps> = ({ onSearchButtonClick, 
             error={Boolean(validationErrors.arrivalTime)}
             helperText={arrivalTimeHelperText}
           />
-          <Button variant="contained" sx={{ flexGrow: 1, borderRadius: 0, minWidth: 150, maxWidth: 300, fontSize: '1.1rem' }} onClick={onSearchButtonClick}>Search</Button>
-        </Stack >
+          <StyledSearchButton variant="contained" onClick={onSearchButtonClick}>Search</StyledSearchButton>
+        </StyledStack >
       </form>
     </div >
   );
