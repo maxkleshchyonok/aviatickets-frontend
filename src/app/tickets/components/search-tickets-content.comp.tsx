@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from "hooks/redux.hooks";
 import { useEffect, useState } from "react";
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import { getAllTickets } from "../store/tickets.actions";
+import { formGetAllTicketsQuery } from "../utils/form-get-all-tickets-query.utils";
 import SearchTicketsErrorPage from "./search-tickets-page-error.comp";
 import TicketList from "./ticket-list.comp";
 
@@ -44,15 +45,10 @@ const SearchTicketsContent = () => {
     setHasSearchButtonBeenClicked(true);
 
     const stateValues = getValues();
+    const paginationOptions = { pageSize: PAGE_SIZE, pageNumber: currentPage };
+    const query = formGetAllTicketsQuery(stateValues, paginationOptions);
 
-    dispatch(getAllTickets({
-      query: {
-        ...stateValues,
-        departureTime: new Date(stateValues.departureTime),
-        pageNumber: currentPage,
-        pageSize: PAGE_SIZE
-      }
-    }))
+    dispatch(getAllTickets({ query }))
   }
 
   const handleCurrentPageClick = async () => {
@@ -62,15 +58,10 @@ const SearchTicketsContent = () => {
     }
 
     const stateValues = getValues();
+    const paginationOptions = { pageSize: PAGE_SIZE, pageNumber: currentPage };
+    const query = formGetAllTicketsQuery(stateValues, paginationOptions);
 
-    dispatch(getAllTickets({
-      query: {
-        ...stateValues,
-        departureTime: new Date(stateValues.departureTime),
-        pageNumber: currentPage,
-        pageSize: PAGE_SIZE
-      }
-    }))
+    dispatch(getAllTickets({ query }))
   }
 
   useEffect(() => {
