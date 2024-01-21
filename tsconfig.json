@@ -8,7 +8,6 @@
     ],
     "baseUrl": "src",
     "allowJs": true,
-    "baseUrl": "src/",
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -20,7 +19,6 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "baseUrl": "./src",
     "jsx": "react-jsx"
   },
   "include": [
