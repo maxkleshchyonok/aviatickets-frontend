@@ -1,8 +1,8 @@
-import { Stack, Typography, IconButton } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { FC } from "react";
-import MinusIcon from "@mui/icons-material/RemoveOutlined";
-import PlusIcon from "@mui/icons-material/AddOutlined";
 import { PassengerAmount } from "../constants/passenger-amount.constants";
+import MinusIconButton from "components/minus-icon-button.comp";
+import PlusIconButton from "components/plus-icon-buttom.comp";
 
 interface PassengerAmountCounterProps {
   onReducePassengerAmountClick: () => void;
@@ -17,21 +17,11 @@ const PassengerAmountCounter: FC<PassengerAmountCounterProps> = ({ passengerAmou
         Passenger amount
       </Typography>
       <Stack flexDirection={'row'} columnGap="15px" justifyContent="flex-end" alignItems="center">
-        <IconButton aria-label="minus"
-          disabled={passengerAmount === PassengerAmount.Min}
-          onClick={props.onReducePassengerAmountClick}
-        >
-          <MinusIcon />
-        </IconButton>
+        <MinusIconButton disabled={passengerAmount === PassengerAmount.Min} onClick={props.onReducePassengerAmountClick} />
         <Typography>{passengerAmount}</Typography>
-        <IconButton aria-label="plus"
-          disabled={passengerAmount === PassengerAmount.Max}
-          onClick={props.onIncreasePassengerAmountClick}
-        >
-          <PlusIcon />
-        </IconButton>
+        <PlusIconButton disabled={passengerAmount === PassengerAmount.Max} onClick={props.onIncreasePassengerAmountClick} />
       </Stack>
-    </Stack>
+    </Stack >
   )
 }
 
