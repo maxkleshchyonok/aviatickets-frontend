@@ -3,7 +3,7 @@ import { Box, Divider, Typography } from "@mui/material"
 export const Summary = () => {
   //get passenger amount from the store to get total price
   return (
-    <Box>
+    <Box style={{ gridArea: 'ticketSummary', }}>
       <Typography variant='h6' sx={{
         backgroundColor: 'lightGrey',
         padding: '10px',

@@ -14,6 +14,7 @@ interface TicketCardProps {
 }
 
 const StyledAccordion = styled(Accordion)<AccordionProps>((props) => ({
+  gridArea:'ticketCard',
   border: '1px solid lightgray',
   boxShadow: 'none',
   borderRadius: '16px'

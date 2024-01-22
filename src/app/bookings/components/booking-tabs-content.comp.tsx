@@ -1,3 +1,4 @@
+import { Stack, StackProps, styled } from "@mui/system";
 import { Dispatch, FC, SetStateAction } from "react";
 import BookingTabs from "./booking-tabs.comp";
 import CreateBookingForm from "./create-booking-form.comp";
@@ -7,6 +8,10 @@ interface BookingTabsContentProps {
   activeTabIndex: number;
   setActiveTabIndex: Dispatch<SetStateAction<number>>;
 }
+
+const StyledStack = styled(Stack)<StackProps>(() => ({
+  gridArea: 'bookingTabContent'
+}));
 
 const BookingTabsContent: FC<BookingTabsContentProps> = ({ activeTabIndex, setActiveTabIndex }) => {
 
@@ -24,10 +29,10 @@ const BookingTabsContent: FC<BookingTabsContentProps> = ({ activeTabIndex, setAc
   }
 
   return (
-    <>
+    <StyledStack>
       <BookingTabs activeTabIndex={activeTabIndex} />
       {tabContent}
-    </>
+    </StyledStack>
   )
 }
 
