@@ -1,19 +1,9 @@
-import { Box, Button, ButtonProps, Stack, StackProps, styled } from "@mui/material"
+import { Button, ButtonProps, Stack, StackProps, styled } from "@mui/material"
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useFieldArray, useForm } from "react-hook-form"
 import { PassengerForm } from "./passenger-form.comp"
-import { createBookingSchema } from "../validation-schemas/create-booking.schema"
 import { FC } from "react"
-
-export type Passenger = {
-  firstName: string,
-  lastName: string,
-  passportId: string,
-}
-
-export type FormValues = {
-  passengers: Passenger[]
-}
+import { createBookingFormSchema, CreateBookingFormYup } from "../validation-schemas/create-booking-form.schema"
 
 interface CreateBookingFormProps {
   onBookButtonClick: () => void;
@@ -35,19 +25,11 @@ const StyledBookButton = styled(Button)<ButtonProps>(() => ({
 }));
 
 const CreateBookingForm: FC<CreateBookingFormProps> = ({ onBookButtonClick }) => {
-  const {
-    handleSubmit,
-    control,
-    formState: { errors }
-  } = useForm<FormValues>({
+  const { handleSubmit, control, formState: { errors } } = useForm<CreateBookingFormYup>({
     mode: 'all',
-    resolver: yupResolver(createBookingSchema) as any,
+    resolver: yupResolver(createBookingFormSchema),
     defaultValues: {
-      passengers: Array.from(Array(2), () => ({
-        firstName: '',
-        lastName: '',
-        passportId: '',
-      }))
+      passengers: Array.from(Array(2), () => ({ firstName: '', lastName: '', passportId: '' }))
     }
   })
 
@@ -60,7 +42,7 @@ const CreateBookingForm: FC<CreateBookingFormProps> = ({ onBookButtonClick }) =>
     <StyledForm onSubmit={handleSubmit(onBookButtonClick)}>
       <StyledStack>
         {fields.map((field, index) => (
-          <PassengerForm key={field.id} index={index} control={control} errors={errors} />
+          <PassengerForm key={field.id} index={index} control={control} validationErrors={errors} />
         ))}
         <StyledBookButton variant='contained' type='submit'>Book</StyledBookButton>
       </StyledStack>

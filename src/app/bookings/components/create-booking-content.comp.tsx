@@ -1,4 +1,4 @@
-import { Grid, styled } from "@mui/material";
+import { styled } from "@mui/material";
 import TicketCard from "app/tickets/components/ticket-card.comp";
 import { ticketsSelector } from "app/tickets/store/tickets.selectors";
 import { useAppSelector } from "hooks/redux.hooks";

@@ -1,14 +1,15 @@
 import { Box, Typography, Grid, TextField } from "@mui/material"
 import { FC } from "react"
-import { Control, Controller } from "react-hook-form"
+import { Control, Controller, FieldErrors } from "react-hook-form"
+import { CreateBookingFormYup } from "../validation-schemas/create-booking-form.schema"
 
 interface PassengerFormProps {
   index: number,
-  control: Control<any, any>,
-  errors: any,
+  control: Control<CreateBookingFormYup, any>,
+  validationErrors: FieldErrors<CreateBookingFormYup>;
 }
 
-export const PassengerForm: FC<PassengerFormProps> = ({ index, control, errors }) => {
+export const PassengerForm: FC<PassengerFormProps> = ({ index, control, validationErrors }) => {
   return (
     <Box sx={{ padding: '10px' }}>
       <Typography variant='h6' sx={{ marginBottom: '10px' }}>Passenger {index + 1}</Typography>
@@ -17,14 +18,13 @@ export const PassengerForm: FC<PassengerFormProps> = ({ index, control, errors }
           <Controller
             name={`passengers.${index}.firstName`}
             control={control}
-            defaultValue=''
             render={({ field }) => (
               <TextField
-                helperText={errors?.passengers?.[index]?.firstName ? `${errors?.passengers?.[index]?.firstName?.message}` : ''}
+                helperText={validationErrors.passengers?.[index]?.firstName?.message}
                 label='First Name'
                 fullWidth
                 id={`passengers.${index}.firstName`}
-                error={!!errors?.passengers?.[index]?.firstName}
+                error={Boolean(validationErrors.passengers?.[index]?.firstName)}
                 {...field}
               />
             )}
@@ -34,13 +34,12 @@ export const PassengerForm: FC<PassengerFormProps> = ({ index, control, errors }
           <Controller
             name={`passengers.${index}.lastName`}
             control={control}
-            defaultValue=''
             render={({ field }) => (
               <TextField
-                helperText={errors?.passengers?.[index]?.lastName ? `${errors?.passengers?.[index]?.lastName?.message}` : ''}
+                helperText={validationErrors.passengers?.[index]?.lastName?.message}
                 label='Last Name'
                 fullWidth
-                error={!!errors?.passengers?.[index]?.lastName}
+                error={Boolean(validationErrors.passengers?.[index]?.lastName)}
                 {...field}
               />
             )}
@@ -50,13 +49,12 @@ export const PassengerForm: FC<PassengerFormProps> = ({ index, control, errors }
           <Controller
             name={`passengers.${index}.passportId`}
             control={control}
-            defaultValue=''
             render={({ field }) => (
               <TextField
-                helperText={errors?.passengers?.[index]?.passportId ? `${errors?.passengers?.[index]?.passportId?.message}` : ''}
+                helperText={validationErrors.passengers?.[index]?.passportId?.message}
                 label='Passport Id'
                 fullWidth
-                error={!!errors?.passengers?.[index]?.passportId}
+                error={Boolean(validationErrors?.passengers?.[index]?.passportId)}
                 {...field}
               />
             )}
