@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { TextField, TextFieldProps } from "@mui/material";
+import { TextField, TextFieldProps, styled } from "@mui/material";
 import { useState } from "react";
 import { Control, Controller } from "react-hook-form";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -11,10 +11,14 @@ interface PasswordFieldProps {
   control: Control<any, any>;
 }
 
+const PointerDiv = styled("div")({
+  cursor: "pointer",
+});
+
 const PasswordField: FC<PasswordFieldProps & TextFieldProps> = ({
   label,
   control,
-  ...restProps
+  ...props
 }) => {
   const name = camelize(label);
   const [showPassword, setShowPassword] = useState(false);
@@ -29,7 +33,7 @@ const PasswordField: FC<PasswordFieldProps & TextFieldProps> = ({
       name={camelize(label)}
       render={({ field }) => (
         <TextField
-          {...restProps}
+          {...props}
           margin="normal"
           fullWidth
           label={label}
@@ -38,12 +42,9 @@ const PasswordField: FC<PasswordFieldProps & TextFieldProps> = ({
           id={camelize(label)}
           InputProps={{
             endAdornment: (
-              <div
-                onClick={handleTogglePasswordVisibility}
-                style={{ cursor: "pointer" }}
-              >
+              <PointerDiv onClick={handleTogglePasswordVisibility}>
                 {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
-              </div>
+              </PointerDiv>
             ),
           }}
         />
