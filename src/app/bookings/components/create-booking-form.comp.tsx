@@ -10,20 +10,15 @@ import { createBookingSchema } from "../validation-schemas/create-booking.schema
 
 export type Passenger = {
   firstName: string,
-  secondName: string,
-  dateOfBirth: string,
-  passportNumber: string,
-  country: string,
-  city: string,
-  number: string,
-  email: string
+  lastName: string,
+  passportId: string,
 }
 
 export type FormValues = {
   passenger: Passenger[]
 }
 
-export const BookingForm = () => {
+const CreateBookingForm = () => {
   const activeTab = useSelector(activeTabSelector);
   const dispatch = useDispatch();
   //get passenger amount from the store
@@ -37,13 +32,8 @@ export const BookingForm = () => {
     defaultValues: {
       passenger: Array.from(Array(1), () => ({ //pass the amount of passengers
         firstName: '',
-        secondName: '',
-        dateOfBirth: '',
-        passportNumber: '',
-        country: '',
-        city: '',
-        number: '',
-        email: ''
+        lastName: '',
+        passportId: '',
       }))
     }
   })
@@ -52,8 +42,6 @@ export const BookingForm = () => {
     name: 'passenger',
     control,
   })
-
-  const minDate = dayjs().subtract(100, 'years');
 
   return (
     <Box component='form'
@@ -66,9 +54,11 @@ export const BookingForm = () => {
         padding: '20px 0'
       }}>
       {fields.map((field, index) => (
-        <PassengerForm key={field.id} index={index} control={control} errors={errors} minDate={minDate} />
+        <PassengerForm key={field.id} index={index} control={control} errors={errors} />
       ))}
       <Button variant='contained' type='submit' sx={{ marginTop: '20px' }}>Submit</Button>
     </Box>
   )
-}
+};
+
+export default CreateBookingForm;
