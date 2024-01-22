@@ -4,6 +4,8 @@ import { useFieldArray, useForm } from "react-hook-form"
 import { PassengerForm } from "./passenger-form.comp"
 import { FC } from "react"
 import { createBookingFormSchema, CreateBookingFormYup } from "../validation-schemas/create-booking-form.schema"
+import { useAppSelector } from "hooks/redux.hooks"
+import { tickerSearchFilterSelector } from "app/ticket-search-filter/store/ticket-search-filter.selectors"
 
 interface CreateBookingFormProps {
   onBookButtonClick: () => void;
@@ -25,11 +27,13 @@ const StyledBookButton = styled(Button)<ButtonProps>(() => ({
 }));
 
 const CreateBookingForm: FC<CreateBookingFormProps> = ({ onBookButtonClick }) => {
+  const { filter } = useAppSelector(tickerSearchFilterSelector);
+
   const { handleSubmit, control, formState: { errors } } = useForm<CreateBookingFormYup>({
     mode: 'all',
     resolver: yupResolver(createBookingFormSchema),
     defaultValues: {
-      passengers: Array.from(Array(2), () => ({ firstName: '', lastName: '', passportId: '' }))
+      passengers: Array.from(Array(filter.passengerAmount), () => ({ firstName: '', lastName: '', passportId: '' }))
     }
   })
 
