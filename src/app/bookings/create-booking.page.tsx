@@ -1,11 +1,15 @@
+import Header from "components/header.comp";
 import Layout from "components/layout.comp"
 import CreateBookingContent from "./components/create-booking-content.comp"
 
 const CreateBookingPage = () => {
   return (
-    <Layout>
-      <CreateBookingContent />
-    </Layout >
+    <>
+      <Header />
+      <Layout>
+        <CreateBookingContent />
+      </Layout >
+    </>
   )
 }
 
