@@ -6,13 +6,20 @@ import {
   useState,
   FormEvent,
   FocusEvent,
-  useCallback
+  useCallback,
 } from "react";
-import { Box, Container, Input, Link, Stack, Typography, styled } from "@mui/material";
+import {
+  Box,
+  Container,
+  Input,
+  Stack,
+  Typography,
+  styled,
+} from "@mui/material";
 import * as yup from "yup";
 import { LoadingButton } from "@mui/lab";
 import { verifyResetCode } from "app/auth/store/auth.actions";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "hooks/redux.hooks";
 import { useNavigate } from "react-router-dom";
 import { VerifyCodeDto } from "./types/types";
 
@@ -28,8 +35,8 @@ const VerificationInput = styled(Input)(({ theme }) => ({
   appearance: "textfield",
   "input::-webkit-outer-spin-button, input::-webkit-inner-spin-button": {
     appearance: "none",
-    margin: 0
-  }
+    margin: 0,
+  },
 }));
 
 type InputOrNull = HTMLInputElement | null;
@@ -40,15 +47,11 @@ interface Props {
   length?: number;
 }
 
-const schema = yup
-  .array()
-  .required()
-  .of(yup.number().required());
-
+const schema = yup.array().required().of(yup.number().required());
 
 const VerificationPage: FC<Props> = ({ title, email, length = 6 }) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isValid, setIsValid] = useState(true);
@@ -118,7 +121,7 @@ const VerificationPage: FC<Props> = ({ title, email, length = 6 }) => {
       try {
         setIsValid(true);
         setIsValid(schema.isValidSync(code, { context: { length } }));
-      } catch (e) { }
+      } catch (e) {}
     }
   }, [code]);
 
@@ -127,24 +130,23 @@ const VerificationPage: FC<Props> = ({ title, email, length = 6 }) => {
     setIsSubmitted(true);
     try {
       const data = await schema.validate(code, { context: { length } });
-      const combinedNumber = parseInt(data.join(''));
+      const combinedNumber = parseInt(data.join(""));
       const dataObject: VerifyCodeDto = {
         code: combinedNumber,
+      };
+
+      const response = await dispatch(verifyResetCode(dataObject));
+
+      if (response.meta.requestStatus == "fulfilled" && response.payload) {
+        navigate("/auth/reset");
       }
-
-      const response = await dispatch<any>(verifyResetCode(dataObject));
-
-      if (response.meta.requestStatus == 'fulfilled' && response.payload) {
-        navigate('/auth/reset');
-      }
-
     } catch (e) {
       setIsValid(false);
     }
   }
 
   return (
-    <Container component="main" maxWidth="xs" sx={{ paddingTop: '20vh' }}>
+    <Container component="main" maxWidth="xs" sx={{ paddingTop: "20vh" }}>
       <Box
         component="form"
         ref={formRef}
@@ -187,7 +189,7 @@ const VerificationPage: FC<Props> = ({ title, email, length = 6 }) => {
                 inputtype: "numeric",
                 onChange: handleChange,
                 onKeyDown: handleKeyDown,
-                onFocus: handleFocus
+                onFocus: handleFocus,
               }}
             />
           ))}
