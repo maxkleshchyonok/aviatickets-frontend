@@ -3,7 +3,7 @@ import IconTitle from "../icon-title.comp";
 import PasswordField from "../password-field.comp";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import { StyledCenteredBox } from "../styled-centered-box.comp";
-import { ResetPasswordYup } from "../../validation-schemas/functions";
+import { ResetPasswordFormYup } from "../../validation-schemas/reset-password-form.schema";
 import { Control, FieldErrors } from "react-hook-form";
 import { StyledButton } from "../styled-button.comp";
 import { useNavigate } from "react-router-dom";
@@ -11,8 +11,8 @@ import CustomLink from "../custom-link.comp";
 
 interface ResetPasswordFormProps {
   onSubmit: React.FormEventHandler;
-  control: Control<ResetPasswordYup, any>;
-  validationErrors: FieldErrors<ResetPasswordYup>;
+  control: Control<ResetPasswordFormYup, any>;
+  validationErrors: FieldErrors<ResetPasswordFormYup>;
 }
 
 const ResetPasswordForm: FC<ResetPasswordFormProps> = ({
@@ -21,6 +21,11 @@ const ResetPasswordForm: FC<ResetPasswordFormProps> = ({
   validationErrors,
 }) => {
   const navigate = useNavigate();
+
+  const handleLinkClick = () => {
+    navigate("/auth/signin");
+  };
+
   return (
     <StyledCenteredBox mt={8}>
       <IconTitle title="Reset Password" Icon={AssignmentIcon} />
@@ -42,10 +47,7 @@ const ResetPasswordForm: FC<ResetPasswordFormProps> = ({
         <StyledButton type="submit" fullWidth variant="contained">
           Change password
         </StyledButton>
-        <CustomLink
-          text="Back to login"
-          onClick={() => navigate("/auth/signin/")}
-        />
+        <CustomLink text="Back to login" onClick={handleLinkClick} />
       </form>
     </StyledCenteredBox>
   );

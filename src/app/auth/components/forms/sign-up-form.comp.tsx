@@ -4,17 +4,17 @@ import IconTitle from "../icon-title.comp";
 import PasswordField from "../password-field.comp";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { StyledCenteredBox } from "../styled-centered-box.comp";
-import { SignUpYup } from "../../validation-schemas/functions";
+import { SignUpFormYup } from "../../validation-schemas/sign-up-form.schema";
 import { Control, FieldErrors } from "react-hook-form";
 import { StyledButton } from "../styled-button.comp";
 import { useNavigate } from "react-router-dom";
 import CustomLink from "../custom-link.comp";
-import CustomTextField from "../custom-text-field.comp";
+import TextField from "../text-field.comp";
 
 interface SignUpFormProps {
   onSubmit: React.FormEventHandler;
-  control: Control<SignUpYup, any>;
-  validationErrors: FieldErrors<SignUpYup>;
+  control: Control<SignUpFormYup, any>;
+  validationErrors: FieldErrors<SignUpFormYup>;
 }
 
 const StyledContainer = styled("div")({
@@ -29,23 +29,27 @@ const SignUpForm: FC<SignUpFormProps> = ({
 }) => {
   const navigate = useNavigate();
 
+  const handleLinkClick = () => {
+    navigate("/auth/signin");
+  };
+
   return (
     <StyledCenteredBox mt={8}>
       <IconTitle title="Sign up" Icon={LockOutlinedIcon} />
       <form noValidate onSubmit={onSubmit}>
-        <CustomTextField
+        <TextField
           type="First Name"
           control={control}
           error={!!validationErrors.firstName}
           helperText={validationErrors.firstName?.message}
         />
-        <CustomTextField
+        <TextField
           type="Last Name"
           control={control}
           error={!!validationErrors.lastName}
           helperText={validationErrors.lastName?.message}
         />
-        <CustomTextField
+        <TextField
           type="Email"
           control={control}
           error={!!validationErrors.email}
@@ -70,7 +74,7 @@ const SignUpForm: FC<SignUpFormProps> = ({
         </StyledButton>
         <CustomLink
           text="Already have an account? Sign in"
-          onClick={() => navigate("auth/signin/")}
+          onClick={handleLinkClick}
         />
       </form>
     </StyledCenteredBox>

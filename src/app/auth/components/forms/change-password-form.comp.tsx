@@ -3,14 +3,14 @@ import IconTitle from "../icon-title.comp";
 import PasswordField from "../password-field.comp";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import { StyledCenteredBox } from "../styled-centered-box.comp";
-import { ChangePasswordYup } from "../../validation-schemas/functions";
+import { ChangePasswordFormYup } from "../../validation-schemas/change-password-form.schema";
 import { Control, FieldErrors } from "react-hook-form";
 import { StyledButton } from "../styled-button.comp";
 
 interface ChangePasswordFormProps {
   onSubmit: React.FormEventHandler;
-  control: Control<ChangePasswordYup, any>;
-  validationErrors: FieldErrors<ChangePasswordYup>;
+  control: Control<ChangePasswordFormYup, any>;
+  validationErrors: FieldErrors<ChangePasswordFormYup>;
 }
 
 const ChangePasswordForm: FC<ChangePasswordFormProps> = ({

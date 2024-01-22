@@ -4,17 +4,17 @@ import IconTitle from "../icon-title.comp";
 import PasswordField from "../password-field.comp";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { StyledCenteredBox } from "../styled-centered-box.comp";
-import { SignInYup } from "../../validation-schemas/functions";
+import { SignInFormYup } from "../../validation-schemas/sign-in-form.schema";
 import { Control, FieldErrors } from "react-hook-form";
 import { StyledButton } from "../styled-button.comp";
 import { useNavigate } from "react-router-dom";
 import CustomLink from "../custom-link.comp";
-import CustomTextField from "../custom-text-field.comp";
+import TextField from "../text-field.comp";
 
 interface SignInFormProps {
   onSubmit: React.FormEventHandler;
-  control: Control<SignInYup, any>;
-  validationErrors: FieldErrors<SignInYup>;
+  control: Control<SignInFormYup, any>;
+  validationErrors: FieldErrors<SignInFormYup>;
 }
 
 const StyledContainer = styled("div")({
@@ -29,11 +29,19 @@ const SignInForm: FC<SignInFormProps> = ({
 }) => {
   const navigate = useNavigate();
 
+  const handleSignUpLinkClick = () => {
+    navigate("/auth/signup");
+  };
+
+  const handleForgotLinkClick = () => {
+    navigate("/auth/forgot");
+  };
+
   return (
     <StyledCenteredBox my={8} mx={4}>
       <IconTitle title="Sign in" Icon={LockOutlinedIcon} />
       <form noValidate onSubmit={onSubmit}>
-        <CustomTextField
+        <TextField
           type="Email"
           control={control}
           error={!!validationErrors.email}
@@ -52,12 +60,9 @@ const SignInForm: FC<SignInFormProps> = ({
         <StyledContainer>
           <CustomLink
             text="Don't have an account? Sign Up"
-            onClick={() => navigate("/auth/signup/")}
+            onClick={handleSignUpLinkClick}
           />
-          <CustomLink
-            text="Forgot password?"
-            onClick={() => navigate("/auth/forgot/")}
-          />
+          <CustomLink text="Forgot password?" onClick={handleForgotLinkClick} />
         </StyledContainer>
       </form>
     </StyledCenteredBox>
