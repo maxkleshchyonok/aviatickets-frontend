@@ -1,25 +1,25 @@
 import React, { FC } from "react";
-import { TextField, TextFieldProps } from "@mui/material";
+import { TextField as MUITextField, TextFieldProps } from "@mui/material";
 import { Control, Controller } from "react-hook-form";
 import { camelize } from "app/utils/camelize";
 
-interface CustomTextFieldProps {
+interface CustomTextFieldProps extends TextFieldProps<"standard"> {
   type: string;
   control: Control<any, any>;
 }
 
-const CustomTextField: FC<CustomTextFieldProps & TextFieldProps> = ({
+const TextField: FC<CustomTextFieldProps & TextFieldProps> = ({
   type,
   control,
-  ...restProps
+  ...props
 }) => {
   return (
     <Controller
       control={control}
       name={camelize(type)}
       render={({ field }) => (
-        <TextField
-          {...restProps}
+        <MUITextField
+          {...props}
           {...field}
           name={type}
           margin="normal"
@@ -33,4 +33,4 @@ const CustomTextField: FC<CustomTextFieldProps & TextFieldProps> = ({
   );
 };
 
-export default CustomTextField;
+export default TextField;
