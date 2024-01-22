@@ -15,7 +15,11 @@ interface PassengerAmountCounterProps {
 const StyledFormControl = styled(FormControl)<FormControlProps>(() => ({
   minWidth: 170,
   flex: '1 1 20%',
-  maxWidth: '300px'
+  maxWidth: '300px',
+
+  '@media(max-width: 500px)': {
+    maxWidth: '100%',
+  },
 }));
 
 const PassengerAmountInput: FC<PassengerAmountCounterProps> = ({ label, control, name, helperText, error, ...props }) => {

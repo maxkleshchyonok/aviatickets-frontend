@@ -15,10 +15,10 @@ interface TickerSearchFilterProps {
 }
 
 const StyledStack = styled(Stack)<StackProps>(() => ({
-  flexDirection: "row",
+  flexDirection: 'row',
   flexWrap: 'wrap',
-  rowGap: 1,
-  justifyContent: 'end'
+  rowGap: '20px',
+  justifyContent: 'end',
 }));
 
 const StyledSearchButton = styled(Button)<ButtonProps>(() => ({
@@ -26,7 +26,12 @@ const StyledSearchButton = styled(Button)<ButtonProps>(() => ({
   borderRadius: 0,
   minWidth: 150,
   maxWidth: 300,
-  fontSize: '1.1rem'
+  fontSize: '1.1rem',
+  maxHeight: '56px',
+
+  '@media(max-width: 500px)': {
+    maxWidth: '100%',
+  },
 }));
 
 const TickerSearchFilter: FC<TickerSearchFilterProps> = ({ onSearchButtonClick, cities, control, validationErrors, ...props }) => {
