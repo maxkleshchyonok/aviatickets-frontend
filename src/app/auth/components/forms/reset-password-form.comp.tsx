@@ -37,7 +37,7 @@ const ResetPasswordForm: FC<ResetPasswordFormProps> = ({
       <form noValidate onSubmit={onSubmit}>
         <PasswordField
           control={control}
-          label="password"
+          label="Password"
           autoComplete="current-password"
           error={!!validationErrors.password}
           helperText={validationErrors.password?.message}
