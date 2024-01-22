@@ -22,20 +22,20 @@ const StyledFormControl = styled(FormControl)<FormControlProps>(() => ({
   flex: '1 1 20%'
 }));
 
-const Select: FC<SelectProps> = ({ selectValues, selectItemIds = [], label, labelId, helperText, ...props }) => {
+const Select: FC<SelectProps> = ({ selectValues, selectItemIds = [], label, labelId, helperText, control, name, error, ...props }) => {
   const menuItemIds = selectItemIds.length ? selectItemIds : Array.from({ length: selectValues.length }, () => v4());
 
   return (
     <StyledFormControl>
-      <InputLabel id={labelId}>{label}</InputLabel>
-      <Controller control={props.control} name={props.name} render={({ field }) => (
-        <MuiSelect {...props} variant={'outlined'} {...field} >
+      <InputLabel id={labelId} error={error}>{label}</InputLabel>
+      <Controller control={control} name={name} render={({ field }) => (
+        <MuiSelect {...props} variant={'outlined'} {...field} error={error}>
           {
             selectValues.map((value, ind) => <MenuItem value={value} key={menuItemIds[ind]}>{value}</MenuItem>)
           }
         </MuiSelect>
       )} />
-      <FormHelperText error={props.error}>{helperText}</FormHelperText>
+      <FormHelperText error={error}>{helperText}</FormHelperText>
     </StyledFormControl >
   )
 }
