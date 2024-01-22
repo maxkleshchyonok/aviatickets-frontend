@@ -1,9 +1,9 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { UserState } from '../types/types';
-import { getAllBookings } from './user.actions';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { UserState } from "../types/types";
+import { getAllBookings } from "./user.actions";
 
 const initialState: UserState = {
-  isUser: !!sessionStorage.getItem('access_token'),
+  isUser: !!sessionStorage.getItem("access_token"),
   bookings: [],
   count: null,
   isPending: {
@@ -15,7 +15,7 @@ const initialState: UserState = {
 };
 
 export const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -33,7 +33,7 @@ export const userSlice = createSlice({
       .addCase(getAllBookings.rejected, (state, action) => {
         state.isPending.bookings = false;
         state.errors.isBookings = action.error.message || null;
-      })
+      });
   },
 });
 
