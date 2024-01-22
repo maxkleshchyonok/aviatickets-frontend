@@ -9,7 +9,7 @@ export const BookingTabs: FC<BookingTabsProps> = ({ activeTabIndex }) => {
   return (
     <Tabs value={activeTabIndex} >
       <Tab label='Passenger Info' />
-      <Tab label='Payment Info' />
+      <Tab label='Payment' />
     </Tabs>
   )
 };
