@@ -11,6 +11,7 @@ import { getAllBookings } from 'app/auth/store/auth.actions';
 import CenteredLoader from 'components/centered-loader.comp';
 import BookingListError from './booking-list-error.comp';
 import NoBookings from './no-bookings.comp';
+import BookingDetails from './components/booking-details.comp';
 
 const StyledAccordion = styled(Accordion)`
   width: 85%;
@@ -40,18 +41,6 @@ const TicketHeader = styled(AccordionSummary)`
     align-items: center;
     justify-content: space-evenly;
   }
-`;
-
-const FlightInfoContainer = styled(Grid)`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 10px;
-`;
-
-const FlightTimeContainer = styled(Grid)`
-  display: flex;
-  align-items: center;
 `;
 
 const StyledTypography = styled(Typography)`
@@ -92,7 +81,7 @@ const BookingsPage: React.FC = () => {
   const [bookings, setBookings] = useState<BookingDto[]>([]);
   const [count, setCount] = useState(1);
   const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(6);
+  const [perPage, setPerPage] = useState(5);
 
   useEffect(() => {
     const getBookings = async () => {
@@ -179,39 +168,10 @@ const BookingsPage: React.FC = () => {
             </TicketHeader>
             <AccordionDetails>
               {booking.routeForward.map(flight => (
-                <div key={flight.id}>
-                  <Typography variant="h6" color="textSecondary" gutterBottom>
-                    {flight.originCity} - {flight.destinationCity}
-                  </Typography>
-                  <FlightInfoContainer container>
-                    <Grid item xs={4} lg={2}>
-                      <Typography variant="body2" color="textSecondary">
-                        Departure Time:
-                      </Typography>
-                      <Typography variant="h6" color="primary">
-                        {dayjs(flight.departureTime).format('LLL')}
-                      </Typography>
-                    </Grid>
-                    <StyledDivider color='gray' variant="fullWidth" orientation="vertical" flexItem />
-                    <Grid item lg={1}>
-                      <FlightTimeContainer item xs={2}>
-                        <FlightIcon color="primary" />
-                        <Typography variant="h6" color="primary" style={{ marginLeft: '5px' }}>
-                          {dayjs(flight.arrivalTime - flight.departureTime).format('LT')}
-                        </Typography>
-                      </FlightTimeContainer>
-                    </Grid>
-                    <StyledDivider color='gray' variant="fullWidth" orientation="vertical" flexItem />
-                    <Grid item xs={4} lg={2}>
-                      <Typography variant="body2" color="textSecondary">
-                        Arrival Time:
-                      </Typography>
-                      <Typography variant="h6" color="primary">
-                        {dayjs(flight.arrivalTime).format('LLL')}
-                      </Typography>
-                    </Grid>
-                  </FlightInfoContainer>
-                </div>
+                <BookingDetails key={flight.id} flight={flight} />
+              ))}
+              {booking.routeBackward.map(flight => (
+                <BookingDetails key={flight.id} flight={flight} />
               ))}
               <Stack>
                 <Typography variant="h6" color="textSecondary" gutterBottom>
