@@ -4,6 +4,11 @@ export enum BookingStatuses {
   Cancelled = 'Cancelled',
 }
 
+export type BookingsDto = {
+  count: number;
+  bookings: BookingDto[];
+}
+
 export type BookingDto = {
   id: string;
   status: string;

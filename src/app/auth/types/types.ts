@@ -9,9 +9,11 @@ export interface AuthState extends BaseState {
   isAuth: boolean;
   isPending: {
     isAuth: boolean;
+    isBookings: boolean;
   };
   errors: {
     isAuth: string | null;
+    isBookings: string | null; 
   };
 }
 

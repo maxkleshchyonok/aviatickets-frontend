@@ -8,6 +8,7 @@ import {
     ResetPasswordDto,
     VerifyCodeDto
 } from "app/auth/types/types";
+import { BookingsDto } from "app/bookings/types/types";
 import repository from "repository";
 
 type User = {
@@ -90,5 +91,14 @@ export const logout = createAsyncThunk('logout', async(_, {rejectWithValue}) => 
         await repository.post('/auth/signout');
     } catch (error) {
         return rejectWithValue('Logout failed')
+    }
+});
+
+export const getAllBookings = createAsyncThunk<BookingsDto, void>('getAllBookings', async (_, { rejectWithValue }) => {
+    try {
+        const response = await repository.get('/bookings');
+        return response.data;
+    } catch (error) {
+        return rejectWithValue('Loading bookings failed');
     }
 });

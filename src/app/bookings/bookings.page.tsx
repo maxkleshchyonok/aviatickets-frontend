@@ -1,222 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails, Divider, Stack, Pagination, makeStyles, Theme } from '@mui/material';
 import styled from '@emotion/styled';
 import { BookingDto } from './types/types';
 import FlightIcon from '@mui/icons-material/Flight';
 import ConnectingAirportsIcon from '@mui/icons-material/ConnectingAirports';
 import dayjs from 'dayjs';
-
-const arr: BookingDto[] = [
-  {
-    id: '423i4iewkmrdkl',
-    status: 'Booked',
-    price: 1234,
-    createdAt: 123,
-    updatedAt: 123,
-    user: {
-      id: 'se324j32enmr3124n',
-      firstName: "John",
-      lastName: "Doe",
-      email: 'esi@gmial.com',
-      createdAt: 123,
-      updatedAt: 123,
-      roleId: '12312das',
-      roleType: 'Admin'
-    },
-    routeForward: [
-      {
-        id: "ejjdosa",
-        originCity: 'Mexico',
-        destinationCity: 'Los Angeles',
-        departureTime: 1702449453367,
-        arrivalTime: 1702449453367,
-        status: "Planned",
-        price: 624,
-        seatAmount: 50,
-        availableSeatAmount: 20,
-        createdAt: 123,
-        updatedAt: 123,
-      },
-      {
-        id: "ejjdosar",
-        originCity: 'Los Angeles',
-        destinationCity: 'New York',
-        departureTime: 1702449453367,
-        arrivalTime: 1702449453367,
-        status: "Planned",
-        price: 624,
-        seatAmount: 50,
-        availableSeatAmount: 20,
-        createdAt: 123,
-        updatedAt: 123,
-      },
-    ],
-    routeBackward: [
-      {
-        id: "de3miofmdsak",
-        originCity: 'Los Angeles',
-        destinationCity: 'Mexico',
-        departureTime: 1702449453367,
-        arrivalTime: 1702449453367,
-        status: "Planned",
-        price: 624,
-        seatAmount: 50,
-        availableSeatAmount: 20,
-        createdAt: 123,
-        updatedAt: 123,
-      },
-
-    ],
-    origin: 'Mexico',
-    destination: 'Los Angeles',
-    passengers: [
-      {
-        id: "dsmdi1dmisa",
-        firstName: 'Peter',
-        lastName: 'Griffin',
-        passportId: 's',
-        createdAt: 123,
-        updatedAt: 123,
-      },
-      {
-        id: "dwondjsa",
-        firstName: 'Rick',
-        lastName: 'Sanchez',
-        passportId: 's',
-        createdAt: 123,
-        updatedAt: 123,
-      }
-    ]
-  },
-  {
-    id: 'a4123i4iewkfweqmrdkl',
-    status: 'Cancelled',
-    price: 2224,
-    createdAt: 123,
-    updatedAt: 123,
-    user: {
-      id: 'kfodf901f9ksdf',
-      firstName: "JMister",
-      lastName: "Bean",
-      createdAt: 123,
-      updatedAt: 123,
-      email: 'e1kdsa@tut.by',
-      roleId: '12312das',
-      roleType: 'Admin'
-    },
-    routeForward: [
-      {
-        id: "dio",
-        originCity: 'Mexico',
-        destinationCity: 'Los Angeles',
-        departureTime: 1702449453367,
-        arrivalTime: 1702449453367,
-        status: "Planned",
-        price: 624,
-        seatAmount: 50,
-        availableSeatAmount: 20,
-        createdAt: 123,
-        updatedAt: 123,
-      },
-
-    ],
-    routeBackward: [
-      {
-        id: "dwq",
-        originCity: 'Los Angeles',
-        destinationCity: 'Mexico',
-        departureTime: 1702449453367,
-        arrivalTime: 1702449453367,
-        status: "Planned",
-        price: 624,
-        seatAmount: 50,
-        availableSeatAmount: 20,
-        createdAt: 123,
-        updatedAt: 123,
-      },
-
-    ],
-    origin: 'Mexico',
-    destination: 'Los Angeles',
-    passengers: [
-      {
-        id: "1",
-        firstName: 'Peter',
-        lastName: 'Griffin',
-        passportId: 's',
-        createdAt: 123,
-        updatedAt: 123,
-      },
-      {
-        id: "2",
-        firstName: 'Rick',
-        lastName: 'Sanchez',
-        passportId: 's',
-        createdAt: 123,
-        updatedAt: 123,
-      }
-    ]
-  },
-  {
-    id: '423i4iewgmrdkl',
-    status: 'Payed',
-    price: 1234,
-    createdAt: 123,
-    updatedAt: 123,
-    user: {
-      id: 'se324j32enmr3124n',
-      firstName: "John",
-      lastName: "Doe",
-      email: 'esi@gmial.com',
-      createdAt: 123,
-      updatedAt: 123,
-      roleId: '12312das',
-      roleType: 'Admin'
-    },
-    routeForward: [
-      {
-        id: "ejjdosa",
-        originCity: 'Mexico',
-        destinationCity: 'Los Angeles',
-        departureTime: 1702449453367,
-        arrivalTime: 1702449453367,
-        status: "Planned",
-        price: 624,
-        seatAmount: 50,
-        availableSeatAmount: 20,
-        createdAt: 123,
-        updatedAt: 123,
-      },
-
-    ],
-    routeBackward: [],
-    origin: 'Mexico',
-    destination: 'Los Angeles',
-    passengers: [
-      {
-        id: "dsmdi1dmisa",
-        firstName: 'Peter',
-        lastName: 'Griffin',
-        passportId: 's',
-        createdAt: 123,
-        updatedAt: 123,
-      },
-      {
-        id: "dwondjsa",
-        firstName: 'Rick',
-        lastName: 'Sanchez',
-        passportId: 's',
-        createdAt: 123,
-        updatedAt: 123,
-      }
-    ]
-  },
-]
-
-const bookingObject = {
-  count: 90,
-  bookings: arr
-}
+import { authSelector } from 'app/auth/store/auth.selector';
+import { useAppDispatch, useAppSelector } from 'hooks/redux.hooks';
+import { getAllBookings } from 'app/auth/store/auth.actions';
+import CenteredLoader from 'components/centered-loader.comp';
+import BookingListError from './booking-list-error.comp';
+import NoBookings from './no-bookings.comp';
 
 const StyledAccordion = styled(Accordion)`
   width: 85%;
@@ -239,7 +33,7 @@ const StyledAccordion = styled(Accordion)`
 
 const TicketHeader = styled(AccordionSummary)`
   width: 100%;
-  background-color: #f2f2f2;
+  background-color: #42a5f5;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   .MuiAccordionSummary-content {
@@ -266,12 +60,12 @@ const StyledTypography = styled(Typography)`
   align-items: center;
 `;
 
-const StyledDivider = styled(Divider)`
-  background-color: rgb(171, 190, 245);
+const StyledDivider = styled(Divider) <{ color: string }>`
+  background-color: ${({ color }) => color};
   margin: 2% 2%;
   width: 20%;
   height: 0;
-  border-top: 1px solid rgb(171, 190, 245);
+  border-top: 1px solid ${({ color }) => color};
 `;
 
 const StyledStack = styled(Stack)`
@@ -282,7 +76,7 @@ const StyledStack = styled(Stack)`
 const StatusTypography = styled(Typography) <{ status: string }>`
   color: ${({ status }) =>
     status === 'Booked' ? 'purple' : status === 'Cancelled' ? 'red' : status === 'Payed' ? 'green' : 'inherit'};
-  background: #ebebeb;
+  background: white;
   padding: 1%;
   border-radius: 20px;  
 `;
@@ -292,19 +86,63 @@ const StyledPagination = styled('div')`
 `;
 
 const BookingsPage: React.FC = () => {
-  const [bookings, setBookings] = useState(arr);
+  const { isPending, errors } = useAppSelector(authSelector);
+  const dispatch = useAppDispatch();
 
+  const [bookings, setBookings] = useState<BookingDto[]>([]);
+  const [count, setCount] = useState(1);
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(6);
+
+  useEffect(() => {
+    const getBookings = async () => {
+      try {
+        const response = await dispatch<any>(getAllBookings());
+        setBookings(response.payload.bookings);
+        setCount(response.payload.count);
+      } catch (error) {
+        throw new Error('Error in loading bookings');
+      }
+    }
+    getBookings();
+  }, []);
 
   const handleChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
     setPage(page);
   };
 
-  const handleChangePerPage = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setPerPage(parseInt(event.target.value, 10));
-    setPage(1);
-  };
+  const params = new URLSearchParams(window.location.search);
+  params.set('pageSize', String(perPage));
+  params.set('pageNumber', String(page));
+  window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const perPageParam = params.get('pageSize');
+    const pageNumberParam = params.get('pageNumber');
+    if (perPageParam) {
+      const parsedPerPage = parseInt(perPageParam, 10);
+      if (!isNaN(parsedPerPage) && parsedPerPage !== perPage) {
+        setPerPage(parsedPerPage);
+      }
+    }
+    if (pageNumberParam) {
+      const parsedPageNumber = parseInt(pageNumberParam, 10);
+      if (!isNaN(parsedPageNumber) && parsedPageNumber !== page) {
+        setPage(parsedPageNumber);
+      }
+    }
+  }, [perPage, page]);
+
+  if (isPending.isBookings) {
+    return <CenteredLoader />;
+  }
+  if (errors.isBookings) {
+    return <BookingListError />;
+  }
+  if (count === 0) {
+    return <NoBookings title='No bookings yet. Search for a flight and add new booking!' />;
+  }
 
   const startIndex = (page - 1) * perPage;
   const endIndex = page * perPage;
@@ -319,11 +157,11 @@ const BookingsPage: React.FC = () => {
               <Typography variant="body2" component="h6" color="textSecondary">
                 {dayjs(booking.routeForward[0].departureTime).format('LL')}
               </Typography>
-              <Typography variant="h5" component="h2" color="primary">
+              <Typography variant="h5" component="h2" color="white">
                 {booking.origin}
               </Typography>
-              <StyledDivider variant="fullWidth" />
-              <Typography variant="h5" component="h2" color="primary">
+              <StyledDivider variant="fullWidth" color='white' />
+              <Typography variant="h5" component="h2" color="white">
                 {booking.destination}
               </Typography>
               {booking.routeBackward.length !== 0 && (
@@ -341,7 +179,7 @@ const BookingsPage: React.FC = () => {
             </TicketHeader>
             <AccordionDetails>
               {booking.routeForward.map(flight => (
-                <div>
+                <div key={flight.id}>
                   <Typography variant="h6" color="textSecondary" gutterBottom>
                     {flight.originCity} - {flight.destinationCity}
                   </Typography>
@@ -354,7 +192,7 @@ const BookingsPage: React.FC = () => {
                         {dayjs(flight.departureTime).format('LLL')}
                       </Typography>
                     </Grid>
-                    <StyledDivider variant="fullWidth" orientation="vertical" flexItem />
+                    <StyledDivider color='gray' variant="fullWidth" orientation="vertical" flexItem />
                     <Grid item lg={1}>
                       <FlightTimeContainer item xs={2}>
                         <FlightIcon color="primary" />
@@ -363,7 +201,7 @@ const BookingsPage: React.FC = () => {
                         </Typography>
                       </FlightTimeContainer>
                     </Grid>
-                    <StyledDivider variant="fullWidth" orientation="vertical" flexItem />
+                    <StyledDivider color='gray' variant="fullWidth" orientation="vertical" flexItem />
                     <Grid item xs={4} lg={2}>
                       <Typography variant="body2" color="textSecondary">
                         Arrival Time:
@@ -391,7 +229,7 @@ const BookingsPage: React.FC = () => {
       ))}
       <StyledPagination>
         <Pagination
-          count={Math.ceil(bookingObject.count / perPage)}
+          count={Math.ceil(count / perPage)}
           page={page}
           onChange={handleChangePage}
         />
