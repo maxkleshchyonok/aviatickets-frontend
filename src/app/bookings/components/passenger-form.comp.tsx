@@ -15,16 +15,16 @@ export const PassengerForm: FC<PassengerFormProps> = ({ index, control, errors }
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <Controller
-            name={`passenger.${index}.firstName`}
+            name={`passengers.${index}.firstName`}
             control={control}
             defaultValue=''
             render={({ field }) => (
               <TextField
-                helperText={errors?.passenger?.[index]?.firstName ? `${errors?.passenger?.[index]?.firstName?.message}` : ''}
+                helperText={errors?.passengers?.[index]?.firstName ? `${errors?.passengers?.[index]?.firstName?.message}` : ''}
                 label='First Name'
                 fullWidth
-                id={`passenger.${index}.firstName`}
-                error={!!errors?.passenger?.[index]?.firstName}
+                id={`passengers.${index}.firstName`}
+                error={!!errors?.passengers?.[index]?.firstName}
                 {...field}
               />
             )}
@@ -32,15 +32,15 @@ export const PassengerForm: FC<PassengerFormProps> = ({ index, control, errors }
         </Grid>
         <Grid item xs={12} sm={6}>
           <Controller
-            name={`passenger.${index}.lastName`}
+            name={`passengers.${index}.lastName`}
             control={control}
             defaultValue=''
             render={({ field }) => (
               <TextField
-                helperText={errors?.passenger?.[index]?.lastName ? `${errors?.passenger?.[index]?.lastName?.message}` : ''}
+                helperText={errors?.passengers?.[index]?.lastName ? `${errors?.passengers?.[index]?.lastName?.message}` : ''}
                 label='Last Name'
                 fullWidth
-                error={!!errors?.passenger?.[index]?.lastName}
+                error={!!errors?.passengers?.[index]?.lastName}
                 {...field}
               />
             )}
@@ -48,15 +48,15 @@ export const PassengerForm: FC<PassengerFormProps> = ({ index, control, errors }
         </Grid>
         <Grid item xs={12} sm={6}>
           <Controller
-            name={`passenger.${index}.passportId`}
+            name={`passengers.${index}.passportId`}
             control={control}
             defaultValue=''
             render={({ field }) => (
               <TextField
-                helperText={errors?.passenger?.[index]?.passportId ? `${errors?.passenger?.[index]?.passportId?.message}` : ''}
+                helperText={errors?.passengers?.[index]?.passportId ? `${errors?.passengers?.[index]?.passportId?.message}` : ''}
                 label='Passport Id'
                 fullWidth
-                error={!!errors?.passenger?.[index]?.passportId}
+                error={!!errors?.passengers?.[index]?.passportId}
                 {...field}
               />
             )}

@@ -12,7 +12,7 @@ export type Passenger = {
 }
 
 export type FormValues = {
-  passenger: Passenger[]
+  passengers: Passenger[]
 }
 
 interface CreateBookingFormProps {
@@ -43,7 +43,7 @@ const CreateBookingForm: FC<CreateBookingFormProps> = ({ onBookButtonClick }) =>
     mode: 'all',
     resolver: yupResolver(createBookingSchema) as any,
     defaultValues: {
-      passenger: Array.from(Array(2), () => ({
+      passengers: Array.from(Array(2), () => ({
         firstName: '',
         lastName: '',
         passportId: '',
@@ -52,7 +52,7 @@ const CreateBookingForm: FC<CreateBookingFormProps> = ({ onBookButtonClick }) =>
   })
 
   const { fields } = useFieldArray({
-    name: 'passenger',
+    name: 'passengers',
     control,
   })
 
