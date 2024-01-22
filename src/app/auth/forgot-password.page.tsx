@@ -1,111 +1,74 @@
-import React from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import AssignmentIcon from '@mui/icons-material/Assignment';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useDispatch } from 'react-redux';
-import { forgotPassword } from 'app/auth/store/auth.actions';
-import { ForgotPasswordDto } from 'app/auth/types/types';
-import { useNavigate } from 'react-router-dom';
-import { forgotValidationSchema } from 'app/auth/validation-schemas/functions';
-import { v4 as uuidv4 } from 'uuid';
+import React from "react";
+import CssBaseline from "@mui/material/CssBaseline";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useAppDispatch } from "hooks/redux.hooks";
+import { forgotPassword } from "app/auth/store/auth.actions";
+import { ForgotPasswordDto } from "app/auth/types/types";
+import { useNavigate } from "react-router-dom";
+import { forgotValidationSchema } from "app/auth/validation-schemas/functions";
+import { v4 as uuidv4 } from "uuid";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+import ForgotPasswordForm from "./components/forms/forgot-password-form.comp";
+import { enqueueSnackbar } from "notistack";
+import { ApiError } from "aviatickets-submodule/libs/types/api.error";
 
 const defaultTheme = createTheme();
 
 export function ForgotPasswordPage() {
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-    const handleSubmit = async (values: { email: string}) => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<{ email: string }>({
+    resolver: yupResolver(forgotValidationSchema),
+    mode: "onBlur",
+    defaultValues: { email: "" },
+  });
 
-        let device = localStorage.getItem('device_id');
+  const onSubmit = async (values: { email: string }) => {
+    let device = localStorage.getItem("device_id");
 
-        if (!device) {
-            device = uuidv4();
-            localStorage.setItem('device_id', device);
-        }
-        
+    if (!device) {
+      device = uuidv4();
+      localStorage.setItem("device_id", device);
+    }
 
-        const forgotData: ForgotPasswordDto = {
-            deviceId: device,
-            email: values.email,
-        };
-
-
-        const response = await dispatch<any>(forgotPassword(forgotData));
-        if (response.meta.requestStatus == 'fulfilled') {
-			navigate('/verify');
-		}
+    const forgotData: ForgotPasswordDto = {
+      deviceId: device,
+      email: values.email,
     };
 
-    return (
-        <ThemeProvider theme={defaultTheme}>
-            <Container component="main" maxWidth="xs">
-                <CssBaseline />
-                <Box
-                    sx={{
-                        marginTop: 8,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                    }}
-                >
-                    <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
-                        <AssignmentIcon />
-                    </Avatar>
-                    <Typography component="h1" variant="h5">
-                        Forgot password?
-                    </Typography>
-                    <Formik
-                        initialValues={{
-                            email: '',
-                            password: '',
-                        }}
-                        validationSchema={forgotValidationSchema}
-                        onSubmit={handleSubmit}
-                    >
-                        {(formik) => (
-                            <Form noValidate onSubmit={formik.handleSubmit}>
-                                <Field
-                                    as={TextField}
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    id="email"
-                                    label="Email"
-                                    name="email"
-                                    autoComplete="email"
-                                    autoFocus
-                                    error={formik.touched.email && formik.errors.email}
-                                    helperText={formik.touched.email && formik.errors.email}
-                                />
-                                <Button
-                                    type="submit"
-                                    variant="contained"
-                                    sx={{ mt: 3, mb: 2 }}
-                                >
-                                    Next
-                                </Button>
-                                <Grid container>
-                                    <Grid item>
-                                        <Link href="/auth/signin" variant="body2">
-                                            {"Back to sign in"}
-                                        </Link>
-                                    </Grid>
-                                </Grid>
-                            </Form>
-                        )}
-                    </Formik>
-                </Box>
-            </Container>
-        </ThemeProvider>
-    );
+    const response = await dispatch(forgotPassword(forgotData));
+    if (response.meta.requestStatus == "rejected") {
+      const payload = response.payload as ApiError;
+      enqueueSnackbar(payload.message, { variant: "error" });
+    }
+    if (response.meta.requestStatus == "fulfilled") {
+      setTimeout(() => {
+        navigate("/verify");
+      }, 1500);
+      enqueueSnackbar("Verification email sent", {
+        variant: "success",
+        autoHideDuration: 1500,
+      });
+    }
+  };
+
+  return (
+    <ThemeProvider theme={defaultTheme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <ForgotPasswordForm
+          onSubmit={handleSubmit(onSubmit)}
+          control={control}
+          validationErrors={errors}
+        />
+      </Container>
+    </ThemeProvider>
+  );
 }
