@@ -1,15 +1,18 @@
 import { Tab, Tabs } from "@mui/material";
 import { FC } from "react";
-import { useSelector } from "react-redux";
-import { activeTabSelector } from "../store/booking.selectors";
 
-export const BookingTabs: FC = () => {
-  const activeTab = useSelector(activeTabSelector)
+interface BookingTabsProps {
+  activeTabIndex: number;
+}
 
+export const BookingTabs: FC<BookingTabsProps> = ({ activeTabIndex }) => {
   return (
-    <Tabs value={activeTab} >
+    <Tabs value={activeTabIndex} >
       <Tab label='Passenger Info' />
       <Tab label='Payment Info' />
     </Tabs>
   )
-}
+};
+
+export default BookingTabs;
+
