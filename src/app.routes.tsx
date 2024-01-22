@@ -1,7 +1,6 @@
-import React, { FC, Suspense } from "react";
+import { FC, Suspense } from "react";
 import { Navigate, Routes, Route } from "react-router-dom";
 import AuthRoutes from "./app/auth/auth.routes";
-import { Account } from "./app/account/Account";
 import TicketsRoutes from "app/tickets";
 import { TicketsModulePagePaths } from "enums/page-paths.enum";
 import { CreateBookingPage } from "app/booking/create-booking.page";
@@ -28,7 +27,6 @@ export const AppRoutes = () => {
   return (
     <Routes>
       <Route path={"/auth/*"} element={<PublicRoute element={AuthRoutes} />} />
-      <Route path={"/account"} element={<PrivateRoute element={Account} />} />
       <Route path={"/booking"} element={<PublicRoute element={CreateBookingPage} />} />
       <Route path={"/tickets/*"} element={<PublicRoute element={TicketsRoutes} />} />
       <Route path='*' element={<Navigate to={TicketsModulePagePaths.SearchTickets} />} />
