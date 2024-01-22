@@ -3,7 +3,7 @@ import React, { FC } from "react";
 import IconTitle from "../icon-title.comp";
 import PasswordField from "../password-field.comp";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { StyledCenteredBox } from "../styled-centered-box.comp";
+import { StyledBox } from "../styled-centered-box.comp";
 import { SignUpFormYup } from "../../validation-schemas/sign-up-form.schema";
 import { Control, FieldErrors } from "react-hook-form";
 import { StyledButton } from "../styled-button.comp";
@@ -16,6 +16,10 @@ interface SignUpFormProps {
   control: Control<SignUpFormYup, any>;
   validationErrors: FieldErrors<SignUpFormYup>;
 }
+
+const StyledCenteredBox = styled(StyledBox)(({ theme }) => ({
+  marginTop: theme.spacing(8),
+}));
 
 const StyledContainer = styled("div")({
   display: "flex",
@@ -34,7 +38,7 @@ const SignUpForm: FC<SignUpFormProps> = ({
   };
 
   return (
-    <StyledCenteredBox mt={8}>
+    <StyledCenteredBox>
       <IconTitle title="Sign up" Icon={LockOutlinedIcon} />
       <form noValidate onSubmit={onSubmit}>
         <TextField

@@ -1,19 +1,24 @@
 import React, { FC } from "react";
 import IconTitle from "../icon-title.comp";
 import AssignmentIcon from "@mui/icons-material/Assignment";
-import { StyledCenteredBox } from "../styled-centered-box.comp";
+import { StyledBox } from "../styled-centered-box.comp";
 import { ForgotPasswordFormYup } from "../../validation-schemas/forgot-password-form.schema";
 import { Control, FieldErrors } from "react-hook-form";
 import { StyledButton } from "../styled-button.comp";
 import CustomLink from "../custom-link.comp";
 import TextField from "../text-field.comp";
 import { useNavigate } from "react-router-dom";
+import styled from "@emotion/styled";
 
 interface ForgotPasswordFormProps {
   onSubmit: React.FormEventHandler;
   control: Control<ForgotPasswordFormYup, any>;
   validationErrors: FieldErrors<ForgotPasswordFormYup>;
 }
+
+const StyledCenteredBox = styled(StyledBox)(({ theme }) => ({
+  marginTop: theme.spacing(8),
+}));
 
 const ForgotPasswordForm: FC<ForgotPasswordFormProps> = ({
   onSubmit,
@@ -27,7 +32,7 @@ const ForgotPasswordForm: FC<ForgotPasswordFormProps> = ({
   };
 
   return (
-    <StyledCenteredBox mt={8}>
+    <StyledCenteredBox>
       <IconTitle title="Forgot password?" Icon={AssignmentIcon} />
       <form noValidate onSubmit={onSubmit}>
         <TextField

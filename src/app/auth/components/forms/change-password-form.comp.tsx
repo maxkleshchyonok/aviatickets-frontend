@@ -2,10 +2,11 @@ import React, { FC } from "react";
 import IconTitle from "../icon-title.comp";
 import PasswordField from "../password-field.comp";
 import AssignmentIcon from "@mui/icons-material/Assignment";
-import { StyledCenteredBox } from "../styled-centered-box.comp";
+import { StyledBox } from "../styled-centered-box.comp";
 import { ChangePasswordFormYup } from "../../validation-schemas/change-password-form.schema";
 import { Control, FieldErrors } from "react-hook-form";
 import { StyledButton } from "../styled-button.comp";
+import { styled } from "@mui/material";
 
 interface ChangePasswordFormProps {
   onSubmit: React.FormEventHandler;
@@ -13,13 +14,17 @@ interface ChangePasswordFormProps {
   validationErrors: FieldErrors<ChangePasswordFormYup>;
 }
 
+const StyledCenteredBox = styled(StyledBox)(({ theme }) => ({
+  marginTop: theme.spacing(8),
+}));
+
 const ChangePasswordForm: FC<ChangePasswordFormProps> = ({
   onSubmit,
   control,
   validationErrors,
 }) => {
   return (
-    <StyledCenteredBox mt={8}>
+    <StyledCenteredBox>
       <IconTitle title="Change Password" Icon={AssignmentIcon} />
       <form noValidate onSubmit={onSubmit}>
         <PasswordField
