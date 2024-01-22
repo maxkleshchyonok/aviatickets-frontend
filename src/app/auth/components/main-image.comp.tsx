@@ -1,17 +1,25 @@
 import { Grid, Typography, styled } from "@mui/material";
-import React from "react";
+import React, { FC } from "react";
+import loginBg from "assets/loginBg.jpg";
 
-type Props = {};
-
-const StyledTypography = styled(Typography)({
+const StyledTypography = styled(Typography)(({ theme }) => ({
   paddingTop: "15vh",
   color: "white",
   fontWeight: "200",
-});
+  fontSize: "5rem",
+
+  [theme.breakpoints.down("md")]: {
+    color: "transparent",
+  },
+  [theme.breakpoints.only("xs")]: {
+    paddingTop: "2vh",
+    color: "white",
+    fontSize: "2.5rem",
+  },
+}));
 
 const StyledGrid = styled(Grid)(({ theme }) => ({
-  backgroundImage:
-    "url(https://wallpapersmug.com/download/3840x2400/72108f/aircraft-sky-trail.jpg)",
+  backgroundImage: `url(${loginBg})`,
   backgroundRepeat: "no-repeat",
   backgroundColor:
     theme.palette.mode === "light"
@@ -20,13 +28,14 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
   backgroundSize: "cover",
   backgroundPosition: "center",
   display: "flex",
+  width: "100%",
   justifyContent: "center",
 }));
 
-const MainImage = (props: Props) => {
+const MainImage: FC = () => {
   return (
     <StyledGrid item xs={false} sm={4} md={7}>
-      <StyledTypography variant="h1">Avia Finder</StyledTypography>
+      <StyledTypography>AviaTickets</StyledTypography>
     </StyledGrid>
   );
 };
