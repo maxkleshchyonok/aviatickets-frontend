@@ -1,7 +1,7 @@
 import * as yup from "yup";
-import { Passenger } from "./components/booking-form.comp";
+import { Passenger } from "../components/booking-form.comp";
 
-export const schemaCreateBooking = yup
+export const createBookingSchema = yup
   .object()
   .shape({
     passenger: yup.array().of(

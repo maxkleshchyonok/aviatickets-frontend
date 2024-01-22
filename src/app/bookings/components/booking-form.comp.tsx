@@ -2,11 +2,11 @@ import { Box, Button, Tab, Tabs } from "@mui/material"
 import dayjs from "dayjs"
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useFieldArray, useForm } from "react-hook-form"
-import { schemaCreateBooking } from "../booking-schemas.yup"
 import { PassengerForm } from "./passenger-form.comp"
 import { useDispatch, useSelector } from "react-redux"
 import { setActiveTab } from "../store/booking.slice"
 import { activeTabSelector } from "../store/booking.selectors"
+import { createBookingSchema } from "../validation-schemas/create-booking.schema"
 
 export type Passenger = {
   firstName: string,
@@ -33,7 +33,7 @@ export const BookingForm = () => {
     formState: { errors }
   } = useForm<FormValues>({
     mode: 'all',
-    resolver: yupResolver(schemaCreateBooking) as any,
+    resolver: yupResolver(createBookingSchema) as any,
     defaultValues: {
       passenger: Array.from(Array(1), () => ({ //pass the amount of passengers
         firstName: '',

@@ -7,7 +7,7 @@ import { useSelector } from "react-redux"
 import { activeTabSelector } from "./store/booking.selectors"
 import { BookingPaymentForm } from "./components/booking-payment.form"
 
-export const CreateBookingPage = () => {
+const CreateBookingPage = () => {
   const activeTab = useSelector(activeTabSelector);
 
   return (
@@ -29,3 +29,5 @@ export const CreateBookingPage = () => {
     </Container>
   )
 }
+
+export default CreateBookingPage;

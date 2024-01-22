@@ -12,15 +12,15 @@ const Suspended: FC<PropsWithChildren & { element: any }> = ({ element: Element 
   );
 };
 
-const SearchTicketsPage = React.lazy(() => import("app/tickets/search-tickets.page"));
+const CreateBookingPage = React.lazy(() => import("app/bookings/create-booking.page"));
 
-const TicketsRoutes: FC = () => {
+const BookingsRoutes: FC = () => {
   return (
     <Routes>
-      <Route path={"/search"} element={<Suspended element={SearchTicketsPage} />} />
+      <Route path={"/create/:ticketId"} element={<Suspended element={CreateBookingPage} />} />
       <Route path='*' element={<Navigate to={TicketsModulePagePaths.SearchTickets} />} />
     </Routes>
   );
 };
 
-export default TicketsRoutes;
+export default BookingsRoutes;
