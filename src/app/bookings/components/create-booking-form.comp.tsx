@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material"
+import { Box, Button, ButtonProps, Stack, StackProps, styled } from "@mui/material"
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useFieldArray, useForm } from "react-hook-form"
 import { PassengerForm } from "./passenger-form.comp"
@@ -19,8 +19,22 @@ interface CreateBookingFormProps {
   onBookButtonClick: () => void;
 }
 
+const StyledForm = styled('form')(() => ({
+  borderRadius: '20px',
+  padding: '20px 0'
+}));
+
+const StyledStack = styled(Stack)<StackProps>(() => ({
+  flexDirection: 'column',
+  rowGap: '20px',
+}));
+
+const StyledBookButton = styled(Button)<ButtonProps>(() => ({
+  fontSize: '1rem',
+  alignSelf: 'center'
+}));
+
 const CreateBookingForm: FC<CreateBookingFormProps> = ({ onBookButtonClick }) => {
-  //get passenger amount from the store
   const {
     handleSubmit,
     control,
@@ -29,7 +43,7 @@ const CreateBookingForm: FC<CreateBookingFormProps> = ({ onBookButtonClick }) =>
     mode: 'all',
     resolver: yupResolver(createBookingSchema) as any,
     defaultValues: {
-      passenger: Array.from(Array(1), () => ({ //pass the amount of passengers
+      passenger: Array.from(Array(2), () => ({
         firstName: '',
         lastName: '',
         passportId: '',
@@ -43,17 +57,14 @@ const CreateBookingForm: FC<CreateBookingFormProps> = ({ onBookButtonClick }) =>
   })
 
   return (
-    <Box component='form'
-      onSubmit={handleSubmit(onBookButtonClick)}
-      sx={{
-        borderRadius: '20px',
-        padding: '20px 0'
-      }}>
-      {fields.map((field, index) => (
-        <PassengerForm key={field.id} index={index} control={control} errors={errors} />
-      ))}
-      <Button variant='contained' type='submit' sx={{ marginTop: '20px' }}>Submit</Button>
-    </Box>
+    <StyledForm onSubmit={handleSubmit(onBookButtonClick)}>
+      <StyledStack>
+        {fields.map((field, index) => (
+          <PassengerForm key={field.id} index={index} control={control} errors={errors} />
+        ))}
+        <StyledBookButton variant='contained' type='submit'>Book</StyledBookButton>
+      </StyledStack>
+    </StyledForm >
   )
 };
 
