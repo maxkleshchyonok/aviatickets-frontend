@@ -7,11 +7,12 @@ import ConnectingAirportsIcon from '@mui/icons-material/ConnectingAirports';
 import dayjs from 'dayjs';
 import { authSelector } from 'app/auth/store/auth.selector';
 import { useAppDispatch, useAppSelector } from 'hooks/redux.hooks';
-import { getAllBookings } from 'app/auth/store/auth.actions';
 import CenteredLoader from 'components/centered-loader.comp';
 import BookingListError from './booking-list-error.comp';
 import NoBookings from './no-bookings.comp';
 import BookingDetails from './components/booking-details.comp';
+import { userSelector } from 'app/user/store/user.selector';
+import { getAllBookings } from 'app/user/store/user.actions';
 
 const StyledAccordion = styled(Accordion)`
   width: 85%;
@@ -75,20 +76,17 @@ const StyledPagination = styled('div')`
 `;
 
 const BookingsPage: React.FC = () => {
-  const { isPending, errors } = useAppSelector(authSelector);
+  const { bookings, count, isPending, errors } = useAppSelector(userSelector);
   const dispatch = useAppDispatch();
 
-  const [bookings, setBookings] = useState<BookingDto[]>([]);
-  const [count, setCount] = useState(1);
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(5);
 
   useEffect(() => {
     const getBookings = async () => {
       try {
-        const response = await dispatch<any>(getAllBookings());
-        setBookings(response.payload.bookings);
-        setCount(response.payload.count);
+        const response = await dispatch(getAllBookings());
+        console.log(response);
       } catch (error) {
         throw new Error('Error in loading bookings');
       }
@@ -123,7 +121,7 @@ const BookingsPage: React.FC = () => {
     }
   }, [perPage, page]);
 
-  if (isPending.isBookings) {
+  if (isPending.bookings) {
     return <CenteredLoader />;
   }
   if (errors.isBookings) {
@@ -189,7 +187,7 @@ const BookingsPage: React.FC = () => {
       ))}
       <StyledPagination>
         <Pagination
-          count={Math.ceil(count / perPage)}
+          count={Math.ceil(count! / perPage)}
           page={page}
           onChange={handleChangePage}
         />

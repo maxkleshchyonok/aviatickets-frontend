@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AuthState, User } from 'app/auth/types/types';
-import { forgotPassword, getAllBookings, loginUser, registerUser, resetPassword, verifyResetCode } from 'app/auth/store/auth.actions';
+import { forgotPassword, loginUser, registerUser, resetPassword, verifyResetCode } from 'app/auth/store/auth.actions';
 
 const initialState: AuthState = {
   isAuth: !!sessionStorage.getItem('access_token'),
@@ -79,17 +79,6 @@ export const authSlice = createSlice({
       .addCase(verifyResetCode.rejected, (state, action) => {
         state.isPending.isAuth = false;
         state.errors.isAuth = action.error.message || null;
-      })
-      .addCase(getAllBookings.pending, (state, action) => {
-        state.isPending.isBookings = true;
-        state.errors.isBookings = null;
-      })
-      .addCase(getAllBookings.fulfilled, (state, action) => {
-        state.isPending.isBookings = false;
-      })
-      .addCase(getAllBookings.rejected, (state, action) => {
-        state.isPending.isBookings = false;
-        state.errors.isBookings = action.error.message || null;
       });
   },
 });
