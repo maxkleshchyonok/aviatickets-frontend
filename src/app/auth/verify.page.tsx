@@ -18,10 +18,10 @@ import {
 } from "@mui/material";
 import * as yup from "yup";
 import { LoadingButton } from "@mui/lab";
-import { verifyResetCode } from "app/auth/store/auth.actions";
+import { verifyCode } from "app/auth/store/auth.actions";
 import { useAppDispatch } from "hooks/redux.hooks";
 import { useNavigate } from "react-router-dom";
-import { VerifyCodeDto } from "./types/types";
+import { VerifyCodeForm } from "./types/forms/verify-code.form";
 
 const VerificationInput = styled(Input)(({ theme }) => ({
   width: "2rem",
@@ -131,11 +131,11 @@ const VerificationPage: FC<Props> = ({ title, email, length = 6 }) => {
     try {
       const data = await schema.validate(code, { context: { length } });
       const combinedNumber = parseInt(data.join(""));
-      const dataObject: VerifyCodeDto = {
+      const dataObject: VerifyCodeForm = {
         code: combinedNumber,
       };
 
-      const response = await dispatch(verifyResetCode(dataObject));
+      const response = await dispatch(verifyCode(dataObject));
 
       if (response.meta.requestStatus == "fulfilled" && response.payload) {
         navigate("/auth/reset");

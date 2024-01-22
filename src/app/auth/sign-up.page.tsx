@@ -2,21 +2,18 @@ import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useAppDispatch } from "hooks/redux.hooks";
 import { useNavigate } from "react-router-dom";
-import { RegisterUserDto } from "app/auth/types/types";
-import { registerUser } from "app/auth/store/auth.actions";
-import { signUpValidationSchema } from "app/auth/validation-schemas/functions";
-import { v4 as uuidv4 } from "uuid";
+import { SignUpForm as SignUp } from "app/auth/types/forms/sign-up.form";
+import { signUp } from "app/auth/store/auth.actions";
+import { signUpFormSchema } from "app/auth/validation-schemas/sign-up-form.schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import SignUpForm from "./components/forms/sign-up-form.comp";
 import { ApiError } from "aviatickets-submodule/libs/types/api.error";
 import { enqueueSnackbar } from "notistack";
+import { getDeviceId } from "./utils/get-device-id";
 
-const defaultTheme = createTheme();
-
-export function SignUpPage() {
+const SignUpPage = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -24,8 +21,8 @@ export function SignUpPage() {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<RegisterUserDto>({
-    resolver: yupResolver(signUpValidationSchema),
+  } = useForm<SignUp>({
+    resolver: yupResolver(signUpFormSchema),
     mode: "onBlur",
     defaultValues: {
       firstName: "",
@@ -36,48 +33,32 @@ export function SignUpPage() {
     },
   });
 
-  const onSubmit: SubmitHandler<RegisterUserDto> = async (values) => {
-    let device = localStorage.getItem("device_id");
+  const onSubmit: SubmitHandler<SignUp> = async (data) => {
+    let device = getDeviceId();
 
-    if (!device) {
-      device = uuidv4();
-      localStorage.setItem("device_id", device);
-    }
-
-    const registerData: RegisterUserDto = {
-      firstName: values.firstName,
-      lastName: values.lastName,
-      email: values.email,
-      password: values.password,
-      confirmPassword: values.confirmPassword,
-    };
-
-    const response = await dispatch(registerUser(registerData));
+    const response = await dispatch(signUp(data));
     if (response.meta.requestStatus == "rejected") {
       const payload = response.payload as ApiError;
       enqueueSnackbar(payload.message, { variant: "error" });
     }
     if (response.meta.requestStatus == "fulfilled") {
-      setTimeout(() => {
-        navigate("/flight-search");
-      }, 1500);
+      navigate("/flight-search");
       enqueueSnackbar("Succesfully signed up", {
         variant: "success",
-        autoHideDuration: 1500,
       });
     }
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <SignUpForm
-          control={control}
-          onSubmit={handleSubmit(onSubmit)}
-          validationErrors={errors}
-        />
-      </Container>
-    </ThemeProvider>
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <SignUpForm
+        control={control}
+        onSubmit={handleSubmit(onSubmit)}
+        validationErrors={errors}
+      />
+    </Container>
   );
-}
+};
+
+export default SignUpPage;

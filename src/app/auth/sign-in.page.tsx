@@ -2,28 +2,26 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
-import { createTheme, styled, ThemeProvider } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import { useAppDispatch } from "hooks/redux.hooks";
-import { loginUser } from "app/auth/store/auth.actions";
-import { CreateUserDto } from "app/auth/types/types";
+import { signIn } from "app/auth/store/auth.actions";
+import { SignInForm as SignIn } from "app/auth/types/forms/sign-in.form";
 import { useNavigate } from "react-router-dom";
-import { signInValidationSchema } from "app/auth/validation-schemas/functions";
+import { signInFormSchema } from "app/auth/validation-schemas/sign-in-form.schema";
 import Paper from "@mui/material/Paper";
-import { v4 as uuidv4 } from "uuid";
 import { yupResolver } from "@hookform/resolvers/yup";
 import MainImage from "./components/main-image.comp";
 import SignInForm from "./components/forms/sign-in-form.comp";
 import { ApiError } from "aviatickets-submodule/libs/types/api.error";
 import { enqueueSnackbar } from "notistack";
-
-const defaultTheme = createTheme();
+import { getDeviceId } from "./utils/get-device-id";
 
 const StyledContainer = styled("div")({
   display: "flex",
   justifyContent: "space-between",
 });
 
-export function SignInPage() {
+const SignInPage = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -31,54 +29,41 @@ export function SignInPage() {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<CreateUserDto>({
-    resolver: yupResolver(signInValidationSchema),
+  } = useForm<SignIn>({
+    resolver: yupResolver(signInFormSchema),
     mode: "all",
     defaultValues: { email: "", password: "" },
   });
 
-  const onSubmit = async (data: CreateUserDto) => {
-    let device = localStorage.getItem("device_id");
+  const onSubmit = async (data: SignIn) => {
+    let device = getDeviceId();
 
-    if (!device) {
-      device = uuidv4();
-      localStorage.setItem("device_id", device);
-    }
-
-    const loginData: CreateUserDto = {
-      email: data.email,
-      password: data.password,
-    };
-
-    const response = await dispatch(loginUser(loginData));
+    const response = await dispatch(signIn(data));
     if (response.meta.requestStatus == "rejected") {
       const payload = response.payload as ApiError;
       enqueueSnackbar(payload.message, { variant: "error" });
     }
     if (response.meta.requestStatus == "fulfilled") {
-      setTimeout(() => {
-        navigate("/flight-search");
-      }, 1500);
+      navigate("/flight-search");
       enqueueSnackbar("Succesfully signed in", {
         variant: "success",
-        autoHideDuration: 1500,
       });
     }
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Grid container component="main" sx={{ height: "100vh" }}>
-        <CssBaseline />
-        <MainImage />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-          <SignInForm
-            control={control}
-            onSubmit={handleSubmit(onSubmit)}
-            validationErrors={errors}
-          />
-        </Grid>
+    <Grid container component="main" sx={{ height: "100vh" }}>
+      <CssBaseline />
+      <MainImage />
+      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <SignInForm
+          control={control}
+          onSubmit={handleSubmit(onSubmit)}
+          validationErrors={errors}
+        />
       </Grid>
-    </ThemeProvider>
+    </Grid>
   );
-}
+};
+
+export default SignInPage;
