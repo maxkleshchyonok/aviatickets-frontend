@@ -2,15 +2,15 @@ import { TicketSearchFilterYup } from "app/ticket-search-filter/validation-schem
 import { PaginationQueryDto } from "types/pagination-query.dto";
 import { GetAllTicketsQueryDto } from "../types/get-all-tickets-query.dto";
 
-export const formGetAllTicketsQuery = (
-  filterValues: TicketSearchFilterYup,
+export const formGetAllTicketsQueryFrom = (
+  localFilterState: TicketSearchFilterYup,
   paginationOptions: PaginationQueryDto
 ): GetAllTicketsQueryDto => {
-  const { arrivalTime, departureTime } = filterValues;
+  const { arrivalTime, departureTime } = localFilterState;
   const transformedArrivalTime = { arrivalTime: arrivalTime ? new Date(arrivalTime) : undefined };
 
   return {
-    ...filterValues,
+    ...localFilterState,
     departureTime: new Date(departureTime),
     ...transformedArrivalTime,
     ...paginationOptions,

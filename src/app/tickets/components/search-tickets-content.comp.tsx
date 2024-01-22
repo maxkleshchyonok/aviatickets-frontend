@@ -3,6 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Stack, StackProps } from "@mui/material";
 import { getAllCities } from "app/cities/store/cities.actions";
 import { citiesSelector } from "app/cities/store/cities.selectors";
+import { updateFilter } from "app/ticket-search-filter/store/ticket-search-filter.actions";
 import { tickerSearchFilterSelector } from "app/ticket-search-filter/store/ticket-search-filter.selectors";
 import TickerSearchFilter from "app/ticket-search-filter/ticket-search-filter.comp";
 import { TicketSearchFilterYup, ticketSearchFilterSchema } from "app/ticket-search-filter/validation-schemas/ticket-search-filter.schema";
@@ -11,7 +12,9 @@ import { useAppDispatch, useAppSelector } from "hooks/redux.hooks";
 import { useEffect, useState } from "react";
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import { getAllTickets } from "../store/tickets.actions";
-import { formGetAllTicketsQuery } from "../utils/form-get-all-tickets-query.utils";
+import { formLocalFilterDefaultValueFrom } from "../utils/form-local-filter-default-value-from.utils";
+import { formGetAllTicketsQueryFrom } from "../utils/form-get-all-tickets-query-from.utils";
+import { formTicketStoreFilterFrom } from "../utils/form-ticket-store-filter-from.utils";
 import SearchTicketsErrorPage from "./search-tickets-page-error.comp";
 import TicketList from "./ticket-list.comp";
 
@@ -32,7 +35,7 @@ const SearchTicketsContent = () => {
   const { control, formState: { errors: validationErrors, }, trigger, getValues } = useForm<TicketSearchFilterYup>({
     mode: "all",
     resolver: yupResolver(ticketSearchFilterSchema),
-    defaultValues: { ...filter, arrivalTime: undefined, departureTime: undefined }
+    defaultValues: formLocalFilterDefaultValueFrom(filter)
   });
 
   const handleSearchButtonClick: SubmitHandler<FieldValues> = async () => {
@@ -44,11 +47,14 @@ const SearchTicketsContent = () => {
     setCurrentPage(1);
     setHasSearchButtonBeenClicked(true);
 
-    const stateValues = getValues();
+    const localFilterState = getValues();
     const paginationOptions = { pageSize: PAGE_SIZE, pageNumber: currentPage };
-    const query = formGetAllTicketsQuery(stateValues, paginationOptions);
+    const query = formGetAllTicketsQueryFrom(localFilterState, paginationOptions);
 
-    dispatch(getAllTickets({ query }))
+    dispatch(getAllTickets({ query }));
+
+    const filter = formTicketStoreFilterFrom(localFilterState);
+    dispatch(updateFilter(filter));
   }
 
   const handleCurrentPageClick = async () => {
@@ -57,11 +63,14 @@ const SearchTicketsContent = () => {
       return;
     }
 
-    const stateValues = getValues();
+    const localFilterState = getValues();
     const paginationOptions = { pageSize: PAGE_SIZE, pageNumber: currentPage };
-    const query = formGetAllTicketsQuery(stateValues, paginationOptions);
+    const query = formGetAllTicketsQueryFrom(localFilterState, paginationOptions);
 
     dispatch(getAllTickets({ query }))
+
+    const filter = formTicketStoreFilterFrom(localFilterState);
+    dispatch(updateFilter(filter));
   }
 
   useEffect(() => {
