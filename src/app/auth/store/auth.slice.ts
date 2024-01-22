@@ -1,44 +1,51 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AuthState, User } from 'app/auth/types/types';
-import { forgotPassword, loginUser, registerUser, resetPassword, verifyResetCode } from 'app/auth/store/auth.actions';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { AuthState } from "../types/auth.state";
+import {
+  forgotPassword,
+  signIn,
+  signUp,
+  resetPassword,
+  verifyCode,
+} from "app/auth/store/auth.actions";
+import { LocalStorageKeys } from "enums/local-storage-keys.enum";
 
 const initialState: AuthState = {
-  isAuth: !!sessionStorage.getItem('access_token'),
+  isAuth: !!sessionStorage.getItem(LocalStorageKeys.AccessToken),
   isPending: {
     isAuth: false,
   },
   errors: {
-    isAuth: null
+    isAuth: null,
   },
 };
 
 export const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(loginUser.pending, (state, action) => {
+      .addCase(signIn.pending, (state, action) => {
         state.isPending.isAuth = true;
         state.errors.isAuth = null;
       })
-      .addCase(loginUser.fulfilled, (state, action) => {
+      .addCase(signIn.fulfilled, (state, action) => {
         state.isAuth = true;
         state.isPending.isAuth = false;
       })
-      .addCase(loginUser.rejected, (state, action) => {
+      .addCase(signIn.rejected, (state, action) => {
         state.isPending.isAuth = false;
         state.errors.isAuth = action.error.message || null;
       })
-      .addCase(registerUser.pending, (state, action) => {
+      .addCase(signUp.pending, (state, action) => {
         state.isPending.isAuth = true;
         state.errors.isAuth = null;
       })
-      .addCase(registerUser.fulfilled, (state, action) => {
+      .addCase(signUp.fulfilled, (state, action) => {
         state.isAuth = true;
         state.isPending.isAuth = false;
       })
-      .addCase(registerUser.rejected, (state, action) => {
+      .addCase(signUp.rejected, (state, action) => {
         state.isPending.isAuth = false;
         state.errors.isAuth = action.error.message || null;
       })
@@ -66,15 +73,15 @@ export const authSlice = createSlice({
         state.isPending.isAuth = false;
         state.errors.isAuth = action.error.message || null;
       })
-      .addCase(verifyResetCode.pending, (state, action) => {
+      .addCase(verifyCode.pending, (state, action) => {
         state.isPending.isAuth = true;
         state.errors.isAuth = null;
       })
-      .addCase(verifyResetCode.fulfilled, (state, action) => {
+      .addCase(verifyCode.fulfilled, (state, action) => {
         state.isAuth = true;
         state.isPending.isAuth = false;
       })
-      .addCase(verifyResetCode.rejected, (state, action) => {
+      .addCase(verifyCode.rejected, (state, action) => {
         state.isPending.isAuth = false;
         state.errors.isAuth = action.error.message || null;
       });
