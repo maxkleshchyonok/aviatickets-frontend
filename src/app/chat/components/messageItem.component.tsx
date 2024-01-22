@@ -1,28 +1,27 @@
-import React from 'react'
-import { Message } from '../../../../aviatickets-submodule/libs/socket/types/message'
+import { Message } from 'aviatickets-submodule/libs/socket/types/message'
 import { Paper } from '@mui/material'
 
 type Props = {
-    message: Message
+  message: Message
 }
 
-export default function MessageItem({message}: Props) {
+export default function MessageItem({ message }: Props) {
   return (
     <Paper sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        backgroundColor: 'lightblue',
-        justifyContent: 'space-between'
-        }}>
-        <span>
+      display: 'flex',
+      flexDirection: 'column',
+      backgroundColor: 'lightblue',
+      justifyContent: 'space-between'
+    }}>
+      <span>
         {message.sender}
-        </span>
-        <span>
+      </span>
+      <span>
         {message.text}
-        </span>
-        <span>
+      </span>
+      <span>
         {new Date(message.time).toUTCString()}
-        </span>  
+      </span>
     </Paper>
   )
 }

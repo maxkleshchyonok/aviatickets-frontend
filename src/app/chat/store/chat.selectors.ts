@@ -1,3 +1,3 @@
-import { RootState } from "../../../store";
+import { RootState } from "store";
 
-export const chatSelector = (state: RootState) => state.chat
+export const chatSelector = (state: RootState) => state.chat;
