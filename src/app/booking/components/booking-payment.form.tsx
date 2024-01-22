@@ -3,14 +3,14 @@ import { FC } from "react"
 
 export const BookingPaymentForm: FC = () => {
   return (
-    <Box 
+    <Box
       component='form'
       onSubmit={(e) => {
         e.preventDefault()
         console.log('Order Paid')
       }}
     >
-      <Container 
+      <Container
         maxWidth='md'
         sx={{
           display: 'flex',
@@ -19,12 +19,12 @@ export const BookingPaymentForm: FC = () => {
           minHeight: '50vh'
         }}
       >
-        <Button 
-          variant='contained' 
-          type='submit' 
-          >
-            Make a purchase
-          </Button>
+        <Button
+          variant='contained'
+          type='submit'
+        >
+          Make a purchase
+        </Button>
       </Container>
     </Box>
   )

@@ -6,7 +6,7 @@ import { activeTabSelector } from "../store/booking.selectors";
 export const BookingTabs: FC = () => {
   const activeTab = useSelector(activeTabSelector)
 
-  return(
+  return (
     <Tabs value={activeTab} >
       <Tab label='Passenger Info' />
       <Tab label='Payment Info' />

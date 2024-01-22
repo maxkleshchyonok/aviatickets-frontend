@@ -4,7 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import { CreateBookingPage } from "./create-booking.page";
 
 export const BookingRoutes: FC = () => {
-  return(
+  return (
     <Routes>
       <Route path='/create-booking' element={<PublicRoute element={CreateBookingPage} />} />
     </Routes>

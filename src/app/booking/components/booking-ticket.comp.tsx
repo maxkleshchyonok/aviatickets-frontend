@@ -4,9 +4,9 @@ import { TicketData } from "app/ticket/components/ticket-data.comp"
 export const BookingTicket = () => {
   return (
     <Box
-    sx={{
-      borderRadius: '20px'
-    }}>
+      sx={{
+        borderRadius: '20px'
+      }}>
       <Typography variant='h6' sx={{
         backgroundColor: 'lightGrey',
         padding: '10px',

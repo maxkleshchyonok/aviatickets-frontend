@@ -1,17 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  activeTab: 0
-}
+  activeTab: 0,
+};
 
 export const bookingSlice = createSlice({
-  name: 'booking',
+  name: "booking",
   initialState,
   reducers: {
     setActiveTab: (state, action) => {
-      state.activeTab = action.payload
-    }
-  }
-})
+      state.activeTab = action.payload;
+    },
+  },
+});
 
-export const { setActiveTab } = bookingSlice.actions
+export const { setActiveTab } = bookingSlice.actions;
