@@ -7,9 +7,11 @@ import React from "react";
 
 
 const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
-  return sessionStorage.getItem('access_token') ? (
-    <Suspense fallback={<CenteredLoader />}>
-      <Element />
+  return sessionStorage.getItem("access_token") ? (
+    <Suspense fallback={<div />}>
+      <div>
+        <Element />
+      </div>
     </Suspense>
   ) : (
     <Navigate to={"/auth/login"} />
@@ -22,16 +24,19 @@ const PublicRoute: FC<{ element: any }> = ({ element: Element }) => (
   </Suspense>
 );
 
-const BookingsRoutes = React.lazy(() => import('app/bookings'));
-const TicketsRoutes = React.lazy(() => import('app/tickets'));
+const TicketsRoutes = React.lazy(() => import("app/tickets"));
+const BookingRoutes = React.lazy(() => import("app/bookings"));
 
 export const AppRoutes = () => {
   return (
-    <Routes>
+
+      {/* PUBLIC */}
       <Route path={"/auth/*"} element={<PublicRoute element={AuthRoutes} />} />
       <Route path={"/bookings/*"} element={<PublicRoute element={BookingsRoutes} />} />
       <Route path={"/tickets/*"} element={<PublicRoute element={TicketsRoutes} />} />
+
       <Route path='*' element={<Navigate to={TicketsModulePagePaths.SearchTickets} />} />
+
     </Routes>
   );
 };

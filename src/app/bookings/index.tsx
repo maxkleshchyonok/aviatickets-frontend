@@ -4,7 +4,9 @@ import React from "react";
 import { FC, PropsWithChildren, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
-const Suspended: FC<PropsWithChildren & { element: any }> = ({ element: Element }) => {
+const Suspended: FC<PropsWithChildren & { element: any }> = ({
+  element: Element,
+}) => {
   return (
     <Suspense fallback={<CircularProgress />}>
       <Element />
@@ -12,13 +14,21 @@ const Suspended: FC<PropsWithChildren & { element: any }> = ({ element: Element 
   );
 };
 
-const CreateBookingPage = React.lazy(() => import("app/bookings/create-booking.page"));
+const CreateBookingPage = React.lazy(
+  () => import("app/bookings/create-booking.page")
+);
 
 const BookingsRoutes: FC = () => {
   return (
     <Routes>
-      <Route path={"/create/:ticketId"} element={<Suspended element={CreateBookingPage} />} />
-      <Route path='*' element={<Navigate to={TicketsModulePagePaths.SearchTickets} />} />
+      <Route
+        path={"/create/:ticketId"}
+        element={<Suspended element={CreateBookingPage} />}
+      />
+      <Route
+        path="*"
+        element={<Navigate to={TicketsModulePagePaths.SearchTickets} />}
+      />
     </Routes>
   );
 };

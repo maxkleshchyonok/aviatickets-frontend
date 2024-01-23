@@ -6,9 +6,11 @@ const initialState: AuthState = {
   isAuth: !!sessionStorage.getItem('access_token'),
   isPending: {
     isAuth: false,
+    isBookings: false,
   },
   errors: {
-    isAuth: null
+    isAuth: null,
+    isBookings: null,
   },
 };
 
