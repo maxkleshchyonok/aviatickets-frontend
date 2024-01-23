@@ -12,7 +12,10 @@ interface TicketPriceDetailsProps {
 
 const StyledContainer = styled(Stack)<StackProps>(() => ({
   gridArea: 'ticketSummary',
-  flexDirection: 'column'
+  flexDirection: 'column',
+  border: '1px solid lightgray',
+  borderRadius: '20px',
+  height: 'min-content',
 }));
 
 const StyledTitle = styled(Typography)<TypographyProps>(() => ({
@@ -22,25 +25,26 @@ const StyledTitle = styled(Typography)<TypographyProps>(() => ({
 }));
 
 const TicketPriceDetails: FC<TicketPriceDetailsProps> = ({ ticket }) => {
-  const { filter } = useAppSelector(tickerSearchFilterSelector);
+  const { filter: { passengerAmount } } = useAppSelector(tickerSearchFilterSelector);
+  const { price } = ticket;
+  const totalPrice = `${passengerAmount * price}$`
 
   return (
-    <StyledContainer >
+    <StyledContainer>
       <StyledTitle variant='h6'>Ticket price details</StyledTitle>
       <Divider />
       <TicketPriceDetailsList>
-        <TicketPriceDetailsListItem label="Ticket price" value={`${ticket.price}$`} />
-        <TicketPriceDetailsListItem label="Passenger amount" value={filter.passengerAmount} />
+        <TicketPriceDetailsListItem label="Ticket price" value={`${price}$`} />
+        <TicketPriceDetailsListItem label="Passenger amount" value={passengerAmount} />
       </TicketPriceDetailsList>
+      <Divider />
       <Box sx={{
-        backgroundColor: 'lightGrey',
         padding: '10px',
         display: 'flex',
         justifyContent: 'space-between',
-        borderRadius: '0 0 20px 20px'
       }}>
         <Typography variant='h6'>Total</Typography>
-        <Typography variant='h6'>Total Price</Typography>
+        <Typography variant='h6'>{totalPrice}</Typography>
       </Box>
     </StyledContainer>
   )
