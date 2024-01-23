@@ -40,15 +40,6 @@ interface Props {
   length?: number;
 }
 
-// const schema = yup
-//   .array()
-//   .required()
-//   .of(yup.number().required())
-//   .when("$length", (len, schema) => {
-//     if (len) return schema.length(len);
-//     else return schema;
-//   });
-
 const schema = yup
   .array()
   .required()
@@ -140,12 +131,12 @@ const VerificationPage: FC<Props> = ({ title, email, length = 6 }) => {
       const dataObject: VerifyCodeDto = {
         code: combinedNumber,
       }
-      await dispatch<any>(verifyResetCode(dataObject)).then((response: any) => {
-        if (response.payload) {
-          return navigate('/auth/reset/');
-        }
-        return alert('Wrong code!')
-      });
+
+      const response = await dispatch<any>(verifyResetCode(dataObject));
+
+      if (response.meta.requestStatus == 'fulfilled' && response.payload) {
+        navigate('/auth/reset');
+      }
 
     } catch (e) {
       setIsValid(false);
