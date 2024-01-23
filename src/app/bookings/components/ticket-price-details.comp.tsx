@@ -5,6 +5,7 @@ import { useAppSelector } from "hooks/redux.hooks";
 import { FC } from "react";
 import TicketPriceDetailsListItem from "./ticket-price-details-list-item.comp";
 import TicketPriceDetailsList from "./ticket-price-details-list.comp";
+import TicketTotalPrice from "./ticket-total-price.comp";
 
 interface TicketPriceDetailsProps {
   ticket: TicketDto;
@@ -38,14 +39,7 @@ const TicketPriceDetails: FC<TicketPriceDetailsProps> = ({ ticket }) => {
         <TicketPriceDetailsListItem label="Passenger amount" value={passengerAmount} />
       </TicketPriceDetailsList>
       <Divider />
-      <Box sx={{
-        padding: '10px',
-        display: 'flex',
-        justifyContent: 'space-between',
-      }}>
-        <Typography variant='h6'>Total</Typography>
-        <Typography variant='h6'>{totalPrice}</Typography>
-      </Box>
+      <TicketTotalPrice totalPrice={totalPrice} />
     </StyledContainer>
   )
 };
