@@ -42,7 +42,7 @@ const TicketCardPreview: FC<TicketCardPreviewProps> = ({ ticket }) => {
         }
       </StyledTicketJourneys>
       <StyledDivider />
-      <StyledTicketPrice>${ticket.price}</StyledTicketPrice>
+      <StyledTicketPrice>{ticket.price}$</StyledTicketPrice>
     </StyledTicketCard >
   );
 }

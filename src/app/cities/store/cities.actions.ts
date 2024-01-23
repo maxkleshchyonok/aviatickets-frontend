@@ -1,15 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { CitiesDto } from "app/cities/types/cities.dto";
-import axios from "axios";
-
-const REACT_APP_API_URL = "http://localhost:3001/api/v1";
-export const axiosClient = axios.create({
-  baseURL: REACT_APP_API_URL,
-});
+import repository from "repository";
 
 export const getAllCities = createAsyncThunk<CitiesDto>("GET/all-cities", async (_, { rejectWithValue }) => {
   try {
-    const response = await axiosClient.get(`${REACT_APP_API_URL}/cities`);
+    const response = await repository.get("cities");
     return response.data;
   } catch (error: any) {
     return rejectWithValue(error);
