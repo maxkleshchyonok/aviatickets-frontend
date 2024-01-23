@@ -1,5 +1,8 @@
-import { TextField as MuiTextField, TextFieldProps as MuiTextFieldProps } from "@mui/material";
-import { KeysWithValuesOfType } from "app/ticket-search-filter/types/keys-with-values-of-type.type";
+import {
+  TextField as MuiTextField,
+  TextFieldProps as MuiTextFieldProps,
+} from "@mui/material";
+import { KeysWithValuesOfType } from "aviatickets-submodule/ticket-search-filter/types/keys-with-values-of-type.type";
 import { FC } from "react";
 import { Control, Controller } from "react-hook-form";
 
@@ -11,13 +14,22 @@ interface TextFieldProps {
   error: boolean;
 }
 
-const TextField: FC<TextFieldProps> = ({ label, control, name, error, ...props }) => {
+const TextField: FC<TextFieldProps> = ({
+  label,
+  control,
+  name,
+  error,
+  ...props
+}) => {
   return (
-    <Controller control={control} name={name} render={({ field }) => (
-      <MuiTextField {...props} {...field} error={error} label={label} />
-    )}
+    <Controller
+      control={control}
+      name={name}
+      render={({ field }) => (
+        <MuiTextField {...props} {...field} error={error} label={label} />
+      )}
     />
-  )
-}
+  );
+};
 
 export default TextField;
