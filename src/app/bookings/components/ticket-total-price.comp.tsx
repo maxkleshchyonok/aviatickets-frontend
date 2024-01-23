@@ -16,7 +16,7 @@ const StyledContainer = styled(Stack)<StackProps>(() => ({
 const TicketTotalPrice: FC<TicketTotalPriceProps> = ({ totalPrice }) => {
   return (
     <StyledContainer>
-      <Typography variant='h6'>Total</Typography>
+      <Typography variant='h6'>Total price</Typography>
       <Typography variant='h6'>{totalPrice}</Typography>
     </StyledContainer>
   )
