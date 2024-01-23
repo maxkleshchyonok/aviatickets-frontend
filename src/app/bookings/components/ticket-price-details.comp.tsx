@@ -1,11 +1,17 @@
 import { Box, Divider, Typography } from "@mui/material"
+import { TicketDto } from "app/tickets/types/ticket.dto";
+import { FC } from "react";
 
-export const Summary = () => {
+interface TicketPriceDetailsProps {
+  ticket: TicketDto;
+}
+
+const TicketPriceDetails: FC<TicketPriceDetailsProps> = ({ ticket }) => {
   //get passengers amount from the store to get total price
   return (
     <Box style={{ gridArea: 'ticketSummary', }}>
       <Typography variant='h6' sx={{
-        backgroundColor: 'lightGrey',
+        // backgroundColor: 'lightGrey',
         padding: '10px',
         borderRadius: '20px 20px 0 0'
       }}>Fare Summary</Typography>
@@ -30,4 +36,6 @@ export const Summary = () => {
       </Box>
     </Box>
   )
-}
+};
+
+export default TicketPriceDetails;

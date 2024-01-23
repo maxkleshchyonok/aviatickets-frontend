@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import BookingTabsContent from "./booking-tabs-content.comp";
 import NoTicket from "./no-ticket.comp";
-import { Summary } from "./summary.comp";
+import TicketPriceDetails from "./ticket-price-details.comp";
 
 const StyledContainer = styled('div')(() => ({
   display: 'grid',
@@ -38,7 +38,7 @@ const CreateBookingContent = () => {
   return (
     <StyledContainer>
       <TicketCard ticket={ticket} />
-      <Summary />
+      <TicketPriceDetails ticket={ticket} />
       <BookingTabsContent activeTabIndex={activeTabIndex} setActiveTabIndex={setActiveTabIndex} ticket={ticket} />
     </StyledContainer >
   )
