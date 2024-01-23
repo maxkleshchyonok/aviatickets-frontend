@@ -3,6 +3,7 @@ import { FC } from "react"
 
 interface PaymentTabContentProps {
   onPayButtonClick: () => void;
+  isPayButtonDisabled: boolean;
 }
 
 const StyledStack = styled(Stack)<StackProps>(() => ({
@@ -17,11 +18,11 @@ const StyledPayButton = styled(Button)<ButtonProps>(() => ({
   fontSize: '1rem'
 }));
 
-const PaymentTabContent: FC<PaymentTabContentProps> = ({ onPayButtonClick }) => {
+const PaymentTabContent: FC<PaymentTabContentProps> = ({ onPayButtonClick, isPayButtonDisabled }) => {
   return (
     <div className="payment-tab-content">
       <StyledStack>
-        <StyledPayButton variant='contained' onClick={onPayButtonClick}>Pay</StyledPayButton>
+        <StyledPayButton variant='contained' onClick={onPayButtonClick} disabled={isPayButtonDisabled}>Pay</StyledPayButton>
       </StyledStack>
     </div >
   )

@@ -26,6 +26,7 @@ const StyledStack = styled(Stack)<StackProps>(() => ({
 const BookingTabsContent: FC<BookingTabsContentProps> = ({ activeTabIndex, setActiveTabIndex, ticket }) => {
   const { enqueueSnackbar } = useSnackbar();
   const [isBookButtonDisabled, setIsBookButtonDisabled] = useState<boolean>(false);
+  const [isPayButtonDisabled, setIsPayButtonDisabled] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const { booking } = useAppSelector(BookingsSelector);
   const navigate = useNavigate();
@@ -67,19 +68,24 @@ const BookingTabsContent: FC<BookingTabsContentProps> = ({ activeTabIndex, setAc
   const handlePayButtonClick = async () => {
     if (!booking) {
       enqueueSnackbar("There is no booking to pay for", { variant: 'error' });
+      return;
     }
-    console.log('booking');
 
-    const params = { bookingId: booking!.id };
+    const params = { bookingId: booking.id };
     const body = { status: BookingStatuses.Payed };
+
+    setIsPayButtonDisabled(true);
+
     const response = await dispatch(updateBooking({ params, body }));
 
     if (response.meta.requestStatus === "rejected") {
       enqueueSnackbar("Booking payment failed", { variant: 'error' });
+      setIsPayButtonDisabled(false);
       return;
     }
 
     enqueueSnackbar("Booking successfully payed", { variant: "success" });
+    setIsPayButtonDisabled(false);
 
     navigate(TicketsModulePagePaths.SearchTickets);
 
@@ -89,7 +95,7 @@ const BookingTabsContent: FC<BookingTabsContentProps> = ({ activeTabIndex, setAc
 
   switch (activeTabIndex) {
     case 0: tabContent = <CreateBookingForm onBookButtonClick={handleBookButtonClick} isBookButtonDisabled={isBookButtonDisabled} />; break;
-    case 1: tabContent = <PaymentTabContent onPayButtonClick={handlePayButtonClick} />; break;
+    case 1: tabContent = <PaymentTabContent onPayButtonClick={handlePayButtonClick} isPayButtonDisabled={isPayButtonDisabled} />; break;
   }
 
   return (
