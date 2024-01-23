@@ -8,11 +8,7 @@ interface CustomTextFieldProps extends TextFieldProps<"standard"> {
   control: Control<any, any>;
 }
 
-const TextField: FC<CustomTextFieldProps & TextFieldProps> = ({
-  type,
-  control,
-  ...props
-}) => {
+const TextField: FC<CustomTextFieldProps> = ({ type, control, ...props }) => {
   return (
     <Controller
       control={control}

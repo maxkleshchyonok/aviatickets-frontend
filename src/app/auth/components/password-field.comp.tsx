@@ -6,7 +6,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { camelize } from "app/utils/camelize";
 
-interface PasswordFieldProps {
+interface PasswordFieldProps extends TextFieldProps<"standard"> {
   label: string;
   control: Control<any, any>;
 }
@@ -15,7 +15,7 @@ const PointerDiv = styled("div")({
   cursor: "pointer",
 });
 
-const PasswordField: FC<PasswordFieldProps & TextFieldProps> = ({
+const PasswordField: FC<PasswordFieldProps> = ({
   label,
   control,
   ...props
