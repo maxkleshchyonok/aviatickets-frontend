@@ -9,6 +9,7 @@ import { tickerSearchFilterSelector } from "app/ticket-search-filter/store/ticke
 
 interface CreateBookingFormProps {
   onBookButtonClick: (state: CreateBookingFormYup) => void;
+  isBookButtonDisabled: boolean;
 }
 
 const StyledForm = styled('form')(() => ({
@@ -26,7 +27,7 @@ const StyledBookButton = styled(Button)<ButtonProps>(() => ({
   alignSelf: 'center'
 }));
 
-const CreateBookingForm: FC<CreateBookingFormProps> = ({ onBookButtonClick }) => {
+const CreateBookingForm: FC<CreateBookingFormProps> = ({ onBookButtonClick, isBookButtonDisabled }) => {
   const { filter } = useAppSelector(tickerSearchFilterSelector);
 
   const { handleSubmit, control, formState: { errors } } = useForm<CreateBookingFormYup>({
@@ -48,7 +49,7 @@ const CreateBookingForm: FC<CreateBookingFormProps> = ({ onBookButtonClick }) =>
         {fields.map((field, index) => (
           <PassengerForm key={field.id} index={index} control={control} validationErrors={errors} />
         ))}
-        <StyledBookButton variant='contained' type='submit'>Book</StyledBookButton>
+        <StyledBookButton variant='contained' type='submit' disabled={isBookButtonDisabled}>Book</StyledBookButton>
       </StyledStack>
     </StyledForm >
   )

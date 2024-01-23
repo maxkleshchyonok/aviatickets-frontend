@@ -2,7 +2,7 @@ import { Stack, StackProps, styled } from "@mui/system";
 import { TicketDto } from "app/tickets/types/ticket.dto";
 import { useAppDispatch } from "hooks/redux.hooks";
 import { useSnackbar } from "notistack";
-import { Dispatch, FC, SetStateAction } from "react";
+import { Dispatch, FC, SetStateAction, useState } from "react";
 import { createBooking } from "../store/bookings.actions";
 import { CreateBookingFormYup } from "../validation-schemas/create-booking-form.schema";
 import BookingTabs from "./booking-tabs.comp";
@@ -21,6 +21,7 @@ const StyledStack = styled(Stack)<StackProps>(() => ({
 
 const BookingTabsContent: FC<BookingTabsContentProps> = ({ activeTabIndex, setActiveTabIndex, ticket }) => {
   const { enqueueSnackbar } = useSnackbar();
+  const [isBookButtonDisabled, setIsBookButtonDisabled] = useState<boolean>(false);
   const dispatch = useAppDispatch();
 
   const handleBookButtonClick = async (state: CreateBookingFormYup) => {
@@ -43,12 +44,16 @@ const BookingTabsContent: FC<BookingTabsContentProps> = ({ activeTabIndex, setAc
       toOriginRoute: toOriginFlightIds
     }
 
+    setIsBookButtonDisabled(true);
+
     const response = await dispatch(createBooking({ body }));
     if (response.meta.requestStatus === "rejected") {
       enqueueSnackbar("Booking creation failed", { variant: 'error' });
+      setIsBookButtonDisabled(false);
       return;
     }
 
+    setIsBookButtonDisabled(false);
     enqueueSnackbar("Booking successfully  created", { variant: "success" });
     setActiveTabIndex(1);
   }
@@ -58,7 +63,7 @@ const BookingTabsContent: FC<BookingTabsContentProps> = ({ activeTabIndex, setAc
   let tabContent = null;
 
   switch (activeTabIndex) {
-    case 0: tabContent = <CreateBookingForm onBookButtonClick={handleBookButtonClick} />; break;
+    case 0: tabContent = <CreateBookingForm onBookButtonClick={handleBookButtonClick} isBookButtonDisabled={isBookButtonDisabled} />; break;
     case 1: tabContent = <PaymentTabContent onPuyButtonClick={handlePayButtonClick} />; break;
   }
 
