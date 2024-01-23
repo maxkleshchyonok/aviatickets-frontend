@@ -22,7 +22,7 @@ export const updateBooking = createAsyncThunk<BookingDto, { params: BookingParam
   async ({ params, body }, { rejectWithValue }) => {
     try {
       const { bookingId } = params;
-      const response = await repository.post<BookingDto>(`bookings/${bookingId}`, body);
+      const response = await repository.put<BookingDto>(`bookings/${bookingId}`, body);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error);
