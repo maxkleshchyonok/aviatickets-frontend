@@ -20,7 +20,6 @@ const PasswordField: FC<PasswordFieldProps> = ({
   control,
   ...props
 }) => {
-  const name = camelize(label);
   const [showPassword, setShowPassword] = useState(false);
 
   const handleTogglePasswordVisibility = () => {

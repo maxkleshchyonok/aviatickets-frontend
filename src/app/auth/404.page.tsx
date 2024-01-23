@@ -27,9 +27,7 @@ const NotFoundPage = () => {
         <Typography variant="h4" mb={1.2}>
           404 Error - Page Not Found
         </Typography>
-        <Typography>
-          Something went wrong...
-        </Typography>
+        <Typography>Something went wrong...</Typography>
       </NotFoundBox>
     </NotFoundContainer>
   );

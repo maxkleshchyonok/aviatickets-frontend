@@ -6,7 +6,7 @@ import { ForgotPasswordFormYup } from "../../validation-schemas/forgot-password-
 import { Control, FieldErrors } from "react-hook-form";
 import { StyledButton } from "../styled-button.comp";
 import CustomLink from "../custom-link.comp";
-import TextField from "../text-field.comp";
+import TextField from "aviatickets-submodule/libs/components/text-field.comp";
 import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 
@@ -37,7 +37,7 @@ const ForgotPasswordForm: FC<ForgotPasswordFormProps> = ({
       <form noValidate onSubmit={onSubmit}>
         <TextField
           control={control}
-          type="Email"
+          name="Email"
           error={!!validationErrors.email}
           helperText={validationErrors.email?.message}
         />

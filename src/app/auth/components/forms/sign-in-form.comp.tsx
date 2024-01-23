@@ -9,7 +9,7 @@ import { Control, FieldErrors } from "react-hook-form";
 import { StyledButton } from "../styled-button.comp";
 import { useNavigate } from "react-router-dom";
 import CustomLink from "../custom-link.comp";
-import TextField from "../text-field.comp";
+import TextField from "aviatickets-submodule/libs/components/text-field.comp";
 
 interface SignInFormProps {
   onSubmit: React.FormEventHandler;
@@ -46,7 +46,7 @@ const SignInForm: FC<SignInFormProps> = ({
       <IconTitle title="Sign in" Icon={LockOutlinedIcon} />
       <form noValidate onSubmit={onSubmit}>
         <TextField
-          type="Email"
+          name="Email"
           control={control}
           error={!!validationErrors.email}
           helperText={validationErrors.email?.message}
