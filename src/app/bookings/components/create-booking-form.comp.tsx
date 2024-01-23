@@ -8,7 +8,7 @@ import { useAppSelector } from "hooks/redux.hooks"
 import { tickerSearchFilterSelector } from "app/ticket-search-filter/store/ticket-search-filter.selectors"
 
 interface CreateBookingFormProps {
-  onBookButtonClick: () => void;
+  onBookButtonClick: (state: CreateBookingFormYup) => void;
 }
 
 const StyledForm = styled('form')(() => ({

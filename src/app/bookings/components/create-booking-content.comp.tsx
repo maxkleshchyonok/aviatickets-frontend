@@ -38,7 +38,7 @@ const CreateBookingContent = () => {
     <StyledContainer>
       <TicketCard ticket={ticket} />
       <Summary />
-      <BookingTabsContent activeTabIndex={activeTabIndex} setActiveTabIndex={setActiveTabIndex} />
+      <BookingTabsContent activeTabIndex={activeTabIndex} setActiveTabIndex={setActiveTabIndex} ticket={ticket} />
     </StyledContainer >
   )
 }
