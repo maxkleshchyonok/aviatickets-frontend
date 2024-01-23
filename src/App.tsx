@@ -6,13 +6,10 @@ import {
   disconnectFromSocket,
 } from "app/chat/store/chat.actions";
 import { chatSelector } from "app/chat/store/chat.selectors";
-import { setUser } from "app/chat/store/chat.slice";
 import { SnackbarProvider } from "notistack";
-import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import AppRoutes from "./app.routes";
 import ErrorBoundaryComp from "./components/error-boundary.comp";
-import store from "./store";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import theme from "app/utils/theme";
 import { LocalizationProvider } from "@mui/x-date-pickers";
