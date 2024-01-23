@@ -18,10 +18,10 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import AirplaneTicketIcon from "@mui/icons-material/AirplaneTicket";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { signOut } from "app/auth/store/auth.actions";
+import { signOut } from "aviatickets-submodule/auth/store/auth.actions";
 import { useAppDispatch, useAppSelector } from "hooks/redux.hooks";
 import { RootState } from "store";
-import { authSelector } from "app/auth/store/auth.selector";
+import { authSelector } from "aviatickets-submodule/auth/store/auth.selector";
 
 export default function Header() {
   const navigate = useNavigate();

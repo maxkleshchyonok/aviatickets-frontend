@@ -23,8 +23,8 @@ const PublicRoute: FC<{ element: any }> = ({ element: Element }) => (
   </Suspense>
 );
 
-const AuthRoutes = React.lazy(() => import("app/auth"));
-const TicketsRoutes = React.lazy(() => import("app/tickets"));
+const AuthRoutes = React.lazy(() => import("aviatickets-submodule/auth"));
+const TicketsRoutes = React.lazy(() => import("aviatickets-submodule/tickets"));
 
 export const AppRoutes = () => {
   return (
