@@ -1,5 +1,5 @@
 export enum BookingStatuses {
-  Payed = "payed",
-  Booked = "booked",
-  Cancelled = "cancelled",
+  Payed = "Payed",
+  Booked = "Booked",
+  Cancelled = "Cancelled",
 }
