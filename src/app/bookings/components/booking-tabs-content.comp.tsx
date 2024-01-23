@@ -1,5 +1,5 @@
 import { Stack, StackProps, styled } from "@mui/system";
-import { TicketDto } from "app/tickets/types/ticket.dto";
+import { TicketDto } from "aviatickets-submodule/tickets/types/ticket.dto";
 import { TicketsModulePagePaths } from "enums/page-paths.enum";
 import { useAppDispatch, useAppSelector } from "hooks/redux.hooks";
 import { useSnackbar } from "notistack";
@@ -20,13 +20,19 @@ interface BookingTabsContentProps {
 }
 
 const StyledStack = styled(Stack)<StackProps>(() => ({
-  gridArea: 'bookingTabContent'
+  gridArea: "bookingTabContent",
 }));
 
-const BookingTabsContent: FC<BookingTabsContentProps> = ({ activeTabIndex, setActiveTabIndex, ticket }) => {
+const BookingTabsContent: FC<BookingTabsContentProps> = ({
+  activeTabIndex,
+  setActiveTabIndex,
+  ticket,
+}) => {
   const { enqueueSnackbar } = useSnackbar();
-  const [isBookButtonDisabled, setIsBookButtonDisabled] = useState<boolean>(false);
-  const [isPayButtonDisabled, setIsPayButtonDisabled] = useState<boolean>(false);
+  const [isBookButtonDisabled, setIsBookButtonDisabled] =
+    useState<boolean>(false);
+  const [isPayButtonDisabled, setIsPayButtonDisabled] =
+    useState<boolean>(false);
   const dispatch = useAppDispatch();
   const { booking } = useAppSelector(BookingsSelector);
   const navigate = useNavigate();
@@ -39,8 +45,12 @@ const BookingTabsContent: FC<BookingTabsContentProps> = ({ activeTabIndex, setAc
     const isRoundTripJourney = Boolean(toOriginRoute);
     const originCity = toDestinationRoute.flights.at(0)!.originCity;
     const destinationCity = toDestinationRoute.flights.at(-1)!.destinationCity;
-    const toDestinationFlightIds = toDestinationRoute.flights.map((flight) => flight.id);
-    const toOriginFlightIds = isRoundTripJourney ? toOriginRoute!.flights.map((flight) => flight.id) : [];
+    const toDestinationFlightIds = toDestinationRoute.flights.map(
+      (flight) => flight.id
+    );
+    const toOriginFlightIds = isRoundTripJourney
+      ? toOriginRoute!.flights.map((flight) => flight.id)
+      : [];
 
     const body = {
       price: totalPrice,
@@ -48,14 +58,14 @@ const BookingTabsContent: FC<BookingTabsContentProps> = ({ activeTabIndex, setAc
       originCity,
       destinationCity,
       toDestinationRoute: toDestinationFlightIds,
-      toOriginRoute: toOriginFlightIds
-    }
+      toOriginRoute: toOriginFlightIds,
+    };
 
     setIsBookButtonDisabled(true);
 
     const response = await dispatch(createBooking({ body }));
     if (response.meta.requestStatus === "rejected") {
-      enqueueSnackbar("Booking creation failed", { variant: 'error' });
+      enqueueSnackbar("Booking creation failed", { variant: "error" });
       setIsBookButtonDisabled(false);
       return;
     }
@@ -63,11 +73,11 @@ const BookingTabsContent: FC<BookingTabsContentProps> = ({ activeTabIndex, setAc
     setIsBookButtonDisabled(false);
     enqueueSnackbar("Booking successfully created", { variant: "success" });
     setActiveTabIndex(1);
-  }
+  };
 
   const handlePayButtonClick = async () => {
     if (!booking) {
-      enqueueSnackbar("There is no booking to pay for", { variant: 'error' });
+      enqueueSnackbar("There is no booking to pay for", { variant: "error" });
       return;
     }
 
@@ -79,7 +89,7 @@ const BookingTabsContent: FC<BookingTabsContentProps> = ({ activeTabIndex, setAc
     const response = await dispatch(updateBooking({ params, body }));
 
     if (response.meta.requestStatus === "rejected") {
-      enqueueSnackbar("Booking payment failed", { variant: 'error' });
+      enqueueSnackbar("Booking payment failed", { variant: "error" });
       setIsPayButtonDisabled(false);
       return;
     }
@@ -88,14 +98,27 @@ const BookingTabsContent: FC<BookingTabsContentProps> = ({ activeTabIndex, setAc
     setIsPayButtonDisabled(false);
 
     navigate(TicketsModulePagePaths.SearchTickets);
-
-  }
+  };
 
   let tabContent = null;
 
   switch (activeTabIndex) {
-    case 0: tabContent = <CreateBookingForm onBookButtonClick={handleBookButtonClick} isBookButtonDisabled={isBookButtonDisabled} />; break;
-    case 1: tabContent = <PaymentTabContent onPayButtonClick={handlePayButtonClick} isPayButtonDisabled={isPayButtonDisabled} />; break;
+    case 0:
+      tabContent = (
+        <CreateBookingForm
+          onBookButtonClick={handleBookButtonClick}
+          isBookButtonDisabled={isBookButtonDisabled}
+        />
+      );
+      break;
+    case 1:
+      tabContent = (
+        <PaymentTabContent
+          onPayButtonClick={handlePayButtonClick}
+          isPayButtonDisabled={isPayButtonDisabled}
+        />
+      );
+      break;
   }
 
   return (
@@ -103,7 +126,7 @@ const BookingTabsContent: FC<BookingTabsContentProps> = ({ activeTabIndex, setAc
       <BookingTabs activeTabIndex={activeTabIndex} />
       {tabContent}
     </StyledStack>
-  )
-}
+  );
+};
 
 export default BookingTabsContent;

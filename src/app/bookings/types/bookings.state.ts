@@ -1,4 +1,4 @@
-import { BaseState } from "types/base-state.type";
+import { BaseState } from "aviatickets-submodule/libs/types/base.state";
 import { BookingDto } from "./booking.dto";
 
 export interface BookingState extends BaseState {

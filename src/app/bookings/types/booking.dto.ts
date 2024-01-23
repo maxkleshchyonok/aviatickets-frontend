@@ -1,7 +1,7 @@
 import { FlightDto } from "aviatickets-submodule/libs/types/flight.dto";
 import { PassengerDto } from "aviatickets-submodule/libs/types/passenger.dto";
 import { UserDto } from "aviatickets-submodule/libs/types/user.dto";
-import { UUIDDto } from "types/uuid-dto.type";
+import { UUIDDto } from "aviatickets-submodule/libs/types/uuid.dto";
 import { BookingStatuses } from "../enums/booking-statuses.enum";
 
 export interface BookingDto extends UUIDDto {
