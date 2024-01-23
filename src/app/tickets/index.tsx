@@ -1,4 +1,5 @@
 import { CircularProgress } from "@mui/material";
+import { TicketsModulePagePaths } from "enums/page-paths.enum";
 import React from "react";
 import { FC, PropsWithChildren, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
@@ -17,7 +18,7 @@ const TicketsRoutes: FC = () => {
   return (
     <Routes>
       <Route path={"/search"} element={<Suspended element={SearchTicketsPage} />} />
-      <Route path='*' element={<Navigate to="/tickets/search" />} />
+      <Route path='*' element={<Navigate to={TicketsModulePagePaths.SearchTickets} />} />
     </Routes>
   );
 };

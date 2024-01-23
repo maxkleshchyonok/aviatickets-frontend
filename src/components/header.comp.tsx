@@ -1,29 +1,24 @@
 import * as React from 'react';
-import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import AirplaneTicketIcon from '@mui/icons-material/AirplaneTicket';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { logout } from 'app/auth/store/auth.actions';
 import { useAppDispatch, useAppSelector } from 'hooks/redux.hooks';
-import { RootState } from 'store';
 import { authSelector } from 'app/auth/store/auth.selector';
 
-export default function Header() {
+const Header = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -198,3 +193,5 @@ export default function Header() {
     </Box>
   );
 }
+
+export default Header;
