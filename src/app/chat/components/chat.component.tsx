@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
-import MessageList from "./messageList.component";
-import MessageInput from "./messageInput.component";
-import ChatHeader from "./chatHeader.component";
 import { Paper } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "hooks/redux.hooks";
+import { useEffect } from "react";
 import { recieveMessage } from "../store/chat.actions";
 import { chatSelector } from "../store/chat.selectors";
+import ChatHeader from "./chatHeader.component";
+import MessageInput from "./messageInput.component";
+import MessageList from "./messageList.component";
 
 type Props = {
   handleClick: () => void;

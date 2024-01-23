@@ -1,13 +1,6 @@
-import { Socket } from "socket.io";
-import { Message } from "aviatickets-submodule/libs/socket/types/message";
 import { ChatState } from "../types/chat.state";
 import { createSlice } from "@reduxjs/toolkit";
-import { io } from "socket.io-client";
-import {
-  connectToSocket,
-  disconnectFromSocket,
-  recieveMessage,
-} from "./chat.actions";
+import { connectToSocket, disconnectFromSocket } from "./chat.actions";
 
 const initialState: ChatState = {
   messages: [],

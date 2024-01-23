@@ -1,5 +1,5 @@
-import React, { ChangeEvent, useEffect } from "react";
-import { TextField, Button, Box, InputBase, IconButton } from "@mui/material";
+import { ChangeEvent } from "react";
+import { Box, InputBase, IconButton } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import { useAppDispatch } from "hooks/redux.hooks";
 import { sendMessage } from "../store/chat.actions";

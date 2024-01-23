@@ -1,5 +1,4 @@
 import { Paper } from "@mui/material";
-import React from "react";
 import { Message } from "aviatickets-submodule/libs/socket/types/message";
 import MessageItem from "./messageItem.component";
 

@@ -1,6 +1,5 @@
 import { Close } from "@mui/icons-material";
-import { IconButton, Paper } from "@mui/material";
-import React from "react";
+import { Paper, IconButton } from "@mui/material";
 
 type Props = {
   handleClick: () => void;

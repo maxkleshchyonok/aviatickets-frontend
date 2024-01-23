@@ -1,8 +1,5 @@
-import io from "socket.io-client";
-import { AppDispatch } from "store";
 import { Message } from "aviatickets-submodule/libs/socket/types/message";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { SocketClient } from "aviatickets-submodule/libs/socket/socket.client";
 import { socketClient } from "index";
 
 export const connectToSocket = createAsyncThunk(

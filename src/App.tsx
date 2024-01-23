@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import ChatCollapse from "./app/chat/chat.collapse";
+import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "hooks/redux.hooks";
 import {
   connectToSocket,
@@ -43,7 +42,6 @@ function App() {
             <Router>
               <CssBaseline />
               <AppRoutes />
-              <ChatCollapse />
             </Router>
           </LocalizationProvider>
         </ThemeProvider>
