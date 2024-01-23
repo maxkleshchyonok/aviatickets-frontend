@@ -23,7 +23,7 @@ import { useAppDispatch, useAppSelector } from "hooks/redux.hooks";
 import { RootState } from "store";
 import { authSelector } from "aviatickets-submodule/auth/store/auth.selector";
 
-export default function Header() {
+const Header = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -201,4 +201,6 @@ export default function Header() {
       {renderMenu}
     </Box>
   );
-}
+};
+
+export default Header;

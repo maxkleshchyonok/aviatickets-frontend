@@ -1,16 +1,14 @@
-import React, { FC, Suspense } from "react";
+import { FC, Suspense } from "react";
 import { Navigate, Routes, Route } from "react-router-dom";
-import { Account } from "./app/account/Account";
-import { BookingPage } from "./app/booking";
 import { LocalStorageKeys } from "enums/local-storage-keys.enum";
 import { TicketsModulePagePaths } from "enums/page-paths.enum";
+import CenteredLoader from "components/centered-loader.comp";
+import React from "react";
 
 const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
   return sessionStorage.getItem(LocalStorageKeys.AccessToken) ? (
-    <Suspense fallback={<div />}>
-      <div>
-        <Element />
-      </div>
+    <Suspense fallback={<CenteredLoader />}>
+      <Element />
     </Suspense>
   ) : (
     <Navigate to={"/auth/login"} />
@@ -18,22 +16,22 @@ const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
 };
 
 const PublicRoute: FC<{ element: any }> = ({ element: Element }) => (
-  <Suspense fallback={<div />}>
+  <Suspense fallback={<CenteredLoader />}>
     <Element />
   </Suspense>
 );
 
 const AuthRoutes = React.lazy(() => import("aviatickets-submodule/auth"));
 const TicketsRoutes = React.lazy(() => import("aviatickets-submodule/tickets"));
+const BookingsRoutes = React.lazy(() => import("app/bookings"));
 
 export const AppRoutes = () => {
   return (
     <Routes>
       <Route path={"/auth/*"} element={<PublicRoute element={AuthRoutes} />} />
-      <Route path={"/account"} element={<PrivateRoute element={Account} />} />
       <Route
-        path={"/booking"}
-        element={<PublicRoute element={BookingPage} />}
+        path={"/bookings/*"}
+        element={<PublicRoute element={BookingsRoutes} />}
       />
       <Route
         path={"/tickets/*"}

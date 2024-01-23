@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { authSlice } from "aviatickets-submodule/auth/store/auth.slice";
+import { bookingsSlice } from "app/bookings/store/bookings.slice";
 import { chatSlice } from "app/chat/store/chat.slice";
 import { citiesSlice } from "aviatickets-submodule/cities/store/cities.slice";
 import { ticketSearchFilterSlice } from "aviatickets-submodule/ticket-search-filter/store/ticket-search-filter.slice";
@@ -12,6 +13,7 @@ const store = configureStore({
     ticketSearchFilter: ticketSearchFilterSlice.reducer,
     tickets: ticketsSlice.reducer,
     cities: citiesSlice.reducer,
+    bookings: bookingsSlice.reducer,
   },
 });
 
