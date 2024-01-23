@@ -5,6 +5,7 @@ import { useAppSelector } from "hooks/redux.hooks";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import BookingTabsContent from "./booking-tabs-content.comp";
+import NoTicket from "./no-ticket.comp";
 import { Summary } from "./summary.comp";
 
 const StyledContainer = styled('div')(() => ({
@@ -31,7 +32,7 @@ const CreateBookingContent = () => {
   const ticket = tickets.find((ticket) => ticket.id === ticketId);
 
   if (!ticket) {
-    return <div>There is no such ticket</div>
+    return <NoTicket />
   }
 
   return (
