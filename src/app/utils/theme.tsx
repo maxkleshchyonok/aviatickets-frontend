@@ -5,27 +5,27 @@ const theme = createTheme({
     // background: {
     //   default: '#f6f7f9'
     // },
-    primary: {
-      light: "#757ce8",
-      main: "#58a7ff",
-      dark: "#002884",
-      contrastText: "#fff",
-    },
-    secondary: {
-      light: "#ff7961",
-      main: "#f44336",
-      dark: "#ba000d",
-      contrastText: "#000",
-    },
+    // primary: {
+    //   light: "#757ce8",
+    //   main: "#58a7ff",
+    //   dark: "#002884",
+    //   contrastText: "#fff",
+    // },
+    // secondary: {
+    //   light: "#ff7961",
+    //   main: "#f44336",
+    //   dark: "#ba000d",
+    //   contrastText: "#000",
+    // },
   },
   components: {
     MuiButton: {
-      styleOverrides: {
-        root: {
-          borderRadius: "20px",
-          textTransform: "none",
-        },
-      },
+      // styleOverrides: {
+      //   root: {
+      //     borderRadius: "20px",
+      //     textTransform: "none",
+      //   },
+      // },
     },
   },
 });

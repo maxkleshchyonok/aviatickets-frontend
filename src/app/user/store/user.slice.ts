@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { UserState } from "../types/types";
+import { UserState } from "../types/user.state";
 import { getAllBookings } from "./user.actions";
 
 const initialState: UserState = {
@@ -10,7 +10,7 @@ const initialState: UserState = {
     bookings: false,
   },
   errors: {
-    isBookings: null,
+    bookings: null,
   },
 };
 
@@ -22,17 +22,17 @@ export const userSlice = createSlice({
     builder
       .addCase(getAllBookings.pending, (state, action) => {
         state.isPending.bookings = true;
-        state.errors.isBookings = null;
+        state.errors.bookings = null;
       })
       .addCase(getAllBookings.fulfilled, (state, action) => {
-        state.isUser = true;
         state.bookings = action.payload.bookings;
         state.count = action.payload.count;
         state.isPending.bookings = false;
+        state.errors.bookings = null;
       })
       .addCase(getAllBookings.rejected, (state, action) => {
         state.isPending.bookings = false;
-        state.errors.isBookings = action.error.message || null;
+        state.errors.bookings = action.error.message || null;
       });
   },
 });
