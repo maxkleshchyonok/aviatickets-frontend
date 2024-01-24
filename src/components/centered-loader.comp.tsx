@@ -7,7 +7,6 @@ const CenteredLoader: FC = () => {
       <CircularProgress />
     </Stack>
   );
-}
-
+};
 
 export default CenteredLoader;

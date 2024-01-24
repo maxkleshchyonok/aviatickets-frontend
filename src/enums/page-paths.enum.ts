@@ -10,6 +10,10 @@ export enum BookingsModulePagePaths {
   CreateBooking = "/bookings/create/",
 }
 
+export enum UserModulePagePaths {
+  Bookings = "/user/bookings",
+}
+
 export enum TicketsModulePagePaths {
   SearchTickets = "/tickets/search/",
 }

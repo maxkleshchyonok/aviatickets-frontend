@@ -22,6 +22,17 @@ import { signOut } from "aviatickets-submodule/auth/store/auth.actions";
 import { useAppDispatch, useAppSelector } from "hooks/redux.hooks";
 import { RootState } from "store";
 import { authSelector } from "aviatickets-submodule/auth/store/auth.selector";
+import {
+  AuthModulePagePaths,
+  TicketsModulePagePaths,
+  UserModulePagePaths,
+} from "enums/page-paths.enum";
+import { enqueueSnackbar } from "notistack";
+import { isatty } from "tty";
+
+const TypographyLogo = styled(Typography)({
+  cursor: "pointer",
+});
 
 const Header = () => {
   const navigate = useNavigate();
@@ -40,7 +51,11 @@ const Header = () => {
     if (isAuth) {
       return setAnchorEl(event.currentTarget);
     }
-    navigate("/auth/login");
+    navigate(AuthModulePagePaths.SignIn);
+  };
+
+  const handleLogoClicked = (event: React.MouseEvent<HTMLElement>) => {
+    navigate(TicketsModulePagePaths.SearchTickets);
   };
 
   const handleMobileMenuClose = () => {
@@ -60,8 +75,14 @@ const Header = () => {
     handleMenuClose();
     const response = await dispatch(signOut());
     if (response.meta.requestStatus == "fulfilled") {
-      navigate("/auth/login");
+      enqueueSnackbar("Successfully signed out", { variant: "success" });
+      navigate(AuthModulePagePaths.SignIn);
     }
+  };
+
+  const handleBookings = () => {
+    handleMenuClose();
+    navigate(UserModulePagePaths.Bookings);
   };
 
   const menuId = "primary-search-account-menu";
@@ -81,7 +102,6 @@ const Header = () => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
       <MenuItem onClick={handleMenuClose}>Change password</MenuItem>
       <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>
@@ -104,26 +124,6 @@ const Header = () => {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           size="large"
@@ -143,34 +143,16 @@ const Header = () => {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: "none", sm: "block" } }}
-          >
-            Avia Tickets
-          </Typography>
+          <TypographyLogo variant="h6" noWrap onClick={handleLogoClicked}>
+            AviaTickets
+          </TypographyLogo>
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <IconButton
-              size="large"
-              aria-label="show 4 new mails"
-              color="inherit"
-            >
-              <Badge badgeContent={4} color="error">
+          <Box sx={{ display: "flex" }}>
+            {isAuth ? (
+              <IconButton size="large" color="inherit" onClick={handleBookings}>
                 <AirplaneTicketIcon />
-              </Badge>
-            </IconButton>
+              </IconButton>
+            ) : null}
             <IconButton
               size="large"
               edge="end"
@@ -183,7 +165,7 @@ const Header = () => {
               <AccountCircle />
             </IconButton>
           </Box>
-          <Box sx={{ display: { xs: "flex", md: "none" } }}>
+          {/* <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="show more"
@@ -194,7 +176,7 @@ const Header = () => {
             >
               <MoreIcon />
             </IconButton>
-          </Box>
+          </Box> */}
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
