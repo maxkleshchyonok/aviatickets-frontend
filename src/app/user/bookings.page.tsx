@@ -43,6 +43,10 @@ const StyledAccordion = styled(Accordion)`
   &::before {
     position: unset;
   }
+
+  @media (max-width: 600px) {
+    width: 90vw;
+  }
 `;
 
 const TicketHeader = styled(AccordionSummary)`
@@ -53,6 +57,19 @@ const TicketHeader = styled(AccordionSummary)`
   .MuiAccordionSummary-content {
     align-items: center;
     justify-content: space-evenly;
+  }
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+    .MuiAccordionSummary-content {
+      display: flex;
+      width: 100%;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-evenly;
+    }
   }
 `;
 
@@ -99,7 +116,6 @@ const BookingsPage: React.FC = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(DefaultPageSize);
-  console.log(bookings);
 
   useEffect(() => {
     const query = { pageNumber: currentPage, pageSize: DefaultPageSize };
@@ -148,7 +164,6 @@ const BookingsPage: React.FC = () => {
       <NoBookings title="No bookings yet. Search for a flight and add new booking!" />
     );
   }
-  console.log(bookings);
   const startIndex = (currentPage - 1) * perPage;
   const endIndex = currentPage * perPage;
   const paginatedBookings = bookings.slice(startIndex, endIndex);
@@ -162,7 +177,7 @@ const BookingsPage: React.FC = () => {
           {bookings.map((booking) => (
             <StyledAccordion>
               <TicketHeader>
-                <Typography variant="body2" component="h6" color="primary">
+                <Typography variant="body2" component="h6" color="black">
                   {dayjs(booking.toDestinationRoute[0].departureTime).format(
                     "LL"
                   )}
@@ -180,7 +195,7 @@ const BookingsPage: React.FC = () => {
                     <span>Round Trip</span>
                   </StyledTypography>
                 )}
-                <Typography variant="h5" component="h2" color="#575757">
+                <Typography variant="h5" component="h2" color="black">
                   {booking.price} BYN
                 </Typography>
                 <StatusTypography variant="h6" status={booking.status}>
