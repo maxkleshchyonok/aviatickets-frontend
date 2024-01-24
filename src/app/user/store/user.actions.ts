@@ -14,6 +14,7 @@ export const getAllBookings = createAsyncThunk<
     const response = await repository.get("/users/me/bookings", {
       params: query,
     });
+    console.log(response.data);
     return response.data.bookingData;
   } catch (error) {
     if (axios.isAxiosError<ApiError>(error)) {

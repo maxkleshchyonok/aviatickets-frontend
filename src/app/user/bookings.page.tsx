@@ -25,6 +25,8 @@ import { enqueueSnackbar } from "notistack";
 import Header from "components/header.comp";
 import Layout from "components/layout.comp";
 import { calculatePageCount } from "aviatickets-submodule/libs/utils/calculate-page-count.utils";
+import { updateBooking } from "app/bookings/store/bookings.actions";
+import { BookingStatuses } from "app/bookings/enums/booking-statuses.enum";
 
 const StyledAccordion = styled(Accordion)`
   width: 85%;
@@ -104,6 +106,7 @@ const StatusTypography = styled(Typography)<{ status: string }>`
   background: white;
   padding: 1%;
   border-radius: 20px;
+  cursor: pointer;
 `;
 
 const StyledPagination = styled("div")`
@@ -116,6 +119,8 @@ const BookingsPage: React.FC = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(DefaultPageSize);
+
+  useEffect(() => {}, [bookings]);
 
   useEffect(() => {
     const query = { pageNumber: currentPage, pageSize: DefaultPageSize };
@@ -150,7 +155,8 @@ const BookingsPage: React.FC = () => {
     event: React.ChangeEvent<unknown>,
     page: number
   ) => {
-    setCurrentPage(page + 1);
+    console.log(page);
+    setCurrentPage(page);
   };
 
   if (isPending.bookings) {
@@ -168,6 +174,17 @@ const BookingsPage: React.FC = () => {
   const endIndex = currentPage * perPage;
   const paginatedBookings = bookings.slice(startIndex, endIndex);
 
+  const handlePay = async (bookingId: string, event: any) => {
+    event.stopPropagation();
+    const params = { bookingId };
+    const body = { status: BookingStatuses.Payed };
+    const response = await dispatch(updateBooking({ params, body }));
+    if (response.meta.requestStatus === "fulfilled") {
+      const query = { pageNumber: currentPage, pageSize: DefaultPageSize };
+      dispatch(getAllBookings(query));
+    }
+  };
+
   const pageCount = calculatePageCount(count, DefaultPageSize);
   return (
     <>
@@ -175,7 +192,7 @@ const BookingsPage: React.FC = () => {
       <Layout>
         <StyledStack>
           {bookings.map((booking) => (
-            <StyledAccordion>
+            <StyledAccordion key={booking.id}>
               <TicketHeader>
                 <Typography variant="body2" component="h6" color="black">
                   {dayjs(booking.toDestinationRoute[0].departureTime).format(
@@ -198,7 +215,13 @@ const BookingsPage: React.FC = () => {
                 <Typography variant="h5" component="h2" color="black">
                   {booking.price} BYN
                 </Typography>
-                <StatusTypography variant="h6" status={booking.status}>
+                <StatusTypography
+                  onClick={(e) => {
+                    handlePay(booking.id, e);
+                  }}
+                  variant="h6"
+                  status={booking.status}
+                >
                   {booking.status}
                 </StatusTypography>
               </TicketHeader>
